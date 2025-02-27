@@ -663,13 +663,26 @@ function updateDisplay() {
 }
 
 function addTime(seconds) {
-    if (!timezoneModal.classList.contains('show')) return;
-    if (!timerId) {
-        timeLeft += seconds;
-        totalTime = timeLeft;
-        updateDisplay();
-        updateTimerWidget();
+    // If timer is running, pause it first
+    let wasRunning = false;
+    if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+        wasRunning = true;
+        startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
     }
+    
+    // Add the time
+    timeLeft += seconds;
+    
+    // If timer wasn't running, update totalTime
+    if (!wasRunning) {
+        totalTime = timeLeft;
+    }
+    
+    // Update the display
+    updateDisplay();
+    updateTimerWidget();
 }
 
 const timerWidget = document.getElementById('timer-widget');
