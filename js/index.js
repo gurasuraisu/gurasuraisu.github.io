@@ -663,14 +663,13 @@ function updateDisplay() {
 }
 
 function addTime(seconds) {
-    timeLeft += seconds;
-	
+    if (!timezoneModal.classList.contains('show')) return;
     if (!timerId) {
+        timeLeft += seconds;
         totalTime = timeLeft;
+        updateDisplay();
+        updateTimerWidget();
     }
-	
-    updateDisplay();
-    updateTimerWidget();
 }
 
 const timerWidget = document.getElementById('timer-widget');
