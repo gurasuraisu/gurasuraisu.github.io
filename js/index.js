@@ -956,9 +956,7 @@ function firstSetup() {
 function createSetupScreen() {
     const setupContainer = document.createElement('div');
     setupContainer.className = 'setup-screen';
-    
-    const style = document.createElement('style');
-    style.textContent = `
+        style.textContent = `
         .setup-screen {
             position: fixed;
             top: 0;
@@ -1726,7 +1724,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Add a CSS rule for minimal mode
-const style = document.createElement('style');
 style.textContent = `
     body.minimal-active .drawer-pill,
     body.minimal-active #date,
