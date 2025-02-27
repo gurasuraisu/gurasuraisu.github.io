@@ -1558,12 +1558,15 @@ const closeCustomizeModal = document.getElementById('closeCustomizeModal');
 const themeSwitch = document.getElementById('theme-switch');
 const wallpaperInput = document.getElementById('wallpaperInput');
 const uploadButton = document.getElementById('uploadButton');
+const gurappsSwitch = document.getElementById('gurapps-switch');
 const minimalSwitch = document.getElementById('minimal-switch');
 const SLIDESHOW_INTERVAL = 600000; // 10 minutes in milliseconds
 let slideshowInterval = null;
 let currentWallpaperIndex = 0;
 let minimalMode = localStorage.getItem('minimalMode') === 'true';
+let gurappsEnabled = localStorage.getItem('gurappsEnabled') !== 'false';
 minimalSwitch.checked = minimalMode;
+gurappsSwitch.checked = gurappsEnabled;
 
 // Theme switching functionality
 function setupThemeSwitcher() {
@@ -1579,6 +1582,138 @@ themeSwitch.addEventListener('change', () => {
     const newTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
     localStorage.setItem('theme', newTheme);
 });
+
+// Update UI based on gurapps state
+function updateGurappsVisibility() {
+  const drawerHandle = document.querySelector('.drawer-handle');
+  const dock = document.getElementById('dock');
+  
+  if (gurappsEnabled) {
+    // Enable gurapps functionality
+    if (drawerHandle) drawerHandle.style.display = 'block';
+    if (dock) dock.classList.remove('hidden');
+    // Re-enable app search
+    appLinks = {...originalAppLinks};
+  } else {
+    // Disable gurapps functionality
+    if (drawerHandle) drawerHandle.style.display = 'none';
+    if (dock) dock.classList.add('hidden');
+    // Hide app drawer if open
+    if (appDrawer.classList.contains('open')) {
+      appDrawer.classList.remove('open');
+      appDrawer.style.bottom = '-100%';
+      initialDrawerPosition = -100;
+    }
+    // Disable app search by removing app links
+    if (!window.originalAppLinks) {
+      window.originalAppLinks = {...appLinks};
+    }
+    appLinks = {Google: "https://google.com"};
+  }
+  
+  // Update search functionality to not show app options
+  if (searchInput) {
+    updateSearchIcon(searchInput.value.trim());
+  }
+}
+
+// Add event listener to switch
+gurappsSwitch.addEventListener('change', function() {
+  gurappsEnabled = this.checked;
+  localStorage.setItem('gurappsEnabled', gurappsEnabled);
+  updateGurappsVisibility();
+});
+
+// Call initially to set proper state
+updateGurappsVisibility();
+
+// Modify the search functions to respect gurapps setting
+const originalUpdateSearchIcon = updateSearchIcon;
+updateSearchIcon = function(text) {
+  if (!gurappsEnabled) {
+    // Skip app matching when gurapps disabled
+    let firstWord = text.split(" ")[0].toLowerCase();
+    if (firstWord === "how" || firstWord === "help" || firstWord === "ai" || 
+        firstWord === "why" || firstWord === "what" || firstWord === "when" || 
+        firstWord === "where" || firstWord === "who" || firstWord === "which" || 
+        firstWord === "can" || firstWord === "could" || firstWord === "should" || 
+        firstWord === "would" || firstWord === "will" || firstWord === "does" || 
+        firstWord === "do" || firstWord === "is" || firstWord === "are" || 
+        firstWord === "may" || firstWord === "might" || firstWord === "shall" || 
+        firstWord === "must" || firstWord === "has" || firstWord === "have" || 
+        firstWord === "had" || firstWord === "were" || firstWord === "was" || 
+        firstWord === "did" || firstWord === "please" || firstWord === "tell" || 
+        firstWord === "explain" || firstWord === "show" || firstWord === "describe" || 
+        firstWord === "suggest" || firstWord === "recommend" || firstWord === "need" || 
+        firstWord === "anybody" || firstWord === "anyone" || firstWord === "anything" || 
+        firstWord === "wonder" || firstWord === "whose" || firstWord === "whom" || 
+        firstWord === "whence" || firstWord === "whither" || firstWord === "whether" || 
+        firstWord === "hasn't" || firstWord === "haven't" || firstWord === "hadn't" || 
+        firstWord === "wouldn't" || firstWord === "won't" || firstWord === "wasn't" || 
+        firstWord === "weren't" || firstWord === "shouldn't" || firstWord === "isn't" || 
+        firstWord === "aren't" || firstWord === "ain't" || firstWord === "doesn't" || 
+        firstWord === "don't" || firstWord === "didn't" || firstWord === "couldn't" || 
+        firstWord === "cannot" || firstWord === "can't" || firstWord === "mightn't" || 
+        firstWord === "mustn't" || firstWord === "define" || firstWord === "compare" || 
+        firstWord === "contrast" || firstWord === "analyze" || firstWord === "evaluate" || 
+        firstWord === "assess" || firstWord === "examine" || firstWord === "discuss" || 
+        firstWord === "outline" || firstWord === "summarize" || firstWord === "suppose" || 
+        firstWord === "consider" || firstWord === "give" || firstWord === "state" || 
+        firstWord === "determine" || firstWord === "calculate" || firstWord === "compute" || 
+        firstWord === "solve" || firstWord === "find" || firstWord === "identify" || 
+        firstWord === "list" || firstWord === "name" || firstWord === "specify" || 
+        firstWord === "advise" || firstWord === "assist" || firstWord === "aid" || 
+        firstWord === "support" || firstWord === "guide" || firstWord === "clarify" || 
+        firstWord === "elaborate" || firstWord === "illustrate" || firstWord === "demonstrate" || 
+        firstWord === "somebody" || firstWord === "someone" || firstWord === "something" || 
+        firstWord === "somewhere" || firstWord === "let" || firstWord === "kindly" || 
+        firstWord === "pray" || firstWord === "assist" || firstWord === "hey" || 
+        firstWord === "hi" || firstWord === "hello" || firstWord === "greetings" || 
+        firstWord === "excuse" || firstWord === "pardon" || firstWord === "sorry" || 
+        firstWord === "appreciate" || firstWord === "thanks" || firstWord === "thank" || 
+        firstWord === "help" || firstWord === "lookup" || firstWord === "search" || 
+        firstWord === "find" || firstWord === "check" || firstWord === "confirm" || 
+        firstWord === "verify" || firstWord === "validate" || firstWord === "review" || 
+        firstWord === "investigate" || firstWord === "wondering" || firstWord === "curious" || 
+        firstWord === "interested" || firstWord === "seeking") {
+        searchIcon.textContent = "forum";
+    } else {
+        searchIcon.textContent = "search";
+    } else {
+        // Use original function when enabled
+        originalUpdateSearchIcon(text);
+    }
+};
+
+const originalHandleAppRedirect = handleAppRedirect;
+handleAppRedirect = function(text) {
+  if (!gurappsEnabled) {
+    return false; // Don't redirect to apps when disabled
+  }
+  return originalHandleAppRedirect(text);
+};
+
+// Update the function that displays autocomplete
+const originalShowAutocomplete = showAutocomplete;
+showAutocomplete = function(text) {
+  if (!gurappsEnabled) {
+    autocompleteSuggestions.innerHTML = "";
+    return; // Don't show app autocomplete when disabled
+  }
+  originalShowAutocomplete(text);
+};
+
+// Add some CSS to support hiding the dock
+const style = document.createElement('style');
+style.textContent = `
+  #dock.hidden {
+    display: none !important;
+  }
+  .drawer-handle {
+    transition: display 0.3s ease;
+  }
+`;
+document.head.appendChild(style);
 
 function updateMinimalMode() {
     const elementsToHide = [
