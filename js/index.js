@@ -1622,9 +1622,6 @@ gurappsSwitch.addEventListener('change', function() {
   updateGurappsVisibility();
 });
 
-// Call initially to set proper state
-updateGurappsVisibility();
-
 // Modify the search functions to respect gurapps setting
 const originalUpdateSearchIcon = updateSearchIcon;
 updateSearchIcon = function(text) {
@@ -2990,8 +2987,9 @@ window.addEventListener('offline', () => {
 // Call applyWallpaper on page load
 document.addEventListener('DOMContentLoaded', () => {
     applyWallpaper();
-	loadRecentWallpapers();
-	createWallpaperUploadModal();
+    loadRecentWallpapers();
+    createWallpaperUploadModal();
+    updateGurappsVisibility();
 });
 
 window.addEventListener('load', checkFullscreen);
