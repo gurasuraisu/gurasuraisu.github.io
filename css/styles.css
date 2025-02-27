@@ -665,7 +665,7 @@ body.light-theme[style*="background-image"] .info {
     border-radius: 5px 5px 20px 20px;
 }
 
-#theme-switch, #seconds-switch, #weather-switch, #minimal-switch {
+#theme-switch, #seconds-switch, #weather-switch, #minimal-switch, #weather-switch {
     appearance: none;
     width: 50px;
     height: 32px;
@@ -676,7 +676,7 @@ body.light-theme[style*="background-image"] .info {
     transition: background-color 0.3s;
 }
 
-#theme-switch::before, #seconds-switch::before, #weather-switch::before, #minimal-switch::before {
+#theme-switch::before, #seconds-switch::before, #weather-switch::before, #minimal-switch::before, #weather-switch::before {
     content: '';
     position: absolute;
     width: 24px;
@@ -688,11 +688,11 @@ body.light-theme[style*="background-image"] .info {
     transition: transform 0.3s;
 }
 
-#theme-switch:checked, #seconds-switch:checked, #weather-switch:checked, #minimal-switch:checked {
+#theme-switch:checked, #seconds-switch:checked, #weather-switch:checked, #minimal-switch:checked, #weather-switch:checked {
     background-color: #3c78d8;
 }
 
-#theme-switch:checked::before, #seconds-switch:checked::before, #weather-switch:checked::before, #minimal-switch:checked::before {
+#theme-switch:checked::before, #seconds-switch:checked::before, #weather-switch:checked::before, #minimal-switch:checked::before #weather-switch:checked::before {
     transform: translateX(18px);
 }
 
@@ -724,6 +724,16 @@ body.light-theme[style*="background-image"] .info {
     padding: 15px 20px;
     background-color: var(--transparent-color);
     border-radius: 20px 20px 5px 5px;
+}
+
+.gurapps-optional {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px 0 5px;
+    padding: 15px 20px;
+    background-color: var(--transparent-color);
+    border-radius: 5px;
 }
 
 .minimal-mode {
