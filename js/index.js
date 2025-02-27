@@ -1346,7 +1346,7 @@ const searchInput = document.getElementById('search-input');
 const searchIcon = document.getElementById('search-icon');
 const autocompleteSuggestions = document.getElementById('autocomplete-suggestions');
 
-let appLinks = {
+const appLinks = {
     "Chronos": "https://gurasuraisu.github.io/chronos",
     "Ailuator": "https://gurasuraisu.github.io/ailuator",
     "Wordy": "https://gurasuraisu.github.io/wordy",
@@ -1356,6 +1356,7 @@ let appLinks = {
     "SketchPad": "https://gurasuraisu.github.io/sketchpad",
     "Fantaskical": "https://gurasuraisu.github.io/fantaskical",
     "Clapper": "https://gurasuraisu.github.io/clapper",
+    "Google": "https://google.com",
 };
 
 function fuzzySearch(query, appList) {
