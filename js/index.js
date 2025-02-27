@@ -1560,6 +1560,8 @@ const wallpaperInput = document.getElementById('wallpaperInput');
 const uploadButton = document.getElementById('uploadButton');
 const minimalSwitch = document.getElementById('minimal-switch');
 const SLIDESHOW_INTERVAL = 600000; // 10 minutes in milliseconds
+const gurappsSwitch = document.getElementById("gurapps-switch");
+let gurappsEnabled = localStorage.getItem("gurappsEnabled") !== "false";
 let slideshowInterval = null;
 let currentWallpaperIndex = 0;
 let minimalMode = localStorage.getItem('minimalMode') === 'true';
@@ -1578,6 +1580,60 @@ themeSwitch.addEventListener('change', () => {
     document.body.classList.toggle('light-theme');
     const newTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
     localStorage.setItem('theme', newTheme);
+});
+
+// Function to handle Gurapps visibility
+function updateGurappsVisibility() {
+    const drawerHandle = document.querySelector(".drawer-handle");
+    const dock = document.getElementById("dock");
+    
+    if (gurappsEnabled) {
+        // Show Gurapps elements
+        if (drawerHandle) drawerHandle.style.display = "block";
+        if (dock) dock.classList.remove("permanently-hidden");
+        
+        // Reset app functionality
+        document.body.classList.remove("gurapps-disabled");
+        
+        // Re-enable search for apps
+        const appKeys = Object.keys(appLinks);
+        appKeys.forEach(key => {
+            if (key !== "Google") { // Keep Google search available
+                appLinks[key] = apps[key].url;
+            }
+        });
+    } else {
+        // Hide Gurapps elements
+        if (drawerHandle) drawerHandle.style.display = "none";
+        if (dock) dock.classList.add("permanently-hidden");
+        
+        // Add class to body for CSS targeting
+        document.body.classList.add("gurapps-disabled");
+        
+        // Close app drawer if open
+        if (appDrawer.classList.contains("open")) {
+            appDrawer.style.transition = "bottom 0.3s ease";
+            appDrawer.style.bottom = "-100%";
+            appDrawer.style.opacity = "0";
+            appDrawer.classList.remove("open");
+            initialDrawerPosition = -100;
+        }
+        
+        // Disable search for apps
+        const appKeys = Object.keys(appLinks);
+        appKeys.forEach(key => {
+            if (key !== "Google") { // Keep Google search available
+                delete appLinks[key];
+            }
+        });
+    }
+}
+
+gurappsSwitch.checked = gurappsEnabled;
+gurappsSwitch.addEventListener("change", function() {
+    gurappsEnabled = this.checked;
+    localStorage.setItem("gurappsEnabled", gurappsEnabled);
+    updateGurappsVisibility();
 });
 
 function updateMinimalMode() {
@@ -2907,6 +2963,10 @@ window.addEventListener('load', checkFullscreen);
 
 window.addEventListener('load', () => {
     ensureVideoLoaded();
+});
+
+document.addEventListener("DOMContentLoaded", function() {
+    updateGurappsVisibility();
 });
 
 setInterval(ensureVideoLoaded, 1000);
