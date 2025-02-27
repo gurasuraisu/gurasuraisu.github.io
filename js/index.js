@@ -1346,7 +1346,7 @@ const searchInput = document.getElementById('search-input');
 const searchIcon = document.getElementById('search-icon');
 const autocompleteSuggestions = document.getElementById('autocomplete-suggestions');
 
-const appLinks = {
+let appLinks = {
     "Chronos": "https://gurasuraisu.github.io/chronos",
     "Ailuator": "https://gurasuraisu.github.io/ailuator",
     "Wordy": "https://gurasuraisu.github.io/wordy",
@@ -1606,7 +1606,6 @@ function updateGurappsVisibility() {
     if (!window.originalAppLinks) {
       window.originalAppLinks = {...appLinks};
     }
-    appLinks = {Google: "https://google.com"};
   }
   
   // Update search functionality to not show app options
