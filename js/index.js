@@ -2887,7 +2887,7 @@ persistentClock.addEventListener('click', () => {
 });
 
 document.getElementById("versionButton").addEventListener("click", function() {
-    window.location.href = "https://sites.google.com/view/gurasuraisu";
+    window.open("https://sites.google.com/view/gurasuraisu", "_blank");
 });
 
 document.addEventListener('keydown', (event) => {
