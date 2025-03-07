@@ -2886,6 +2886,10 @@ persistentClock.addEventListener('click', () => {
     }, 10);
 });
 
+document.getElementById("versionButton").addEventListener("click", function() {
+    window.location.href = "https://sites.google.com/view/gurasuraisu";
+});
+
 document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
         closeFullscreenEmbed();
