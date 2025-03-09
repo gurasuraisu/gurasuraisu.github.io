@@ -105,7 +105,7 @@ function updatePersistentClock() {
 
 // Update clock every second
 setInterval(updatePersistentClock, 1000);
-updatePersistentClock(); // Initial update
+ // Initial update
 });
 
 let timeLeft = 0; 
@@ -581,7 +581,7 @@ clockElement.addEventListener('click', () => {
     setTimeout(() => {
         timezoneModal.classList.add('show');
         blurOverlay.classList.add('show');
-        updatePersistentClock();
+        
     }, 10);
 });
 
@@ -591,7 +591,7 @@ weatherWidget.addEventListener('click', () => {
     setTimeout(() => {
         weatherModal.classList.add('show');
         blurOverlay.classList.add('show');
-        updatePersistentClock();
+        
     }, 10);
     displayDetailedWeather();
 });
@@ -602,7 +602,7 @@ closeModal.addEventListener('click', () => {
     setTimeout(() => {
         timezoneModal.style.display = 'none';
         blurOverlay.style.display = 'none';
-        updatePersistentClock();
+        
     }, 300);
 });
 
@@ -612,7 +612,7 @@ closeWeatherModal.addEventListener('click', () => {
     setTimeout(() => {
         weatherModal.style.display = 'none';
         blurOverlay.style.display = 'none';
-        updatePersistentClock();
+        
     }, 300);
 });
 
@@ -1729,7 +1729,7 @@ customizeButton.addEventListener('click', () => {
     customizeModal.style.display = 'block';
     setTimeout(() => {
         customizeModal.classList.add('show');
-        updatePersistentClock();
+        
     }, 10);
 });
 
@@ -1737,7 +1737,7 @@ closeCustomizeModal.addEventListener('click', () => {
     customizeModal.classList.remove('show');
     setTimeout(() => {
         customizeModal.style.display = 'none';
-        updatePersistentClock();
+        
     }, 300);
 });
 
@@ -2208,7 +2208,7 @@ function switchWallpaper(direction) {
       customizeModal.style.display = 'block';
       setTimeout(() => {
         customizeModal.classList.add('show');
-        updatePersistentClock();
+        
       }, 10);
       
       // Reset position to last valid wallpaper
@@ -2842,7 +2842,7 @@ function setupDrawerInteractions() {
 const appDrawerObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-            updatePersistentClock();
+            
         }
     });
 });
@@ -2871,7 +2871,7 @@ blurOverlay.addEventListener('click', (event) => {
                 setTimeout(() => {
                     modal.style.display = 'none';
                     blurOverlay.style.display = 'none';
-                    updatePersistentClock();
+                    
                 }, 300);
             }
         });
@@ -2882,7 +2882,7 @@ persistentClock.addEventListener('click', () => {
     customizeModal.style.display = 'block';
     setTimeout(() => {
         customizeModal.classList.add('show');
-        updatePersistentClock();
+        
     }, 10);
 });
 
@@ -2901,7 +2901,7 @@ document.addEventListener('keydown', (event) => {
                 setTimeout(() => {
                     modal.style.display = 'none';
                     blurOverlay.style.display = 'none';
-                    updatePersistentClock();
+                    
                 }, 300);
             }
         });
