@@ -1552,6 +1552,159 @@ searchInput.addEventListener('keydown', (event) => {
     }
 });
 
+// JavaScript for Smart Home Controls
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize smart home control states
+    const storedLights = localStorage.getItem('smarthome_lights');
+    const storedSecurity = localStorage.getItem('smarthome_security');
+    const storedCamera = localStorage.getItem('smarthome_camera');
+    const storedThermostat = localStorage.getItem('smarthome_thermostat');
+    
+    // Get elements
+    const lightsControl = document.getElementById('smart-home-lights');
+    const securityControl = document.getElementById('smart-home-security');
+    const cameraControl = document.getElementById('smart-home-camera');
+    const thermostatControl = document.getElementById('smart-home-thermostat');
+    
+    const lightsSwitch = document.getElementById('lights-switch');
+    const securitySwitch = document.getElementById('security-switch');
+    const cameraSwitch = document.getElementById('camera-switch');
+    
+    const thermostatValue = document.getElementById('thermostat-value');
+    const thermostatPopup = document.getElementById('thermostat-popup');
+    const thermostatSlider = document.getElementById('thermostat-control');
+    const thermostatPopupValue = document.getElementById('thermostat-popup-value');
+    const closePopupBtn = document.getElementById('close-thermostat-popup');
+    
+    // Set initial states from localStorage or defaults
+    lightsSwitch.checked = storedLights === 'true';
+    if (lightsSwitch.checked) lightsControl.classList.add('active');
+    
+    securitySwitch.checked = storedSecurity === 'true';
+    if (securitySwitch.checked) securityControl.classList.add('active');
+    
+    cameraSwitch.checked = storedCamera === 'true';
+    if (cameraSwitch.checked) cameraControl.classList.add('active');
+    
+    if (storedThermostat) {
+        thermostatSlider.value = storedThermostat;
+        thermostatValue.textContent = `${storedThermostat}°F`;
+        thermostatPopupValue.textContent = `${storedThermostat}°F`;
+    }
+    
+    // Event listener for smart home tile clicks
+    lightsControl.addEventListener('click', function() {
+        lightsSwitch.checked = !lightsSwitch.checked;
+        this.classList.toggle('active');
+        localStorage.setItem('smarthome_lights', lightsSwitch.checked);
+        
+        if (lightsSwitch.checked) {
+            console.log('Turning on living room lights');
+            // sendSmartHomeCommand('lights', 'on');
+        } else {
+            console.log('Turning off living room lights');
+            // sendSmartHomeCommand('lights', 'off');
+        }
+    });
+    
+    securityControl.addEventListener('click', function() {
+        securitySwitch.checked = !securitySwitch.checked;
+        this.classList.toggle('active');
+        localStorage.setItem('smarthome_security', securitySwitch.checked);
+        
+        if (securitySwitch.checked) {
+            console.log('Activating security system');
+            // sendSmartHomeCommand('security', 'arm');
+        } else {
+            console.log('Deactivating security system');
+            // sendSmartHomeCommand('security', 'disarm');
+        }
+    });
+    
+    cameraControl.addEventListener('click', function() {
+        cameraSwitch.checked = !cameraSwitch.checked;
+        this.classList.toggle('active');
+        localStorage.setItem('smarthome_camera', cameraSwitch.checked);
+        
+        if (cameraSwitch.checked) {
+            console.log('Enabling front door camera');
+            // sendSmartHomeCommand('camera', 'on');
+        } else {
+            console.log('Disabling front door camera');
+            // sendSmartHomeCommand('camera', 'off');
+        }
+    });
+    
+    // Thermostat popup functionality
+    thermostatControl.addEventListener('click', function(e) {
+        // Position the popup below the thermostat control
+        const rect = thermostatControl.getBoundingClientRect();
+        thermostatPopup.style.top = `${rect.bottom + 5}px`;
+        thermostatPopup.style.left = `${rect.left + (rect.width / 2) - 125}px`; // Center the popup
+        
+        // Show the popup
+        thermostatPopup.style.display = 'block';
+        
+        // Prevent propagation to avoid immediate closing
+        e.stopPropagation();
+    });
+    
+    closePopupBtn.addEventListener('click', function() {
+        thermostatPopup.style.display = 'none';
+    });
+    
+    // Close popup when clicking outside
+    document.addEventListener('click', function(e) {
+        if (thermostatPopup.style.display === 'block' && 
+            !thermostatPopup.contains(e.target) && 
+            e.target !== thermostatControl) {
+            thermostatPopup.style.display = 'none';
+        }
+    });
+    
+    thermostatSlider.addEventListener('input', function(e) {
+        const value = e.target.value;
+        thermostatPopupValue.textContent = `${value}°F`;
+        thermostatValue.textContent = `${value}°F`;
+        localStorage.setItem('smarthome_thermostat', value);
+        
+        console.log(`Setting thermostat to ${value}°F`);
+        // Use debounce to avoid too many API calls while sliding
+        debounce(() => sendSmartHomeCommand('thermostat', value), 500);
+    });
+    
+    // Optional: Function to handle API calls to your smart home system
+    function sendSmartHomeCommand(device, command) {
+        // This would be replaced with actual API call to your smart home system
+        fetch('/api/smarthome', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                device: device,
+                command: command
+            })
+        })
+        .then(response => response.json())
+        .then(data => console.log('Smart home command sent:', data))
+        .catch(error => console.error('Error sending smart home command:', error));
+    }
+    
+    // Helper function to debounce frequent events
+    function debounce(func, wait) {
+        let timeout;
+        return function() {
+            const context = this;
+            const args = arguments;
+            clearTimeout(timeout);
+            timeout = setTimeout(() => {
+                func.apply(context, args);
+            }, wait);
+        };
+    }
+});
+
 const customizeButton = document.getElementById('customize');
 const customizeModal = document.getElementById('customizeModal');
 const closeCustomizeModal = document.getElementById('closeCustomizeModal');
