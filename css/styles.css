@@ -737,7 +737,8 @@ body.light-theme[style*="background-image"] .info {
 
 /* Smart Home Controls Styles */
 .smart-home-controls {
-    display: grid;
+    display: none;
+    /* Make above grid when in production */
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, auto);
     gap: 10px;
