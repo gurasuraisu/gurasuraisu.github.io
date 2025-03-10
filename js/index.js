@@ -3129,12 +3129,24 @@ document.addEventListener('DOMContentLoaded', function() {
     const brightnessValue = document.getElementById('brightness-value');
     const brightnessOverlay = document.getElementById('brightness-overlay');
     
+    // Initialize sound control
+    const soundSlider = document.getElementById('sound-control');
+    const soundValue = document.getElementById('sound-value');
+    
     // Get stored brightness or use default (100%)
     const storedBrightness = localStorage.getItem('page_brightness');
+    
+    // Get stored sound level or use default (100%)
+    const storedSound = localStorage.getItem('page_sound');
     
     if (storedBrightness) {
         brightnessSlider.value = storedBrightness;
         updateBrightness(storedBrightness);
+    }
+    
+    if (storedSound) {
+        soundSlider.value = storedSound;
+        updateSound(storedSound);
     }
     
     // Brightness control event listener
@@ -3142,6 +3154,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const value = e.target.value;
         updateBrightness(value);
         localStorage.setItem('page_brightness', value);
+    });
+    
+    // Sound control event listener
+    soundSlider.addEventListener('input', function(e) {
+        const value = e.target.value;
+        updateSound(value);
+        localStorage.setItem('page_sound', value);
     });
     
     // Function to update brightness
@@ -3157,13 +3176,36 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update the icon based on brightness level
         const brightnessIcon = document.querySelector('label[for="brightness-control"] .material-symbols-rounded');
         
-	if (value <= 33) {
-	    brightnessIcon.textContent = 'brightness_5'; // Low brightness icon
-	} else if (value <= 66) {
-	    brightnessIcon.textContent = 'brightness_6'; // Medium brightness icon
-	} else {
-	    brightnessIcon.textContent = 'brightness_7'; // High brightness icon
-	}
+        if (value <= 33) {
+            brightnessIcon.textContent = 'brightness_5'; // Low brightness icon
+        } else if (value <= 66) {
+            brightnessIcon.textContent = 'brightness_6'; // Medium brightness icon
+        } else {
+            brightnessIcon.textContent = 'brightness_7'; // High brightness icon
+        }
+    }
+    
+    // Function to update sound
+    function updateSound(value) {
+        soundValue.textContent = `${value}%`;
+        
+        // Set the volume for all audio elements
+        document.querySelectorAll('audio, video').forEach(element => {
+            element.volume = value / 100;
+        });
+        
+        // Update the icon based on sound level
+        const soundIcon = document.querySelector('label[for="sound-control"] .material-symbols-rounded');
+        
+        if (value == 0) {
+            soundIcon.textContent = 'volume_off'; // Muted
+        } else if (value <= 33) {
+            soundIcon.textContent = 'volume_mute'; // Low volume
+        } else if (value <= 66) {
+            soundIcon.textContent = 'volume_down'; // Medium volume
+        } else {
+            soundIcon.textContent = 'volume_up'; // High volume
+        }
     }
 });
 
