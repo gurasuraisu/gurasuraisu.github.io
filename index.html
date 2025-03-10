@@ -121,36 +121,41 @@
         Smart Home (BETA)
         <div class="smart-home-controls">
             <div class="smart-home-item" id="smart-home-lights">
-                <label for="lights-switch" class="cust-label">
-                    <span class="material-symbols-rounded">lightbulb</span>
-                    Living Room Lights
-                </label>
-                <input type="checkbox" id="lights-switch" class="smart-home-switch">
+                <span class="material-symbols-rounded">lightbulb</span>
+                <span class="smart-home-label">Living Room Lights</span>
+                <input type="checkbox" id="lights-switch" class="smart-home-switch" hidden>
             </div>
             <div class="smart-home-item" id="smart-home-thermostat">
-                <label for="thermostat-control" class="cust-label">
-                    <span class="material-symbols-rounded">thermostat</span>
-                    Thermostat
-                </label>
-                <div class="thermostat-slider-container">
-                    <span id="thermostat-value">72°F</span>
-                    <input type="range" min="60" max="85" value="72" class="thermostat-slider" id="thermostat-control">
-                </div>
+                <span class="material-symbols-rounded">thermostat</span>
+                <span class="smart-home-label">Thermostat</span>
+                <span id="thermostat-value">30℃</span>
             </div>
             <div class="smart-home-item" id="smart-home-security">
-                <label for="security-switch" class="cust-label">
-                    <span class="material-symbols-rounded">shield</span>
-                    Security System
-                </label>
-                <input type="checkbox" id="security-switch" class="smart-home-switch">
+                <span class="material-symbols-rounded">shield</span>
+                <span class="smart-home-label">Security System</span>
+                <input type="checkbox" id="security-switch" class="smart-home-switch" hidden>
             </div>
             <div class="smart-home-item" id="smart-home-camera">
-                <label for="camera-switch" class="cust-label">
-                    <span class="material-symbols-rounded">videocam</span>
-                    Front Door Camera
-                </label>
-                <input type="checkbox" id="camera-switch" class="smart-home-switch">
+                <span class="material-symbols-rounded">videocam</span>
+                <span class="smart-home-label">Front Door Camera</span>
+                <input type="checkbox" id="camera-switch" class="smart-home-switch" hidden>
             </div>
+        </div>
+    </div>
+</div>
+
+<div id="thermostat-popup" class="thermostat-popup">
+    <div class="thermostat-popup-content">
+        <div class="thermostat-popup-header">
+            <span class="material-symbols-rounded">thermostat</span>
+            <span>Adjust Temperature</span>
+            <button id="close-thermostat-popup" class="close-popup-btn">
+                <span class="material-symbols-rounded">close</span>
+            </button>
+        </div>
+        <div class="thermostat-slider-container">
+            <input type="range" min="10" max="50" value="30" class="thermostat-slider" id="thermostat-control">
+            <div id="thermostat-popup-value">30℃</div>
         </div>
     </div>
 </div>
