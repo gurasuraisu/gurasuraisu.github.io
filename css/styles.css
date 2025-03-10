@@ -668,7 +668,7 @@ body.light-theme[style*="background-image"] .info {
     align-items: center;
     gap: 10px;
     flex-grow: 1;
-    padding-left: 15px;
+    padding-left: 13px;
 }
 
 .brightness-slider {
