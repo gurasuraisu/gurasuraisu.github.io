@@ -47,21 +47,21 @@
         <button class="close" id="closeCustomizeModal"><span class="material-symbols-rounded">page_info</span></button>
         <h2>Controls</h2>
         General Settings
-        <div class="weather-settings">
+        <div class="weather-settings control-first">
             <label for="weather-switch" class="cust-label">
                 <span class="material-symbols-rounded">partly_cloudy_day</span>
                 Weather
             </label>
             <input type="checkbox" id="weather-switch" checked>
         </div>
-        <div class="gurapps-optional">
+        <div class="gurapps-optional control-middle">
             <label for="gurapps-switch" class="cust-label">
                 <span class="material-symbols-rounded">grid_view</span>
                 Gurapps
             </label>
             <input type="checkbox" id="gurapps-switch">
         </div>
-        <div class="minimal-mode">
+        <div class="minimal-mode control-last">
             <label for="minimal-mode" class="cust-label">
                 <span class="material-symbols-rounded">hide</span>
                 Minimal Mode
@@ -69,14 +69,14 @@
             <input type="checkbox" id="minimal-switch">
         </div>
         Clock
-        <div class="clock-settings">
+        <div class="clock-settings control-first">
             <label for="seconds-switch" class="cust-label">
                 <span class="material-symbols-rounded">timer_10_select</span>
                 Seconds
             </label>
             <input type="checkbox" id="seconds-switch" checked>
         </div>
-        <div class="font-selection">
+        <div class="font-selection control-last">
             <label for="font-select" class="cust-label">
                 <span class="material-symbols-rounded">custom_typography</span>
                 Style
@@ -95,14 +95,14 @@
             </select>
         </div>
         Cannibal
-        <div class="theme-toggle">
+        <div class="theme-toggle control-first">
             <label for="theme-switch" class="cust-label">
                 <span class="material-symbols-rounded">contrast</span>
                 Light Mode
             </label>
             <input type="checkbox" id="theme-switch">
         </div>
-        <div class="wallpaper-upload">
+        <div class="wallpaper-upload control-last">
             <label class="cust-label">
                 <span class="material-symbols-rounded">filter_vintage</span>
                 Wallpaper
@@ -120,14 +120,14 @@
         </div>
         Smart Home (BETA)
         <div class="smart-home-controls">
-            <div class="smart-home-item">
+            <div class="smart-home-item" id="smart-home-lights">
                 <label for="lights-switch" class="cust-label">
                     <span class="material-symbols-rounded">lightbulb</span>
                     Living Room Lights
                 </label>
                 <input type="checkbox" id="lights-switch" class="smart-home-switch">
             </div>
-            <div class="smart-home-item">
+            <div class="smart-home-item" id="smart-home-thermostat">
                 <label for="thermostat-control" class="cust-label">
                     <span class="material-symbols-rounded">thermostat</span>
                     Thermostat
@@ -137,14 +137,14 @@
                     <input type="range" min="60" max="85" value="72" class="thermostat-slider" id="thermostat-control">
                 </div>
             </div>
-            <div class="smart-home-item">
+            <div class="smart-home-item" id="smart-home-security">
                 <label for="security-switch" class="cust-label">
                     <span class="material-symbols-rounded">shield</span>
                     Security System
                 </label>
                 <input type="checkbox" id="security-switch" class="smart-home-switch">
             </div>
-            <div class="smart-home-item">
+            <div class="smart-home-item" id="smart-home-camera">
                 <label for="camera-switch" class="cust-label">
                     <span class="material-symbols-rounded">videocam</span>
                     Front Door Camera
