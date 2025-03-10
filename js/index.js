@@ -3223,6 +3223,12 @@ document.addEventListener('DOMContentLoaded', function() {
             soundIcon.textContent = 'volume_up'; // High volume
         }
     }
+
+    setInterval(function() {
+        if (soundSlider.value) {
+            updateSound(soundSlider.value);
+        }
+    }, 2000); // Check every 2 seconds
 });
 
 window.addEventListener('load', checkFullscreen);
