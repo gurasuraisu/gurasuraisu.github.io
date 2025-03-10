@@ -1588,8 +1588,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (storedThermostat) {
         thermostatSlider.value = storedThermostat;
-        thermostatValue.textContent = `${storedThermostat}°F`;
-        thermostatPopupValue.textContent = `${storedThermostat}°F`;
+        thermostatValue.textContent = `${storedThermostat}℃`;
+        thermostatPopupValue.textContent = `${storedThermostat}℃`;
     }
     
     // Event listener for smart home tile clicks
@@ -1664,11 +1664,11 @@ document.addEventListener('DOMContentLoaded', function() {
     
     thermostatSlider.addEventListener('input', function(e) {
         const value = e.target.value;
-        thermostatPopupValue.textContent = `${value}°F`;
-        thermostatValue.textContent = `${value}°F`;
+        thermostatPopupValue.textContent = `${value}℃`;
+        thermostatValue.textContent = `${value}℃`;
         localStorage.setItem('smarthome_thermostat', value);
         
-        console.log(`Setting thermostat to ${value}°F`);
+        console.log(`Setting thermostat to ${value}℃`);
         // Use debounce to avoid too many API calls while sliding
         debounce(() => sendSmartHomeCommand('thermostat', value), 500);
     });
