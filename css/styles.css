@@ -710,7 +710,7 @@ body.light-theme[style*="background-image"] .info {
     height: 100%;
     background-color: rgba(0, 0, 0, 0);
     pointer-events: none;
-    z-index: 9999;
+    z-index: 999999;
     transition: background-color 0.3s ease;
 }
 
