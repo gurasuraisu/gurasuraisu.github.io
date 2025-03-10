@@ -683,10 +683,6 @@ body.light-theme[style*="background-image"] .info {
     min-height: 24px;
 }
 
-.smart-home-item:hover {
-    background-color: rgba(60, 120, 216, 0.1);
-}
-
 .smart-home-item:active {
     transform: scale(0.98);
 }
