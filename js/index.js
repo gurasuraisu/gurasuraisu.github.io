@@ -3149,11 +3149,21 @@ document.addEventListener('DOMContentLoaded', function() {
         brightnessValue.textContent = `${value}%`;
         
         // Calculate darkness level (inverse of brightness)
-        // 100% brightness = 0 darkness, 20% brightness = 0.8 darkness
         const darknessLevel = (100 - value) / 100;
         
         // Update the overlay opacity
         brightnessOverlay.style.backgroundColor = `rgba(0, 0, 0, ${darknessLevel})`;
+        
+        // Update the icon based on brightness level
+        const brightnessIcon = document.querySelector('.brightness-icon'); // Assuming you have an element with this class
+        
+        if (value <= 33) {
+            brightnessIcon.textContent = '5'; // Low brightness icon
+        } else if (value <= 66) {
+            brightnessIcon.textContent = '6'; // Medium brightness icon
+        } else {
+            brightnessIcon.textContent = '7'; // High brightness icon
+        }
     }
 });
 
