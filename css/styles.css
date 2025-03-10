@@ -623,6 +623,100 @@ body.light-theme[style*="background-image"] .info {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Smart Home Controls Styles */
+.smart-home-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.smart-home-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--transparent-color);
+    border-radius: 12px;
+}
+
+.smart-home-item:first-child {
+    border-radius: 20px 20px 5px 5px;
+}
+
+.smart-home-item:last-child {
+    border-radius: 5px 5px 20px 20px;
+}
+
+.smart-home-switch {
+    appearance: none;
+    width: 50px;
+    height: 32px;
+    background-color: rgba(0,0,0,0.1);
+    border-radius: 16px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.smart-home-switch::before {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border-radius: 50%;
+    top: 4px;
+    left: 4px;
+    transition: transform 0.3s;
+}
+
+.smart-home-switch:checked {
+    background-color: #3c78d8;
+}
+
+.smart-home-switch:checked::before {
+    transform: translateX(18px);
+}
+
+.thermostat-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.thermostat-slider {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 8px;
+    border-radius: 5px;
+    background: rgba(0,0,0,0.1);
+    outline: none;
+}
+
+.thermostat-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3c78d8;
+    cursor: pointer;
+}
+
+.thermostat-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3c78d8;
+    cursor: pointer;
+}
+
+#thermostat-value {
+    min-width: 45px;
+    font-size: 14px;
+}
+
         .customize {
             position: fixed;
             bottom: 20px;
