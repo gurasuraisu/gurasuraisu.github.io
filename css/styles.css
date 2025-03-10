@@ -54,13 +54,14 @@ body.light-theme {
     --transparent-color: var(--light-transparent);
 }
 
-/* Default state for the specified elements */
+/* Default state */
 button, a, div, span {
     transition: transform 0.1s ease-out;
 }
 
-/* Active state */
-button:active, a:active, div:active, span:active {
+/* Active and focus state */
+button:active, a:active, div:active, span:active,
+button:focus, a:focus, div:focus, span:focus {
     transform: scale(0.98);
 }
 
