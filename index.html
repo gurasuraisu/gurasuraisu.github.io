@@ -118,6 +118,40 @@
             </label>
             <button id="versionButton">Details</button>
         </div>
+        Smart Home (BETA)
+        <div class="smart-home-controls">
+            <div class="smart-home-item">
+                <label for="lights-switch" class="cust-label">
+                    <span class="material-symbols-rounded">lightbulb</span>
+                    Living Room Lights
+                </label>
+                <input type="checkbox" id="lights-switch" class="smart-home-switch">
+            </div>
+            <div class="smart-home-item">
+                <label for="thermostat-control" class="cust-label">
+                    <span class="material-symbols-rounded">thermostat</span>
+                    Thermostat
+                </label>
+                <div class="thermostat-slider-container">
+                    <span id="thermostat-value">72°F</span>
+                    <input type="range" min="60" max="85" value="72" class="thermostat-slider" id="thermostat-control">
+                </div>
+            </div>
+            <div class="smart-home-item">
+                <label for="security-switch" class="cust-label">
+                    <span class="material-symbols-rounded">shield</span>
+                    Security System
+                </label>
+                <input type="checkbox" id="security-switch" class="smart-home-switch">
+            </div>
+            <div class="smart-home-item">
+                <label for="camera-switch" class="cust-label">
+                    <span class="material-symbols-rounded">videocam</span>
+                    Front Door Camera
+                </label>
+                <input type="checkbox" id="camera-switch" class="smart-home-switch">
+            </div>
+        </div>
     </div>
 </div>
     
