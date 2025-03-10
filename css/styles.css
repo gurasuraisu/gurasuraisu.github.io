@@ -676,7 +676,7 @@ body.light-theme[style*="background-image"] .info {
     height: 32px;
     border-radius: 16px;
     background: rgba(0,0,0,0.1);
-    padding: 0 9px;
+    padding: 0 8px;
     outline: none;
 }
 
@@ -686,7 +686,7 @@ body.light-theme[style*="background-image"] .info {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #3c78d8;
+    background: white;
     cursor: pointer;
 }
 
@@ -694,7 +694,7 @@ body.light-theme[style*="background-image"] .info {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #3c78d8;
+    background: white;
     cursor: pointer;
 }
 
