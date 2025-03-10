@@ -646,6 +646,74 @@ body.light-theme[style*="background-image"] .info {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Brightness Control Styles */
+.display-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 20px;
+}
+
+.display-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--transparent-color);
+    border-radius: 20px;
+}
+
+.brightness-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brightness-slider {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 8px;
+    border-radius: 5px;
+    background: rgba(0,0,0,0.1);
+    outline: none;
+}
+
+.brightness-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3c78d8;
+    cursor: pointer;
+}
+
+.brightness-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #3c78d8;
+    cursor: pointer;
+}
+
+#brightness-value {
+    min-width: 45px;
+    font-size: 14px;
+}
+
+/* Page brightness overlay */
+#brightness-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    z-index: 9999;
+    transition: background-color 0.3s ease;
+}
+
 /* Common control styles */
 .control-first {
     border-radius: 20px 20px 5px 5px;
