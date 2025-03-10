@@ -772,7 +772,7 @@ body.light-theme[style*="background-image"] .info {
 .thermostat-popup {
     display: none;
     position: absolute;
-    z-index: 100;
+    z-index: 10000;
     background-color: var(--background-color);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     border-radius: 15px;
