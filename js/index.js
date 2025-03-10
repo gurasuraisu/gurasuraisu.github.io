@@ -3157,13 +3157,13 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update the icon based on brightness level
         const brightnessIcon = document.querySelector('label[for="brightness-control"] .material-symbols-rounded');
         
-        if (value <= 33) {
-            brightnessIcon.textContent = '5'; // Low brightness icon
-        } else if (value <= 66) {
-            brightnessIcon.textContent = '6'; // Medium brightness icon
-        } else {
-            brightnessIcon.textContent = '7'; // High brightness icon
-        }
+	if (value <= 33) {
+	    brightnessIcon.textContent = 'brightness_5'; // Low brightness icon
+	} else if (value <= 66) {
+	    brightnessIcon.textContent = 'brightness_6'; // Medium brightness icon
+	} else {
+	    brightnessIcon.textContent = 'brightness_7'; // High brightness icon
+	}
     }
 });
 
