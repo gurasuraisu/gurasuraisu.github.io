@@ -700,6 +700,7 @@ body.light-theme[style*="background-image"] .info {
 #brightness-value {
     min-width: 45px;
     font-size: 14px;
+    padding: 0 0 0 15px;
 }
 
 /* Page brightness overlay */
