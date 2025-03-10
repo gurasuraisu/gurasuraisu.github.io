@@ -46,6 +46,18 @@
     <div class="modal-content">
         <button class="close" id="closeCustomizeModal"><span class="material-symbols-rounded">page_info</span></button>
         <h2>Controls</h2>
+        <div class="display-controls">
+            <div class="display-item">
+                <label for="brightness-control" class="cust-label">
+                    <span class="material-symbols-rounded">brightness_6</span>
+                    Brightness
+                </label>
+                <div class="brightness-slider-container">
+                    <span id="brightness-value">100%</span>
+                    <input type="range" min="20" max="100" value="100" class="brightness-slider" id="brightness-control">
+                </div>
+            </div>
+        </div>
         General Settings
         <div class="weather-settings control-first">
             <label for="weather-switch" class="cust-label">
