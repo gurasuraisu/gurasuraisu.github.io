@@ -3155,7 +3155,7 @@ document.addEventListener('DOMContentLoaded', function() {
         brightnessOverlay.style.backgroundColor = `rgba(0, 0, 0, ${darknessLevel})`;
         
         // Update the icon based on brightness level
-        const brightnessIcon = document.querySelector('.brightness-icon'); // Assuming you have an element with this class
+        const brightnessIcon = document.querySelector('label[for="brightness-control"] .material-symbols-rounded');
         
         if (value <= 33) {
             brightnessIcon.textContent = '5'; // Low brightness icon
