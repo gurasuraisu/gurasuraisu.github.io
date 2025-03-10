@@ -54,9 +54,18 @@ body.light-theme {
     --transparent-color: var(--light-transparent);
 }
 
-*:active {
-    transform: scale(0.98);
+button,
+a,
+div,
+span {
     transition: transform 0.1s ease-out;
+}
+
+button:active,
+a:active,
+div:active,
+span:active {
+    transform: scale(0.98);
 }
 
         body {
