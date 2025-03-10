@@ -658,6 +658,8 @@ body.light-theme[style*="background-image"] .info {
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s;
     position: relative;
+    height: 24px; /* Set fixed height for all buttons */
+    box-sizing: content-box; /* Ensure padding doesn't affect size */
 }
 
 .smart-home-item:hover {
@@ -675,10 +677,14 @@ body.light-theme[style*="background-image"] .info {
 .smart-home-item .material-symbols-rounded {
     font-size: 24px;
     margin-right: 10px;
+    flex-shrink: 0; /* Prevent icon from shrinking */
 }
 
 .smart-home-label {
     flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #smart-home-lights {
@@ -696,6 +702,9 @@ body.light-theme[style*="background-image"] .info {
 #thermostat-value {
     font-size: 14px;
     font-weight: 500;
+    flex-shrink: 0; /* Prevent temperature display from shrinking */
+    min-width: 35px; /* Give enough space for temperature */
+    text-align: right;
 }
 
 #smart-home-security {
