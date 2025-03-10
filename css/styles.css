@@ -654,13 +654,24 @@ body.light-theme[style*="background-image"] .info {
     margin-bottom: 20px;
 }
 
-.display-item {
+.brightness-control {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
     background-color: var(--transparent-color);
-    border-radius: 20px;
+    border-radius: 20px 20px 5px 5px;
+    margin: 0 0 5px;
+}
+
+.sound-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--transparent-color);
+    border-radius: 5px 5px 20px 20px;
+    margin: 5px 0 20px;
 }
 
 .slider-container {
