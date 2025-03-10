@@ -650,7 +650,6 @@ body.light-theme[style*="background-image"] .info {
 .display-controls {
     display: flex;
     flex-direction: column;
-    gap: 5px;
     margin-bottom: 20px;
 }
 
@@ -671,7 +670,6 @@ body.light-theme[style*="background-image"] .info {
     padding: 15px 20px;
     background-color: var(--transparent-color);
     border-radius: 5px 5px 20px 20px;
-    margin: 5px 0 20px;
 }
 
 .slider-container {
