@@ -3116,6 +3116,47 @@ document.addEventListener('DOMContentLoaded', () => {
 	createWallpaperUploadModal();
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Create brightness overlay div if it doesn't exist
+    if (!document.getElementById('brightness-overlay')) {
+        const overlay = document.createElement('div');
+        overlay.id = 'brightness-overlay';
+        document.body.appendChild(overlay);
+    }
+    
+    // Initialize brightness control
+    const brightnessSlider = document.getElementById('brightness-control');
+    const brightnessValue = document.getElementById('brightness-value');
+    const brightnessOverlay = document.getElementById('brightness-overlay');
+    
+    // Get stored brightness or use default (100%)
+    const storedBrightness = localStorage.getItem('page_brightness');
+    
+    if (storedBrightness) {
+        brightnessSlider.value = storedBrightness;
+        updateBrightness(storedBrightness);
+    }
+    
+    // Brightness control event listener
+    brightnessSlider.addEventListener('input', function(e) {
+        const value = e.target.value;
+        updateBrightness(value);
+        localStorage.setItem('page_brightness', value);
+    });
+    
+    // Function to update brightness
+    function updateBrightness(value) {
+        brightnessValue.textContent = `${value}%`;
+        
+        // Calculate darkness level (inverse of brightness)
+        // 100% brightness = 0 darkness, 20% brightness = 0.8 darkness
+        const darknessLevel = (100 - value) / 100;
+        
+        // Update the overlay opacity
+        brightnessOverlay.style.backgroundColor = `rgba(0, 0, 0, ${darknessLevel})`;
+    }
+});
+
 window.addEventListener('load', checkFullscreen);
 
 window.addEventListener('load', () => {
