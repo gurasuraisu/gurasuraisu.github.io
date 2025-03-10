@@ -623,12 +623,29 @@ body.light-theme[style*="background-image"] .info {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Common control styles */
+.control-first {
+    border-radius: 20px 20px 5px 5px;
+    margin: 20px 0 5px;
+}
+
+.control-middle {
+    border-radius: 5px;
+    margin: 5px 0 5px;
+}
+
+.control-last {
+    border-radius: 5px 5px 20px 20px;
+    margin: 5px 0 20px;
+}
+
 /* Smart Home Controls Styles */
 .smart-home-controls {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 10px;
+    margin: 20px 0 20px;
 }
 
 .smart-home-item {
@@ -637,15 +654,31 @@ body.light-theme[style*="background-image"] .info {
     align-items: center;
     padding: 15px 20px;
     background-color: var(--transparent-color);
-    border-radius: 12px;
+    border-radius: 20px;
 }
 
-.smart-home-item:first-child {
-    border-radius: 20px 20px 5px 5px;
+#smart-home-lights {
+    border-radius: 20px;
+    grid-column: 1;
+    grid-row: 1;
 }
 
-.smart-home-item:last-child {
-    border-radius: 5px 5px 20px 20px;
+#smart-home-thermostat {
+    border-radius: 20px;
+    grid-column: 2;
+    grid-row: 1;
+}
+
+#smart-home-security {
+    border-radius: 20px;
+    grid-column: 1;
+    grid-row: 2;
+}
+
+#smart-home-camera {
+    border-radius: 20px;
+    grid-column: 2;
+    grid-row: 2;
 }
 
 .smart-home-switch {
@@ -739,24 +772,30 @@ body.light-theme[style*="background-image"] .info {
             display: none;
         }
 
-.theme-toggle {
+.weather-settings, .clock-settings, .theme-toggle {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 20px 0 5px;
     padding: 15px 20px;
-    background-color: var(--transparent-color);;
-    border-radius: 20px 20px 5px 5px;
+    background-color: var(--transparent-color);
 }
 
-.wallpaper-upload {
+.gurapps-optional, .minimal-mode, .font-selection, .wallpaper-upload {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 5px 0 20px;
     padding: 15px 20px;
-    background-color: var(--transparent-color);;
-    border-radius: 5px 5px 20px 20px;
+    background-color: var(--transparent-color);
+}
+
+.version-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 20px 0 0;
+    padding: 15px 20px;
+    background-color: var(--transparent-color);
+    border-radius: 20px;
 }
 
 #theme-switch, #seconds-switch, #weather-switch, #minimal-switch, #gurapps-switch {
@@ -790,7 +829,7 @@ body.light-theme[style*="background-image"] .info {
     transform: translateX(18px);
 }
 
-#uploadButton {
+#uploadButton, #versionButton {
     background-color: var(--transparent-color);
     color: var(--text-color);
     font-family: 'Inter', sans-serif;
@@ -798,56 +837,6 @@ body.light-theme[style*="background-image"] .info {
     padding: 10px 10px;
     border-radius: 25px;
     cursor: pointer;
-}
-
-.clock-settings {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 0 5px;
-    padding: 15px 20px;
-    background-color: var(--transparent-color);
-    border-radius: 20px 20px 5px 5px;
-}
-
-.weather-settings {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 0 5px;
-    padding: 15px 20px;
-    background-color: var(--transparent-color);
-    border-radius: 20px 20px 5px 5px;
-}
-
-.gurapps-optional {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 5px 0 5px;
-    padding: 15px 20px;
-    background-color: var(--transparent-color);
-    border-radius: 5px;
-}
-
-.minimal-mode {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 5px 0 20px;
-    padding: 15px 20px;
-    background-color: var(--transparent-color);
-    border-radius: 5px 5px 20px 20px;
-}
-
-.font-selection {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 5px 0 20px;
-    padding: 15px 20px;
-    background-color: var(--transparent-color);
-    border-radius: 5px 5px 20px 20px;
 }
 
 #font-select {
@@ -864,26 +853,6 @@ body.light-theme[style*="background-image"] .info {
 #font-select option {
     background-color: var(--background-color);
     color: var(--text-color);
-}
-
-.version-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin: 20px 0 0;
-    padding: 15px 20px;
-    background-color: var(--transparent-color);
-    border-radius: 20px;
-}
-
-#versionButton {
-    background-color: var(--transparent-color);
-    color: var(--text-color);
-    font-family: 'Inter', sans-serif;
-    border: none;
-    padding: 10px 10px;
-    border-radius: 25px;
-    cursor: pointer;
 }
 
 #font-select option[value="Roboto"] { font-family: 'Roboto', sans-serif; }
