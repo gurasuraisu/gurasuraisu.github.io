@@ -47,25 +47,13 @@
         <button class="close" id="closeCustomizeModal"><span class="material-symbols-rounded">page_info</span></button>
         <h2>Controls</h2>
         <div class="display-controls">
-            <!-- Brightness Control -->
-            <div class="brightness-control">
-                <label class="cust-label" for="brightness-control">
-                    <span class="material-symbols-rounded">brightness_7</span>
+            <div class="display-item">
+                <label for="brightness-control" class="cust-label">
+                    <span class="material-symbols-rounded">brightness_6</span>
                 </label>
-                <div class="slider-container brightness-slider-container">
-                    <input type="range" id="brightness-control" class="control-slider brightness-slider" min="1" max="100" value="100">
-                    <span id="brightness-value" class="value-display">100%</span>
-                </div>
-            </div>
-            
-            <!-- Sound Control -->
-            <div class="sound-controls">
-                <label class="cust-label" for="sound-control">
-                    <span class="material-symbols-rounded">volume_up</span>
-                </label>
-                <div class="slider-container sound-slider-container">
-                    <input type="range" id="sound-control" class="control-slider sound-slider" min="0" max="100" value="100">
-                    <span id="sound-value" class="value-display">100%</span>
+                <div class="brightness-slider-container">
+                    <span id="brightness-value">100%</span>
+                    <input type="range" min="20" max="100" value="100" class="brightness-slider" id="brightness-control">
                 </div>
             </div>
         </div>
