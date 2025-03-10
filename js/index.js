@@ -3188,10 +3188,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update sound
     function updateSound(value) {
         soundValue.textContent = `${value}%`;
+        const volumeLevel = value / 100;
         
-        // Set the volume for all audio elements
+        // Set the volume for all direct audio/video elements on the page
         document.querySelectorAll('audio, video').forEach(element => {
-            element.volume = value / 100;
+            element.volume = volumeLevel;
+        });
+        
+        // Set volume for audio/video elements in same-origin iframes
+        document.querySelectorAll('iframe').forEach(iframe => {
+            try {
+                // This will work for same-origin iframes
+                if (iframe.contentDocument) {
+                    const iframeMedia = iframe.contentDocument.querySelectorAll('audio, video');
+                    iframeMedia.forEach(element => {
+                        element.volume = volumeLevel;
+                    });
+                }
+            } catch (e) {
+                console.log('Could not access iframe content:', e);
+            }
         });
         
         // Update the icon based on sound level
