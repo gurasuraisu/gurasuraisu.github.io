@@ -62,17 +62,8 @@ input[type="button"],
 input[type="submit"],
 .clickable {
   cursor: pointer;
-  transition: transform 0.1s ease-out;
-}
-
-/* Hover effect */
-[onclick]:hover, 
-button:hover, 
-a:hover, 
-input[type="button"]:hover, 
-input[type="submit"]:hover,
-.clickable:hover {
-  background-color: rgba(60, 120, 216, 0.1);
+  transform: scale(1);
+  transition: transform 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
 }
 
 /* Active effect (when clicking down) */
@@ -82,24 +73,8 @@ a:active,
 input[type="button"]:active, 
 input[type="submit"]:active,
 .clickable:active {
-  transform: scale(0.98);
-  background-color: rgba(60, 120, 216, 0.2);
-}
-
-/* Release animation */
-@keyframes releaseEffect {
-  0% { transform: scale(0.98); }
-  100% { transform: scale(1); }
-}
-
-/* Apply release animation when focus is gained after mousedown (click release) */
-[onclick]:focus-visible, 
-button:focus-visible, 
-a:focus-visible, 
-input[type="button"]:focus-visible, 
-input[type="submit"]:focus-visible,
-.clickable:focus-visible {
-  animation: releaseEffect 0.15s ease-out;
+  transform: scale(0.96);
+  transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
 }
 
         body {
