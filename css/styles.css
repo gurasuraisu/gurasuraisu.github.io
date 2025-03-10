@@ -655,6 +655,30 @@ body.light-theme[style*="background-image"] .info {
     padding: 15px 20px;
     background-color: var(--transparent-color);
     border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    position: relative;
+}
+
+.smart-home-item:hover {
+    background-color: rgba(60, 120, 216, 0.1);
+}
+
+.smart-home-item:active {
+    transform: scale(0.98);
+}
+
+.smart-home-item.active {
+    background-color: rgba(60, 120, 216, 0.2);
+}
+
+.smart-home-item .material-symbols-rounded {
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.smart-home-label {
+    flex-grow: 1;
 }
 
 #smart-home-lights {
@@ -667,6 +691,11 @@ body.light-theme[style*="background-image"] .info {
     border-radius: 20px;
     grid-column: 2;
     grid-row: 1;
+}
+
+#thermostat-value {
+    font-size: 14px;
+    font-weight: 500;
 }
 
 #smart-home-security {
@@ -712,16 +741,53 @@ body.light-theme[style*="background-image"] .info {
     transform: translateX(18px);
 }
 
-.thermostat-slider-container {
+.thermostat-popup {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    background-color: var(--background-color);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 15px;
+    padding: 15px;
+    width: 250px;
+}
+
+.thermostat-popup-header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.thermostat-popup-header .material-symbols-rounded {
+    margin-right: 10px;
+}
+
+.thermostat-popup-header span:nth-child(2) {
+    flex-grow: 1;
+}
+
+.close-popup-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-color);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.thermostat-slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
 .thermostat-slider {
     -webkit-appearance: none;
-    width: 100px;
-    height: 8px;
+    width: 100%;
+    height: 10px;
     border-radius: 5px;
     background: rgba(0,0,0,0.1);
     outline: none;
@@ -730,24 +796,24 @@ body.light-theme[style*="background-image"] .info {
 .thermostat-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: #3c78d8;
     cursor: pointer;
 }
 
 .thermostat-slider::-moz-range-thumb {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     background: #3c78d8;
     cursor: pointer;
 }
 
-#thermostat-value {
-    min-width: 45px;
-    font-size: 14px;
+#thermostat-popup-value {
+    font-size: 24px;
+    font-weight: bold;
 }
 
         .customize {
