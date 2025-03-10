@@ -668,7 +668,7 @@ body.light-theme[style*="background-image"] .info {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, auto);
     gap: 10px;
-    margin: 20px 0 20px;
+    margin: 20px 0 0;
 }
 
 .smart-home-item {
@@ -896,7 +896,7 @@ body.light-theme[style*="background-image"] .info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 20px 0 0;
+    margin: 20px 0 20px;
     padding: 15px 20px;
     background-color: var(--transparent-color);
     border-radius: 20px;
