@@ -1552,155 +1552,197 @@ searchInput.addEventListener('keydown', (event) => {
     }
 });
 
-// JavaScript for Smart Home Controls
 document.addEventListener('DOMContentLoaded', function() {
-    // Initialize smart home control states
-    const storedLights = localStorage.getItem('smarthome_lights');
-    const storedSecurity = localStorage.getItem('smarthome_security');
-    const storedCamera = localStorage.getItem('smarthome_camera');
-    const storedThermostat = localStorage.getItem('smarthome_thermostat');
+    // Initialize control states
+    const storedLightMode = localStorage.getItem('theme') || 'dark';
+    const storedMinimalMode = localStorage.getItem('minimalMode') === 'true';
+    const storedSilentMode = localStorage.getItem('silentMode') === 'true';
+    const storedTemperature = localStorage.getItem('display_temperature') || '30';
     
-    // Get elements
-    const lightsControl = document.getElementById('smart-home-lights');
-    const securityControl = document.getElementById('smart-home-security');
-    const cameraControl = document.getElementById('smart-home-camera');
-    const thermostatControl = document.getElementById('smart-home-thermostat');
+    // Get elements using your existing IDs
+    const lightModeControl = document.getElementById('light_mode_qc');
+    const minimalModeControl = document.getElementById('minimal_mode_qc');
+    const silentModeControl = document.getElementById('silent_switch_qc');
+    const temperatureControl = document.getElementById('temp_control_qc');
     
-    const lightsSwitch = document.getElementById('lights-switch');
-    const securitySwitch = document.getElementById('security-switch');
-    const cameraSwitch = document.getElementById('camera-switch');
+    const silentModeSwitch = document.getElementById('silent_switch');
+    const minimalModeSwitch = document.getElementById('security-switch');
+    const lightModeSwitch = document.getElementById('camera-switch');
     
-    const thermostatValue = document.getElementById('thermostat-value');
-    const thermostatPopup = document.getElementById('thermostat-popup');
-    const thermostatSlider = document.getElementById('thermostat-control');
-    const thermostatPopupValue = document.getElementById('thermostat-popup-value');
+    const temperatureValue = document.getElementById('thermostat-value');
+    const temperaturePopup = document.getElementById('thermostat-popup');
+    const temperatureSlider = document.getElementById('thermostat-control');
+    const temperaturePopupValue = document.getElementById('thermostat-popup-value');
     const closePopupBtn = document.getElementById('close-thermostat-popup');
     
     // Set initial states from localStorage or defaults
-    lightsSwitch.checked = storedLights === 'true';
-    if (lightsSwitch.checked) lightsControl.classList.add('active');
+    lightModeSwitch.checked = storedLightMode === 'light';
+    if (lightModeSwitch.checked) lightModeControl.classList.add('active');
     
-    securitySwitch.checked = storedSecurity === 'true';
-    if (securitySwitch.checked) securityControl.classList.add('active');
+    minimalModeSwitch.checked = storedMinimalMode;
+    if (minimalModeSwitch.checked) minimalModeControl.classList.add('active');
     
-    cameraSwitch.checked = storedCamera === 'true';
-    if (cameraSwitch.checked) cameraControl.classList.add('active');
+    silentModeSwitch.checked = storedSilentMode;
+    if (silentModeSwitch.checked) silentModeControl.classList.add('active');
     
-    if (storedThermostat) {
-        thermostatSlider.value = storedThermostat;
-        thermostatValue.textContent = `${storedThermostat}℃`;
-        thermostatPopupValue.textContent = `${storedThermostat}℃`;
+    if (storedTemperature) {
+        temperatureSlider.value = storedTemperature;
+        temperatureValue.textContent = `${storedTemperature}℃`;
+        temperaturePopupValue.textContent = `${storedTemperature}℃`;
     }
     
-    // Event listener for smart home tile clicks
-    lightsControl.addEventListener('click', function() {
-        lightsSwitch.checked = !lightsSwitch.checked;
+    // Update the temperature control label to show "Temperature" instead of "Tone"
+    const tempLabel = temperatureControl.querySelector('.qc-label');
+    if (tempLabel) tempLabel.textContent = 'Temperature';
+    
+    // Update the light mode control label to show "Light Mode" instead of "Ignore"
+    const lightLabel = lightModeControl.querySelector('.qc-label');
+    if (lightLabel) lightLabel.textContent = 'Light Mode';
+    
+    // Event listener for light mode control
+    lightModeControl.addEventListener('click', function() {
+        lightModeSwitch.checked = !lightModeSwitch.checked;
         this.classList.toggle('active');
-        localStorage.setItem('smarthome_lights', lightsSwitch.checked);
         
-        if (lightsSwitch.checked) {
-            console.log('Turning on living room lights');
-            // sendSmartHomeCommand('lights', 'on');
-        } else {
-            console.log('Turning off living room lights');
-            // sendSmartHomeCommand('lights', 'off');
-        }
+        const newTheme = lightModeSwitch.checked ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
+        document.body.classList.toggle('light-theme', newTheme === 'light');
+        
+        console.log(`Setting theme to ${newTheme} mode`);
     });
     
-    securityControl.addEventListener('click', function() {
-        securitySwitch.checked = !securitySwitch.checked;
+    // Event listener for minimal mode control
+    minimalModeControl.addEventListener('click', function() {
+        minimalModeSwitch.checked = !minimalModeSwitch.checked;
         this.classList.toggle('active');
-        localStorage.setItem('smarthome_security', securitySwitch.checked);
         
-        if (securitySwitch.checked) {
-            console.log('Activating security system');
-            // sendSmartHomeCommand('security', 'arm');
-        } else {
-            console.log('Deactivating security system');
-            // sendSmartHomeCommand('security', 'disarm');
-        }
+        const minimalMode = minimalModeSwitch.checked;
+        localStorage.setItem('minimalMode', minimalMode);
+        updateMinimalMode();
+        
+        console.log(`Setting minimal mode to ${minimalMode ? 'on' : 'off'}`);
     });
     
-    cameraControl.addEventListener('click', function() {
-        cameraSwitch.checked = !cameraSwitch.checked;
+    // Event listener for silent mode control
+    silentModeControl.addEventListener('click', function() {
+        silentModeSwitch.checked = !silentModeSwitch.checked;
         this.classList.toggle('active');
-        localStorage.setItem('smarthome_camera', cameraSwitch.checked);
         
-        if (cameraSwitch.checked) {
-            console.log('Enabling front door camera');
-            // sendSmartHomeCommand('camera', 'on');
-        } else {
-            console.log('Disabling front door camera');
-            // sendSmartHomeCommand('camera', 'off');
-        }
+        const silentMode = silentModeSwitch.checked;
+        localStorage.setItem('silentMode', silentMode);
+        
+        console.log(`Setting silent mode to ${silentMode ? 'on' : 'off'}`);
     });
     
-    // Thermostat popup functionality
-    thermostatControl.addEventListener('click', function(e) {
-        // Position the popup below the thermostat control
-        const rect = thermostatControl.getBoundingClientRect();
-        thermostatPopup.style.top = `${rect.bottom + 5}px`;
-        thermostatPopup.style.left = `${rect.left + (rect.width / 2) - 125}px`; // Center the popup
+    // Temperature popup functionality - reusing your existing thermostat code
+    temperatureControl.addEventListener('click', function(e) {
+        // Position the popup below the temperature control
+        const rect = temperatureControl.getBoundingClientRect();
+        temperaturePopup.style.top = `${rect.bottom + 5}px`;
+        temperaturePopup.style.left = `${rect.left + (rect.width / 2) - 125}px`; // Center the popup
         
         // Show the popup
-        thermostatPopup.style.display = 'block';
+        temperaturePopup.style.display = 'block';
         
         // Prevent propagation to avoid immediate closing
         e.stopPropagation();
     });
     
     closePopupBtn.addEventListener('click', function() {
-        thermostatPopup.style.display = 'none';
+        temperaturePopup.style.display = 'none';
     });
     
-    // Close popup when clicking outside
+    // Close popup when clicking outside - reusing your existing pattern
     document.addEventListener('click', function(e) {
-        if (thermostatPopup.style.display === 'block' && 
-            !thermostatPopup.contains(e.target) && 
-            e.target !== thermostatControl) {
-            thermostatPopup.style.display = 'none';
+        if (temperaturePopup.style.display === 'block' && 
+            !temperaturePopup.contains(e.target) && 
+            e.target !== temperatureControl) {
+            temperaturePopup.style.display = 'none';
         }
     });
     
-    thermostatSlider.addEventListener('input', function(e) {
+    temperatureSlider.addEventListener('input', function(e) {
         const value = e.target.value;
-        thermostatPopupValue.textContent = `${value}℃`;
-        thermostatValue.textContent = `${value}℃`;
-        localStorage.setItem('smarthome_thermostat', value);
+        temperaturePopupValue.textContent = `${value}℃`;
+        temperatureValue.textContent = `${value}℃`;
+        localStorage.setItem('display_temperature', value);
         
-        console.log(`Setting thermostat to ${value}℃`);
-        // Use debounce to avoid too many API calls while sliding
-        debounce(() => sendSmartHomeCommand('thermostat', value), 500);
+        console.log(`Setting display temperature to ${value}℃`);
+        updateTemperatureIcon(value);
     });
     
-    // Optional: Function to handle API calls to your smart home system
-    function sendSmartHomeCommand(device, command) {
-        // This would be replaced with actual API call to your smart home system
-        fetch('/api/smarthome', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                device: device,
-                command: command
-            })
-        })
-        .then(response => response.json())
-        .then(data => console.log('Smart home command sent:', data))
-        .catch(error => console.error('Error sending smart home command:', error));
+    // Function to update the temperature icon based on value
+    function updateTemperatureIcon(value) {
+        const temperatureIcon = temperatureControl.querySelector('.material-symbols-rounded');
+        if (!temperatureIcon) return;
+        
+        if (parseInt(value) <= 15) {
+            temperatureIcon.textContent = 'ac_unit'; // Cold
+        } else if (parseInt(value) <= 25) {
+            temperatureIcon.textContent = 'thermostat'; // Normal
+        } else {
+            temperatureIcon.textContent = 'wb_sunny'; // Hot
+        }
     }
     
-    // Helper function to debounce frequent events
-    function debounce(func, wait) {
-        let timeout;
-        return function() {
-            const context = this;
-            const args = arguments;
-            clearTimeout(timeout);
-            timeout = setTimeout(() => {
-                func.apply(context, args);
-            }, wait);
+    // Function to update minimal mode - uses your existing updateMinimalMode function
+    function updateMinimalMode() {
+        // Use the existing function if it exists
+        if (typeof window.updateMinimalMode === 'function') {
+            window.updateMinimalMode();
+        } else {
+            // Fallback minimal implementation
+            const minimalMode = minimalModeSwitch.checked;
+            const elementsToHide = [
+                document.getElementById('search-container'),
+                document.getElementById('weather'),
+                document.getElementById('customize'),
+                document.querySelector('.info'),
+                document.querySelector('.clockwidgets')
+            ];
+            
+            if (minimalMode) {
+                // Hide elements
+                elementsToHide.forEach(el => {
+                    if (el) el.style.display = 'none';
+                });
+                // Add minimal-active class to body for potential CSS styling
+                document.body.classList.add('minimal-active');
+            } else {
+                // Show elements
+                if (document.getElementById('search-container'))
+                    document.getElementById('search-container').style.display = 'flex';
+                
+                if (document.getElementById('customize'))
+                    document.getElementById('customize').style.display = 'block';
+                    
+                if (document.querySelector('.info'))
+                    document.querySelector('.info').style.display = '';
+                    
+                if (document.querySelector('.clockwidgets'))
+                    document.querySelector('.clockwidgets').style.display = '';
+                
+                // Remove minimal-active class
+                document.body.classList.remove('minimal-active');
+            }
+        }
+    }
+    
+    // Initialize the temperature icon on page load
+    updateTemperatureIcon(storedTemperature);
+    
+    // Override showPopup function to respect silent mode
+    const originalShowPopup = window.showPopup;
+    if (typeof originalShowPopup === 'function') {
+        window.showPopup = function(message) {
+            // Check if silent mode is enabled
+            if (localStorage.getItem('silentMode') === 'true') {
+                console.log('Silent mode active, suppressing popup:', message);
+                return; // Don't show popup if silent mode is enabled
+            }
+            
+            // Otherwise, call the original function
+            originalShowPopup(message);
         };
     }
 });
