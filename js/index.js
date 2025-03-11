@@ -3237,14 +3237,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to update temperature
     function updateTemperature(value) {
         // Convert to number to ensure proper comparison
-        const tempValue = parseFloat(value); // Allows decimal temperatures
-
+        const tempValue = parseInt(value);
+        
         // Calculate intensity based on distance from 0
-        let intensity = Math.min(Math.abs(tempValue) / 10 * 0.8, 0.8); // Clamped max intensity of 0.5
-
+        const intensity = Math.abs(tempValue) / 10 * 0.8; // Max intensity of 0.8
+        
         // Calculate RGB values for overlay
         let r, g, b, a;
-
+        
         if (tempValue < 0) {
             // Cool/blue tint (more blue as value decreases)
             r = 240;
@@ -3264,13 +3264,10 @@ document.addEventListener('DOMContentLoaded', function() {
             b = 255;
             a = 0;
         }
-
-        // Ensure temperatureOverlay exists
-        const temperatureOverlay = document.getElementById('temperatureOverlay');
-        if (temperatureOverlay) {
-            temperatureOverlay.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
-        }
-
+        
+        // Update the overlay color
+        temperatureOverlay.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+        
         // Update the icon based on temperature level
         const temperatureIcon = document.querySelector('#temp_control_qc .material-symbols-rounded');
         if (temperatureIcon) {
