@@ -1741,14 +1741,12 @@ const closeCustomizeModal = document.getElementById('closeCustomizeModal');
 const themeSwitch = document.getElementById('theme-switch');
 const wallpaperInput = document.getElementById('wallpaperInput');
 const uploadButton = document.getElementById('uploadButton');
-const minimalSwitch = document.getElementById('minimal-switch');
 const SLIDESHOW_INTERVAL = 600000; // 10 minutes in milliseconds
 const gurappsSwitch = document.getElementById("gurapps-switch");
 let gurappsEnabled = localStorage.getItem("gurappsEnabled") !== "false";
 let slideshowInterval = null;
 let currentWallpaperIndex = 0;
 let minimalMode = localStorage.getItem('minimalMode') === 'true';
-minimalSwitch.checked = minimalMode;
 
 // Theme switching functionality
 function setupThemeSwitcher() {
