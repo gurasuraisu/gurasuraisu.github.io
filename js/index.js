@@ -1613,7 +1613,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update the visual state of the control
         this.classList.toggle('active');
     });
-    
+
     // Event listener for silent mode control
     silentModeControl.addEventListener('click', function() {
         silentModeSwitch.checked = !silentModeSwitch.checked;
@@ -1621,7 +1621,49 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const silentMode = silentModeSwitch.checked;
         localStorage.setItem('silentMode', silentMode);
+        
+        // Override the showPopup function based on silent mode state
+        if (silentMode) {
+            // Store the original function if not already stored
+            if (!window.originalShowPopup) {
+                window.originalShowPopup = window.showPopup;
+            }
+            
+            // Replace with silent version (that does nothing)
+            window.showPopup = function(message) {
+                console.log('Silent mode active, suppressing popup:', message);
+                // Do nothing - this effectively hides all popups
+            };
+            
+            console.log('Silent mode enabled - popups will be suppressed');
+        } else {
+            // Restore the original function if we have it stored
+            if (window.originalShowPopup) {
+                window.showPopup = window.originalShowPopup;
+                console.log('Silent mode disabled - popups restored');
+            }
+        }
     });
+    
+    // Initialize silent mode on page load
+    (function initSilentMode() {
+        const silentMode = localStorage.getItem('silentMode') === 'true';
+        
+        if (silentMode) {
+            // Store the original function if not already stored
+            if (!window.originalShowPopup) {
+                window.originalShowPopup = window.showPopup;
+            }
+            
+            // Replace with silent version
+            window.showPopup = function(message) {
+                console.log('Silent mode active, suppressing popup:', message);
+                // Do nothing - this effectively hides all popups
+            };
+            
+            console.log('Silent mode initialized - popups will be suppressed');
+        }
+    })();
     
     // Temperature popup functionality - reusing your existing thermostat code
     temperatureControl.addEventListener('click', function(e) {
