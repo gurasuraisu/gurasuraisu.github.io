@@ -354,6 +354,8 @@ function setupWeatherToggle() {
 function updateClockAndDate() {
     let clockElement = document.getElementById('clock');
     let dateElement = document.getElementById('date');
+    let modalTitle = document.querySelector('#customizeModal h2'); // Select the <h2> inside the modal
+    
     let now = new Date();
     
     let hours = String(now.getHours()).padStart(2, '0');
@@ -364,11 +366,14 @@ function updateClockAndDate() {
         `${hours}:${minutes}:${seconds}` : 
         `${hours}:${minutes}`;
         
-    dateElement.textContent = now.toLocaleDateString(undefined, {
+    let formattedDate = now.toLocaleDateString(undefined, {
         weekday: 'long',
         month: 'long',
         day: 'numeric'
     });
+
+    dateElement.textContent = formattedDate;
+    modalTitle.textContent = formattedDate; // Update <h2> with the date
 }
 
 async function fetchLocationAndWeather() {
