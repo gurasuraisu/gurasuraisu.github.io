@@ -3138,7 +3138,6 @@ window.addEventListener('offline', () => {
 document.addEventListener('DOMContentLoaded', () => {
     applyWallpaper();
 	loadRecentWallpapers();
-	createWallpaperUploadModal();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
