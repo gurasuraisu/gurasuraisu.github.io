@@ -1756,13 +1756,6 @@ function setupThemeSwitcher() {
     themeSwitch.checked = currentTheme === 'light';
 }
 
-// Theme switch event listener
-themeSwitch.addEventListener('change', () => {
-    document.body.classList.toggle('light-theme');
-    const newTheme = document.body.classList.contains('light-theme') ? 'light' : 'dark';
-    localStorage.setItem('theme', newTheme);
-});
-
 // Function to handle Gurapps visibility
 function updateGurappsVisibility() {
     const drawerHandle = document.querySelector(".drawer-handle");
@@ -1856,12 +1849,6 @@ function updateMinimalMode() {
         document.body.classList.remove('minimal-active');
     }
 }
-
-minimalSwitch.addEventListener('change', function() {
-    minimalMode = this.checked;
-    localStorage.setItem('minimalMode', minimalMode);
-    updateMinimalMode();
-});
 
 // Initialize minimal mode on page load
 document.addEventListener('DOMContentLoaded', function() {
