@@ -489,20 +489,14 @@ body.light-theme[style*="background-image"] .info {
         
         .search-container {
             position: relative;
-            width: 135px; /* Set a single fixed width initially */
+            width: 135px;
             display: inline-flex;
             justify-content: center;
             align-items: center;
             padding: 0;
             z-index: 20;
-            transition: transform 0.3s ease, all 0.3s ease; /* Fix transition issue */
-            transform: scale(1);
+            transition: all 0.3s ease;
             line-height: 19.2px;
-        }
-        
-        .search-container:active {
-            transform: scale(0.96);
-            transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9); /* Ensure only transform transition on active */
         }
         
         .search-input {
