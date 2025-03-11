@@ -140,7 +140,7 @@ body.light-theme[style*="background-image"] .info {
     position: absolute;
     bottom: 10px;
     left: 50%;
-    transform: translateX(-50%), scale(1);
+    transform: translateX(-50%) scale(1);
     transition: opacity 0.3s ease, background-color 0.3s, transform 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
     width: 25%;
     height: 5px;
@@ -150,7 +150,7 @@ body.light-theme[style*="background-image"] .info {
 }
 
 .drawer-pill:active {
-    transform: scale(0.96);
+    transform: translateX(-50%) scale(0.96);
     transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
 }
 
