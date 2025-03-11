@@ -889,6 +889,7 @@ body.light-theme[style*="background-image"] .info {
     border-radius: 20px;
     background: rgba(0,0,0,0.1);
     outline: none;
+    padding: 0 8px;
 }
 
 .thermostat-slider::-webkit-slider-thumb {
