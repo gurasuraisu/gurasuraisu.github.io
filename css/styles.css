@@ -754,7 +754,7 @@ body.light-theme[style*="background-image"] .info {
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s;
     position: relative;
-    min-height: 66px;
+    min-height: 36px;
 }
 
 .qcontrol-item:active {
