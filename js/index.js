@@ -1603,14 +1603,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Event listener for minimal mode control
     minimalModeControl.addEventListener('click', function() {
+        // Toggle checkbox state
         minimalModeSwitch.checked = !minimalModeSwitch.checked;
         this.classList.toggle('active');
-    
-        const minimalMode = minimalModeSwitch.checked;
-        localStorage.setItem('minimalMode', minimalMode);
-    
-        // Call the global updateMinimalMode function instead of recreating it
-        window.updateMinimalMode();
+        
+        // Update the global minimalMode variable
+        window.minimalMode = minimalModeSwitch.checked;
+        
+        // Save to localStorage
+        localStorage.setItem('minimalMode', minimalModeSwitch.checked);
+        
+        // Call the global updateMinimalMode function
+        if (typeof window.updateMinimalMode === 'function') {
+            window.updateMinimalMode();
+        }
     });
     
     // Event listener for silent mode control
