@@ -687,7 +687,7 @@ body.light-theme[style*="background-image"] .info {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: white;
+    background: var(--text-color);
     cursor: pointer;
 }
 
@@ -695,7 +695,7 @@ body.light-theme[style*="background-image"] .info {
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: white;
+    background: var(--text-color);
     cursor: pointer;
 }
 
@@ -899,7 +899,7 @@ body.light-theme[style*="background-image"] .info {
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: white;
+    background: var(--text-color);
     cursor: pointer;
 }
 
@@ -907,7 +907,7 @@ body.light-theme[style*="background-image"] .info {
     width: 22px;
     height: 22px;
     border-radius: 50%;
-    background: white;
+    background: var(--text-color);
     cursor: pointer;
 }
 
@@ -978,14 +978,16 @@ body.light-theme[style*="background-image"] .info {
     appearance: none;
     width: 50px;
     height: 32px;
-    background-color: var(--background-color);
+    background-color: rgba(0, 0, 0, 0.1);
     border-radius: 16px;
     position: relative;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-#theme-switch::before, #seconds-switch::before, #weather-switch::before, #minimal-switch::before, #gurapps-switch::before {
+#theme-switch::before, #seconds-switch::before, 
+#weather-switch::before, #minimal-switch::before, 
+#gurapps-switch::before {
     content: '';
     position: absolute;
     width: 24px;
@@ -997,11 +999,15 @@ body.light-theme[style*="background-image"] .info {
     transition: transform 0.3s, background-color 0.3s;
 }
 
-#theme-switch:checked, #seconds-switch:checked, #weather-switch:checked, #minimal-switch:checked, #gurapps-switch:checked {
+#theme-switch:checked, #seconds-switch:checked, 
+#weather-switch:checked, #minimal-switch:checked, 
+#gurapps-switch:checked {
     background-color: var(--text-color);
 }
 
-#theme-switch:checked::before, #seconds-switch:checked::before, #weather-switch:checked::before, #minimal-switch:checked::before, #gurapps-switch:checked::before {
+#theme-switch:checked::before, #seconds-switch:checked::before, 
+#weather-switch:checked::before, #minimal-switch:checked::before, 
+#gurapps-switch:checked::before {
     transform: translateX(18px);
     background-color: var(--background-color);
 }
