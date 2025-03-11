@@ -3158,7 +3158,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tempOverlay.style.width = '100%';
         tempOverlay.style.height = '100%';
         tempOverlay.style.pointerEvents = 'none';
-        tempOverlay.style.zIndex = '9999';
+        tempOverlay.style.zIndex = '999998';
         tempOverlay.style.mixBlendMode = 'multiply';
         document.body.appendChild(tempOverlay);
     }
@@ -3240,7 +3240,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const tempValue = parseInt(value);
         
         // Calculate intensity based on distance from 0
-        const intensity = Math.abs(tempValue) / 10 * 0.3; // Max intensity of 0.3
+        const intensity = Math.abs(tempValue) / 10 * 0.5; // Max intensity of 0.5
         
         // Calculate RGB values for overlay
         let r, g, b, a;
@@ -3291,7 +3291,7 @@ document.addEventListener('DOMContentLoaded', function() {
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 9998;
+            z-index: 999998;
             mix-blend-mode: screen;
         }
     `;
