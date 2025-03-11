@@ -1763,7 +1763,6 @@ function setupThemeSwitcher() {
     // Check and set initial theme
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.body.classList.toggle('light-theme', currentTheme === 'light');
-    themeSwitch.checked = currentTheme === 'light';
 }
 
 // Function to handle Gurapps visibility
