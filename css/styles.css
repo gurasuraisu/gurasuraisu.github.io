@@ -978,7 +978,7 @@ body.light-theme[style*="background-image"] .info {
     appearance: none;
     width: 50px;
     height: 32px;
-    background-color: rgba(0,0,0,0.1);
+    background-color: var(--background-color);
     border-radius: 16px;
     position: relative;
     cursor: pointer;
@@ -990,19 +990,20 @@ body.light-theme[style*="background-image"] .info {
     position: absolute;
     width: 24px;
     height: 24px;
-    background-color: white;
+    background-color: var(--text-color);
     border-radius: 50%;
     top: 4px;
     left: 4px;
-    transition: transform 0.3s;
+    transition: transform 0.3s, background-color 0.3s;
 }
 
 #theme-switch:checked, #seconds-switch:checked, #weather-switch:checked, #minimal-switch:checked, #gurapps-switch:checked {
-    background-color: #3c78d8;
+    background-color: var(--text-color);
 }
 
 #theme-switch:checked::before, #seconds-switch:checked::before, #weather-switch:checked::before, #minimal-switch:checked::before, #gurapps-switch:checked::before {
     transform: translateX(18px);
+    background-color: var(--background-color);
 }
 
 #uploadButton, #versionButton {
