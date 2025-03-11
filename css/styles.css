@@ -488,7 +488,7 @@ body.light-theme[style*="background-image"] .info {
         }
         
         .search-container {
-            display: none; /* Remove when in production */
+            display: none !important; /* Remove when in production */
             position: relative;
             width: 135px; /* Set a single fixed width initially */
             display: inline-flex;
