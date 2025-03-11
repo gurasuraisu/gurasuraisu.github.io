@@ -110,9 +110,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make sure we re-attach the click event listener
     persistentClock.addEventListener('click', () => {
         customizeModal.style.display = 'block';
-	customizeModal.classList.add('show');
+        setTimeout(() => {
+            customizeModal.classList.add('show');
+        }, 5);
     });
-
+	
     // Update clock
     setInterval(updatePersistentClock, 500);
 });
