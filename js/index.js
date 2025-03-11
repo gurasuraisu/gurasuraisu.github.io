@@ -1599,20 +1599,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const newTheme = lightModeSwitch.checked ? 'light' : 'dark';
         localStorage.setItem('theme', newTheme);
         document.body.classList.toggle('light-theme', newTheme === 'light');
-        
-        console.log(`Setting theme to ${newTheme} mode`);
     });
     
     // Event listener for minimal mode control
     minimalModeControl.addEventListener('click', function() {
         minimalModeSwitch.checked = !minimalModeSwitch.checked;
         this.classList.toggle('active');
-        
+    
         const minimalMode = minimalModeSwitch.checked;
         localStorage.setItem('minimalMode', minimalMode);
-        updateMinimalMode();
-        
-        console.log(`Setting minimal mode to ${minimalMode ? 'on' : 'off'}`);
+    
+        // Call the global updateMinimalMode function instead of recreating it
+        window.updateMinimalMode();
     });
     
     // Event listener for silent mode control
@@ -1622,8 +1620,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const silentMode = silentModeSwitch.checked;
         localStorage.setItem('silentMode', silentMode);
-        
-        console.log(`Setting silent mode to ${silentMode ? 'on' : 'off'}`);
     });
     
     // Temperature popup functionality - reusing your existing thermostat code
@@ -1658,8 +1654,6 @@ document.addEventListener('DOMContentLoaded', function() {
         temperaturePopupValue.textContent = `${value}℃`;
         temperatureValue.textContent = `${value}℃`;
         localStorage.setItem('display_temperature', value);
-        
-        console.log(`Setting display temperature to ${value}℃`);
         updateTemperatureIcon(value);
     });
     
@@ -1674,49 +1668,6 @@ document.addEventListener('DOMContentLoaded', function() {
             temperatureIcon.textContent = 'thermostat'; // Normal
         } else {
             temperatureIcon.textContent = 'wb_sunny'; // Hot
-        }
-    }
-    
-    // Function to update minimal mode - uses your existing updateMinimalMode function
-    function updateMinimalMode() {
-        // Use the existing function if it exists
-        if (typeof window.updateMinimalMode === 'function') {
-            window.updateMinimalMode();
-        } else {
-            // Fallback minimal implementation
-            const minimalMode = minimalModeSwitch.checked;
-            const elementsToHide = [
-                document.getElementById('search-container'),
-                document.getElementById('weather'),
-                document.getElementById('customize'),
-                document.querySelector('.info'),
-                document.querySelector('.clockwidgets')
-            ];
-            
-            if (minimalMode) {
-                // Hide elements
-                elementsToHide.forEach(el => {
-                    if (el) el.style.display = 'none';
-                });
-                // Add minimal-active class to body for potential CSS styling
-                document.body.classList.add('minimal-active');
-            } else {
-                // Show elements
-                if (document.getElementById('search-container'))
-                    document.getElementById('search-container').style.display = 'flex';
-                
-                if (document.getElementById('customize'))
-                    document.getElementById('customize').style.display = 'block';
-                    
-                if (document.querySelector('.info'))
-                    document.querySelector('.info').style.display = '';
-                    
-                if (document.querySelector('.clockwidgets'))
-                    document.querySelector('.clockwidgets').style.display = '';
-                
-                // Remove minimal-active class
-                document.body.classList.remove('minimal-active');
-            }
         }
     }
     
