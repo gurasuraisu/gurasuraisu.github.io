@@ -110,9 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Make sure we re-attach the click event listener
     persistentClock.addEventListener('click', () => {
         customizeModal.style.display = 'block';
-        setTimeout(() => {
-            customizeModal.classList.add('show');
-        }, 10);
+	customizeModal.classList.add('show');
     });
 
     // Update clock
@@ -1614,14 +1612,16 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Event listener for minimal mode control
     minimalModeControl.addEventListener('click', function() {
-        // Instead of updating minimalModeSwitch directly, trigger a change on the working switch
-        minimalSwitch.checked = !minimalSwitch.checked;
-        
-        // Trigger the change event on the working switch
-        const event = new Event('change');
-        minimalSwitch.dispatchEvent(event);
-        
-        // Update the visual state of the control
+        // Toggle minimalMode state
+        minimalMode = !minimalMode;
+
+        // Save state to localStorage (if needed)
+        localStorage.setItem('minimalMode', minimalMode);
+
+        // Update UI based on the new state
+        updateMinimalMode();
+
+        // Toggle active class for visual feedback
         this.classList.toggle('active');
     });
 
