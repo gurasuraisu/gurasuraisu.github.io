@@ -3184,6 +3184,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const temperaturePopupValue = document.getElementById('thermostat-popup-value');
     const temperatureOverlay = document.getElementById('temperature-overlay');
     
+    // Update slider range to -10 to 10
+    temperatureSlider.min = -10;
+    temperatureSlider.max = 10;
+    
     // Get stored brightness or use default (100%)
     const storedBrightness = localStorage.getItem('page_brightness');
     
@@ -3192,13 +3196,13 @@ document.addEventListener('DOMContentLoaded', function() {
         updateBrightness(storedBrightness);
     }
     
-    // Get stored temperature or use default (30)
-    const storedTemperature = localStorage.getItem('display_temperature') || '30';
+    // Get stored temperature or use default (0)
+    const storedTemperature = localStorage.getItem('display_temperature') || '0';
     
     if (storedTemperature) {
         temperatureSlider.value = storedTemperature;
-        temperatureValue.textContent = `${storedTemperature}℃`;
-        temperaturePopupValue.textContent = `${storedTemperature}℃`;
+        temperatureValue.textContent = `${storedTemperature}`;
+        temperaturePopupValue.textContent = `${storedTemperature}`;
         updateTemperature(storedTemperature);
     }
     
@@ -3212,8 +3216,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Temperature control event listener
     temperatureSlider.addEventListener('input', function(e) {
         const value = e.target.value;
-        temperaturePopupValue.textContent = `${value}℃`;
-        temperatureValue.textContent = `${value}℃`;
+        temperaturePopupValue.textContent = value;
+        temperatureValue.textContent = value;
         updateTemperature(value);
         localStorage.setItem('display_temperature', value);
     });
@@ -3242,31 +3246,33 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Function to update temperature
     function updateTemperature(value) {
-        // Set min and max values for the temperature range
-        const minTemp = 10; // Blue/cool
-        const maxTemp = 50; // Yellow/warm
-        const midTemp = 30; // Neutral
+        // Convert to number to ensure proper comparison
+        const tempValue = parseInt(value);
         
-        // Calculate how far value is from midpoint
-        const normalizedValue = (value - minTemp) / (maxTemp - minTemp);
+        // Calculate intensity based on distance from 0
+        const intensity = Math.abs(tempValue) / 10 * 0.3; // Max intensity of 0.3
         
         // Calculate RGB values for overlay
         let r, g, b, a;
         
-        if (value < midTemp) {
-            // Cool/blue tint (more blue as temperature decreases)
-            const intensity = 0.3 * (1 - ((value - minTemp) / (midTemp - minTemp)));
+        if (tempValue < 0) {
+            // Cool/blue tint (more blue as value decreases)
             r = 240;
             g = 240;
             b = 255;
             a = intensity;
-        } else {
-            // Warm/yellow tint (more yellow as temperature increases)
-            const intensity = 0.3 * ((value - midTemp) / (maxTemp - midTemp));
+        } else if (tempValue > 0) {
+            // Warm/yellow tint (more yellow as value increases)
             r = 255;
             g = 240;
             b = 230;
             a = intensity;
+        } else {
+            // Neutral (no tint at 0)
+            r = 255;
+            g = 255;
+            b = 255;
+            a = 0;
         }
         
         // Update the overlay color
@@ -3275,12 +3281,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update the icon based on temperature level
         const temperatureIcon = document.querySelector('#temp_control_qc .material-symbols-rounded');
         if (temperatureIcon) {
-            if (parseInt(value) <= 20) {
+            if (tempValue <= -3) {
                 temperatureIcon.textContent = 'ac_unit'; // Cold
-            } else if (parseInt(value) <= 40) {
-                temperatureIcon.textContent = 'thermostat'; // Normal
-            } else {
+            } else if (tempValue >= 3) {
                 temperatureIcon.textContent = 'wb_sunny'; // Hot
+            } else {
+                temperatureIcon.textContent = 'thermostat'; // Neutral
             }
         }
     }
@@ -3315,7 +3321,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update title in popup
         const popupHeader = temperaturePopup.querySelector('.thermostat-popup-header span:nth-child(2)');
         if (popupHeader) {
-            popupHeader.textContent = 'Adjust Display Temperature';
+            popupHeader.textContent = 'Adjust Color Temperature';
         }
         
         // Show the popup
