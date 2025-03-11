@@ -153,15 +153,14 @@
 <div id="thermostat-popup" class="thermostat-popup">
     <div class="thermostat-popup-content">
         <div class="thermostat-popup-header">
-            <span class="material-symbols-rounded">thermostat</span>
-            <span>Adjust Temperature</span>
             <button id="close-thermostat-popup" class="close-popup-btn">
                 <span class="material-symbols-rounded">close</span>
             </button>
+            <span>Adjust</span>
         </div>
         <div class="thermostat-slider-container">
-            <input type="range" min="10" max="50" value="30" class="thermostat-slider" id="thermostat-control">
-            <div id="thermostat-popup-value">30℃</div>
+            <input type="range" min="-10" max="10" value="0" class="thermostat-slider" id="thermostat-control">
+            <div id="thermostat-popup-value">0</div>
         </div>
     </div>
 </div>
