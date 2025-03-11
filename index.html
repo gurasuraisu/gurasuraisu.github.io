@@ -46,6 +46,28 @@
     <div class="modal-content">
         <button class="close" id="closeCustomizeModal"><span class="material-symbols-rounded">page_info</span></button>
         <h2>Controls</h2>
+        <div class="quick-controls">
+            <div class="qcontrol-item" id="smart-home-lights">
+                <span class="material-symbols-rounded">lightbulb</span>
+                <span class="smart-home-label">Ignore</span>
+                <input type="checkbox" id="lights-switch" class="smart-home-switch" hidden>
+            </div>
+            <div class="qcontrol-item" id="smart-home-thermostat">
+                <span class="material-symbols-rounded">thermostat</span>
+                <span class="smart-home-label">Ignore</span>
+                <span id="thermostat-value">30℃</span>
+            </div>
+            <div class="qcontrol-item" id="smart-home-security">
+                <span class="material-symbols-rounded">shield</span>
+                <span class="smart-home-label">Ignore</span>
+                <input type="checkbox" id="security-switch" class="smart-home-switch" hidden>
+            </div>
+            <div class="qcontrol-item" id="smart-home-camera">
+                <span class="material-symbols-rounded">videocam</span>
+                <span class="smart-home-label">Ignore</span>
+                <input type="checkbox" id="camera-switch" class="smart-home-switch" hidden>
+            </div>
+        </div>
         <div class="display-controls">
             <div class="display-item">
                 <label for="brightness-control" class="cust-label">
@@ -57,7 +79,6 @@
                 </div>
             </div>
         </div>
-        Settings
         <div class="weather-settings control-first">
             <label for="weather-switch" class="cust-label">
                 <span class="material-symbols-rounded">partly_cloudy_day</span>
@@ -125,28 +146,6 @@
                 Sodium 13.0
             </label>
             <button id="versionButton">Details</button>
-        </div>
-        <div class="smart-home-controls">
-            <div class="smart-home-item" id="smart-home-lights">
-                <span class="material-symbols-rounded">lightbulb</span>
-                <span class="smart-home-label">Ignore</span>
-                <input type="checkbox" id="lights-switch" class="smart-home-switch" hidden>
-            </div>
-            <div class="smart-home-item" id="smart-home-thermostat">
-                <span class="material-symbols-rounded">thermostat</span>
-                <span class="smart-home-label">Ignore</span>
-                <span id="thermostat-value">30℃</span>
-            </div>
-            <div class="smart-home-item" id="smart-home-security">
-                <span class="material-symbols-rounded">shield</span>
-                <span class="smart-home-label">Ignore</span>
-                <input type="checkbox" id="security-switch" class="smart-home-switch" hidden>
-            </div>
-            <div class="smart-home-item" id="smart-home-camera">
-                <span class="material-symbols-rounded">videocam</span>
-                <span class="smart-home-label">Ignore</span>
-                <input type="checkbox" id="camera-switch" class="smart-home-switch" hidden>
-            </div>
         </div>
     </div>
 </div>
