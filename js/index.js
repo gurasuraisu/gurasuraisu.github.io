@@ -3344,10 +3344,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Update the temperature control label to show "Color Temp"
-    const tempLabel = temperatureControl.querySelector('.qc-label');
-    if (tempLabel) tempLabel.textContent = 'Color Temp';
-    
     // Initialize the temperature display
     updateTemperature(storedTemperature);
 });
