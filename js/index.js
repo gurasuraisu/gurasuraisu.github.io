@@ -3245,7 +3245,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const tempValue = parseInt(value);
         
         // Calculate intensity based on distance from 0
-        const intensity = Math.abs(tempValue) / 10 * 0.8; // Max intensity of 0.8
+        const intensity = Math.abs(tempValue) / 10 * 1; // Max intensity of 1
         
         // Calculate RGB values for overlay
         let r, g, b, a;
