@@ -3318,12 +3318,6 @@ document.addEventListener('DOMContentLoaded', function() {
         temperaturePopup.style.top = `${rect.bottom + 5}px`;
         temperaturePopup.style.left = `${rect.left + (rect.width / 2) - 125}px`; // Center the popup
         
-        // Update title in popup
-        const popupHeader = temperaturePopup.querySelector('.thermostat-popup-header span:nth-child(2)');
-        if (popupHeader) {
-            popupHeader.textContent = 'Adjust Color Temperature';
-        }
-        
         // Show the popup
         temperaturePopup.style.display = 'block';
         
