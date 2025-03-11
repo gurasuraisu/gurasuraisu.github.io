@@ -742,7 +742,7 @@ body.light-theme[style*="background-image"] .info {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, auto);
     gap: 10px;
-    margin: 20px 0 0;
+    margin: 20px 0 10px;
 }
 
 .qcontrol-item {
