@@ -829,6 +829,7 @@ body.light-theme[style*="background-image"] .info {
     font-size: 14px;
     font-weight: 500;
     margin-left: 8px;
+    font-variant-numeric: tabular-nums;
 }
 
 #minimal_mode_qc {
@@ -948,6 +949,7 @@ body.light-theme[style*="background-image"] .info {
 #thermostat-popup-value {
     font-size: 24px;
     font-weight: bold;
+    font-variant-numeric: tabular-nums;
 }
 
 /* Ensure all items take up the same space in the grid */
