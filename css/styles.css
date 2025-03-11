@@ -495,8 +495,14 @@ body.light-theme[style*="background-image"] .info {
             align-items: center;
             padding: 0;
             z-index: 20;
-            transition: all 0.3s ease;
+            transition: all 0.3s ease, transform 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
+            transform: scale(1);
             line-height: 19.2px; 
+        }
+
+        .search-container:active {
+            transform: scale(0.96);
+            transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
         }
         
         .search-input {
@@ -509,14 +515,8 @@ body.light-theme[style*="background-image"] .info {
             color: var(--text-color);
             font-size: 1.2rem;
             outline: none;
-            transform: scale(1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             font-family: 'Inter', sans-serif;
-        }
-
-        .search-input:active {
-            transform: scale(0.96);
-            transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
         }
         
         .search-input::placeholder {
