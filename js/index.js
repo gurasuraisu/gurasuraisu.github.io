@@ -85,29 +85,39 @@ function getCurrentTime24() {
 const persistentClock = document.getElementById('persistent-clock');
 
 document.addEventListener('DOMContentLoaded', () => {
-const appDrawer = document.getElementById('app-drawer');
-	
-function updatePersistentClock() {
-    const isModalOpen = 
-        timezoneModal.classList.contains('show') || 
-        weatherModal.classList.contains('show') || 
-        customizeModal.classList.contains('show') ||
-        appDrawer.classList.contains('open') ||
-        document.querySelector('.fullscreen-embed');
-        
-    if (isModalOpen) {
-        const now = new Date();
-        const hours = String(now.getHours()).padStart(2, '0');
-        const minutes = String(now.getMinutes()).padStart(2, '0');
-        persistentClock.textContent = `${hours}:${minutes}`;
-    } else {
-        persistentClock.innerHTML = '<span class="material-symbols-rounded">page_info</span>';
+    const appDrawer = document.getElementById('app-drawer');
+    const persistentClock = document.querySelector('.persistent-clock');
+    const customizeModal = document.getElementById('customizeModal');
+    
+    function updatePersistentClock() {
+        const isModalOpen = 
+            timezoneModal.classList.contains('show') || 
+            weatherModal.classList.contains('show') || 
+            customizeModal.classList.contains('show') ||
+            (appDrawer && appDrawer.classList.contains('open')) ||
+            document.querySelector('.fullscreen-embed');
+            
+        if (isModalOpen) {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            persistentClock.textContent = `${hours}:${minutes}`;
+        } else {
+            persistentClock.innerHTML = '<span class="material-symbols-rounded">page_info</span>';
+        }
     }
-}
+    
+    // Make sure we re-attach the click event listener
+    persistentClock.addEventListener('click', () => {
+        customizeModal.style.display = 'block';
+        setTimeout(() => {
+            customizeModal.classList.add('show');
+        }, 10);
+    });
 
-// Update clock every second
-setInterval(updatePersistentClock, 1000);
- // Initial update
+    // Update clock every second
+    setInterval(updatePersistentClock, 1000);
+    // Initial update
 });
 
 let timeLeft = 0; 
