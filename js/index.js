@@ -3158,10 +3158,31 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(overlay);
     }
     
+    // Create temperature overlay div if it doesn't exist
+    if (!document.getElementById('temperature-overlay')) {
+        const tempOverlay = document.createElement('div');
+        tempOverlay.id = 'temperature-overlay';
+        tempOverlay.style.position = 'fixed';
+        tempOverlay.style.top = '0';
+        tempOverlay.style.left = '0';
+        tempOverlay.style.width = '100%';
+        tempOverlay.style.height = '100%';
+        tempOverlay.style.pointerEvents = 'none';
+        tempOverlay.style.zIndex = '9999';
+        tempOverlay.style.mixBlendMode = 'multiply';
+        document.body.appendChild(tempOverlay);
+    }
+    
     // Initialize brightness control
     const brightnessSlider = document.getElementById('brightness-control');
     const brightnessValue = document.getElementById('brightness-value');
     const brightnessOverlay = document.getElementById('brightness-overlay');
+    
+    // Initialize temperature control
+    const temperatureSlider = document.getElementById('thermostat-control');
+    const temperatureValue = document.getElementById('thermostat-value');
+    const temperaturePopupValue = document.getElementById('thermostat-popup-value');
+    const temperatureOverlay = document.getElementById('temperature-overlay');
     
     // Get stored brightness or use default (100%)
     const storedBrightness = localStorage.getItem('page_brightness');
@@ -3171,11 +3192,30 @@ document.addEventListener('DOMContentLoaded', function() {
         updateBrightness(storedBrightness);
     }
     
+    // Get stored temperature or use default (30)
+    const storedTemperature = localStorage.getItem('display_temperature') || '30';
+    
+    if (storedTemperature) {
+        temperatureSlider.value = storedTemperature;
+        temperatureValue.textContent = `${storedTemperature}℃`;
+        temperaturePopupValue.textContent = `${storedTemperature}℃`;
+        updateTemperature(storedTemperature);
+    }
+    
     // Brightness control event listener
     brightnessSlider.addEventListener('input', function(e) {
         const value = e.target.value;
         updateBrightness(value);
         localStorage.setItem('page_brightness', value);
+    });
+    
+    // Temperature control event listener
+    temperatureSlider.addEventListener('input', function(e) {
+        const value = e.target.value;
+        temperaturePopupValue.textContent = `${value}℃`;
+        temperatureValue.textContent = `${value}℃`;
+        updateTemperature(value);
+        localStorage.setItem('display_temperature', value);
     });
     
     // Function to update brightness
@@ -3191,14 +3231,119 @@ document.addEventListener('DOMContentLoaded', function() {
         // Update the icon based on brightness level
         const brightnessIcon = document.querySelector('label[for="brightness-control"] .material-symbols-rounded');
         
-	if (value <= 33) {
-	    brightnessIcon.textContent = 'brightness_5'; // Low brightness icon
-	} else if (value <= 66) {
-	    brightnessIcon.textContent = 'brightness_6'; // Medium brightness icon
-	} else {
-	    brightnessIcon.textContent = 'brightness_7'; // High brightness icon
-	}
+        if (value <= 33) {
+            brightnessIcon.textContent = 'brightness_5'; // Low brightness icon
+        } else if (value <= 66) {
+            brightnessIcon.textContent = 'brightness_6'; // Medium brightness icon
+        } else {
+            brightnessIcon.textContent = 'brightness_7'; // High brightness icon
+        }
     }
+    
+    // Function to update temperature
+    function updateTemperature(value) {
+        // Set min and max values for the temperature range
+        const minTemp = 10; // Blue/cool
+        const maxTemp = 50; // Yellow/warm
+        const midTemp = 30; // Neutral
+        
+        // Calculate how far value is from midpoint
+        const normalizedValue = (value - minTemp) / (maxTemp - minTemp);
+        
+        // Calculate RGB values for overlay
+        let r, g, b, a;
+        
+        if (value < midTemp) {
+            // Cool/blue tint (more blue as temperature decreases)
+            const intensity = 0.3 * (1 - ((value - minTemp) / (midTemp - minTemp)));
+            r = 240;
+            g = 240;
+            b = 255;
+            a = intensity;
+        } else {
+            // Warm/yellow tint (more yellow as temperature increases)
+            const intensity = 0.3 * ((value - midTemp) / (maxTemp - midTemp));
+            r = 255;
+            g = 240;
+            b = 230;
+            a = intensity;
+        }
+        
+        // Update the overlay color
+        temperatureOverlay.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+        
+        // Update the icon based on temperature level
+        const temperatureIcon = document.querySelector('#temp_control_qc .material-symbols-rounded');
+        if (temperatureIcon) {
+            if (parseInt(value) <= 20) {
+                temperatureIcon.textContent = 'ac_unit'; // Cold
+            } else if (parseInt(value) <= 40) {
+                temperatureIcon.textContent = 'thermostat'; // Normal
+            } else {
+                temperatureIcon.textContent = 'wb_sunny'; // Hot
+            }
+        }
+    }
+    
+    // Add CSS for the new temperature overlay
+    const style = document.createElement('style');
+    style.textContent = `
+        #temperature-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9998;
+            mix-blend-mode: screen;
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // Temperature popup functionality - reusing existing thermostat code
+    const temperatureControl = document.getElementById('temp_control_qc');
+    const temperaturePopup = document.getElementById('thermostat-popup');
+    const closePopupBtn = document.getElementById('close-thermostat-popup');
+    
+    temperatureControl.addEventListener('click', function(e) {
+        // Position the popup below the temperature control
+        const rect = temperatureControl.getBoundingClientRect();
+        temperaturePopup.style.top = `${rect.bottom + 5}px`;
+        temperaturePopup.style.left = `${rect.left + (rect.width / 2) - 125}px`; // Center the popup
+        
+        // Update title in popup
+        const popupHeader = temperaturePopup.querySelector('.thermostat-popup-header span:nth-child(2)');
+        if (popupHeader) {
+            popupHeader.textContent = 'Adjust Display Temperature';
+        }
+        
+        // Show the popup
+        temperaturePopup.style.display = 'block';
+        
+        // Prevent propagation to avoid immediate closing
+        e.stopPropagation();
+    });
+    
+    closePopupBtn.addEventListener('click', function() {
+        temperaturePopup.style.display = 'none';
+    });
+    
+    // Close popup when clicking outside
+    document.addEventListener('click', function(e) {
+        if (temperaturePopup.style.display === 'block' && 
+            !temperaturePopup.contains(e.target) && 
+            e.target !== temperatureControl) {
+            temperaturePopup.style.display = 'none';
+        }
+    });
+    
+    // Update the temperature control label to show "Color Temp"
+    const tempLabel = temperatureControl.querySelector('.qc-label');
+    if (tempLabel) tempLabel.textContent = 'Color Temp';
+    
+    // Initialize the temperature display
+    updateTemperature(storedTemperature);
 });
 
 window.addEventListener('load', checkFullscreen);
