@@ -196,13 +196,6 @@ body.light-theme[style*="background-image"] .info {
             position: relative;
             transition: color 0.3s;
             user-select: none;
-            transform: scale(1);
-            transition: transform 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
-        }
-
-        .container:active {
-            transform: scale(0.96);
-            transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
         }
 
         .clock {
@@ -213,6 +206,13 @@ body.light-theme[style*="background-image"] .info {
             user-select: none;
             transition: opacity 0.3s ease, filter 0.3s ease, color 0.3s;
             font-variant-numeric: tabular-nums;
+            transform: scale(1);
+            transition: transform 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
+        }
+
+        .clock:active {
+            transform: scale(0.96);
+            transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
         }
 
         .info {
@@ -509,8 +509,14 @@ body.light-theme[style*="background-image"] .info {
             color: var(--text-color);
             font-size: 1.2rem;
             outline: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
             font-family: 'Inter', sans-serif;
+        }
+
+        .search-input:active {
+            transform: scale(0.96);
+            transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
         }
         
         .search-input::placeholder {
@@ -580,6 +586,13 @@ body.light-theme[style*="background-image"] .info {
     border: none;
     border-radius: 50px;
     height: 52px;
+    transform: scale(1);
+    transition: transform 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+
+.weather-widget:active {
+    transform: scale(0.96);
+    transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
 }
 
         .temperature {
