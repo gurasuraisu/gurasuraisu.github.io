@@ -771,20 +771,20 @@ body.light-theme[style*="background-image"] .info {
     flex-shrink: 0;
 }
 
-.smart-home-label {
+.qc-label {
     flex-grow: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-#smart-home-lights {
+#silent_switch_qc {
     border-radius: 20px;
     grid-column: 1;
     grid-row: 1;
 }
 
-#smart-home-thermostat {
+#temp_control_qc {
     border-radius: 20px;
     grid-column: 2;
     grid-row: 1;
@@ -796,19 +796,19 @@ body.light-theme[style*="background-image"] .info {
     margin-left: 8px;
 }
 
-#smart-home-security {
+#minimal_mode_qc {
     border-radius: 20px;
     grid-column: 1;
     grid-row: 2;
 }
 
-#smart-home-camera {
+#light_mode_qc {
     border-radius: 20px;
     grid-column: 2;
     grid-row: 2;
 }
 
-.smart-home-switch {
+.qc-switch {
     appearance: none;
     width: 50px;
     height: 32px;
@@ -819,7 +819,7 @@ body.light-theme[style*="background-image"] .info {
     transition: background-color 0.3s;
 }
 
-.smart-home-switch::before {
+.qc-switch::before {
     content: '';
     position: absolute;
     width: 24px;
@@ -831,11 +831,11 @@ body.light-theme[style*="background-image"] .info {
     transition: transform 0.3s;
 }
 
-.smart-home-switch:checked {
+.qc-switch:checked {
     background-color: #3c78d8;
 }
 
-.smart-home-switch:checked::before {
+.qc-switch:checked::before {
     transform: translateX(18px);
 }
 
