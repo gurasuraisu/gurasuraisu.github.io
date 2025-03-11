@@ -1591,14 +1591,6 @@ document.addEventListener('DOMContentLoaded', function() {
         temperaturePopupValue.textContent = `${storedTemperature}℃`;
     }
     
-    // Update the temperature control label to show "Temperature" instead of "Tone"
-    const tempLabel = temperatureControl.querySelector('.qc-label');
-    if (tempLabel) tempLabel.textContent = 'Temperature';
-    
-    // Update the light mode control label to show "Light Mode" instead of "Ignore"
-    const lightLabel = lightModeControl.querySelector('.qc-label');
-    if (lightLabel) lightLabel.textContent = 'Light Mode';
-    
     // Event listener for light mode control
     lightModeControl.addEventListener('click', function() {
         lightModeSwitch.checked = !lightModeSwitch.checked;
