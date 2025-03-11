@@ -85,6 +85,8 @@ function getCurrentTime24() {
 const persistentClock = document.getElementById('persistent-clock');
 
 document.addEventListener('DOMContentLoaded', () => {
+const appDrawer = document.getElementById('app-drawer');
+	
 function updatePersistentClock() {
     const isModalOpen = 
         timezoneModal.classList.contains('show') || 
