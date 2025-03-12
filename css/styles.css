@@ -638,7 +638,7 @@ body.light-theme[style*="background-image"] .info {
     color: var(--text-color);
     padding: 8px 18px;
     background-color: var(--search-background);
-    backdrop-filter: blur(50px);
+    backdrop-filter: blur(20px);
     display: none;  /* Hidden by default */
     align-items: center;
     justify-content: center;
@@ -705,7 +705,7 @@ body.light-theme[style*="background-image"] .info {
     padding: 15px 20px;
     background-color: var(--search-background);
     border-radius: 20px;
-    backdrop-filter: blur(50px);
+    backdrop-filter: blur(20px);
 }
 
 .brightness-slider-container {
@@ -800,7 +800,7 @@ body.light-theme[style*="background-image"] .info {
     transition: background-color 0.2s, transform 0.1s;
     position: relative;
     min-height: 36px;
-    backdrop-filter: blur(50px);
+    backdrop-filter: blur(20px);
 }
 
 .qcontrol-item:active {
@@ -1002,7 +1002,7 @@ body.light-theme[style*="background-image"] .info {
     align-items: center;
     padding: 15px 20px;
     background-color: var(--search-background);
-    backdrop-filter: blur(50px);
+    backdrop-filter: blur(20px);
 }
 
 .gurapps-optional, .minimal-mode, .font-selection, .wallpaper-upload {
@@ -1011,7 +1011,7 @@ body.light-theme[style*="background-image"] .info {
     align-items: center;
     padding: 15px 20px;
     background-color: var(--search-background);
-    backdrop-filter: blur(50px);
+    backdrop-filter: blur(20px);
 }
 
 .version-info {
@@ -1021,7 +1021,7 @@ body.light-theme[style*="background-image"] .info {
     margin: 20px 0 0;
     padding: 15px 20px;
     background-color: var(--search-background);
-    backdrop-filter: blur(50px);
+    backdrop-filter: blur(20px);
     border-radius: 20px;
 }
 
