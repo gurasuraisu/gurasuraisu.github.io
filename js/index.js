@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 	
     // Update clock
-    setInterval(updatePersistentClock, 500);
+    setInterval(updatePersistentClock, 100);
 });
 
 let timeLeft = 0; 
