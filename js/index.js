@@ -91,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         customizeModal.style.display = 'block';
         setTimeout(() => {
             customizeModal.classList.add('show');
+	    blurOverlayControls.classList.add('show');
         }, 5);
     });
 	
@@ -1891,15 +1892,15 @@ customizeButton.addEventListener('click', () => {
     customizeModal.style.display = 'block';
     setTimeout(() => {
         customizeModal.classList.add('show');
-        
+        blurOverlayControls.classList.add('show');
     }, 10);
 });
 
 closeCustomizeModal.addEventListener('click', () => {
     customizeModal.classList.remove('show');
+    blurOverlayControls.classList.remove('show');
     setTimeout(() => {
         customizeModal.style.display = 'none';
-        
     }, 300);
 });
 
@@ -2370,7 +2371,7 @@ function switchWallpaper(direction) {
       customizeModal.style.display = 'block';
       setTimeout(() => {
         customizeModal.classList.add('show');
-        
+        blurOverlayControls.classList.add('show');
       }, 10);
       
       // Reset position to last valid wallpaper
@@ -3044,7 +3045,7 @@ persistentClock.addEventListener('click', () => {
     customizeModal.style.display = 'block';
     setTimeout(() => {
         customizeModal.classList.add('show');
-        
+        blurOverlayControls.classList.add('show');
     }, 10);
 });
 
@@ -3327,7 +3328,7 @@ window.addEventListener('load', () => {
 window.addEventListener('click', (event) => {
     if (!customizeModal.contains(event.target) && !persistentClock.contains(event.target)) {
         customizeModal.classList.remove('show'); // Start animation
-
+	blurOverlayControls.classList.remove('show');
         setTimeout(() => {
             customizeModal.style.display = 'none'; // Hide after animation
         }, 300); 
