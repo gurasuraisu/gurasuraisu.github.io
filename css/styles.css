@@ -209,12 +209,12 @@ body.light-theme[style*="background-image"] .info {
             transition: opacity 0.3s ease, filter 0.3s ease, color 0.3s;
             font-variant-numeric: tabular-nums;
             transform: scale(1);
-            transition: transform 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
+            transition: all 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
         }
 
         .clock:active {
             transform: scale(0.96);
-            transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
+            transition: all 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
         }
 
         .info {
