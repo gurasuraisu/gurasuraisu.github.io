@@ -3325,9 +3325,15 @@ window.addEventListener('load', () => {
 
 // Close customizeModal when clicking outside
 window.addEventListener('click', (event) => {
+    const customizeModal = document.getElementById('customizeModal');
+    const persistentClock = document.getElementById('persistentClock');
+    const thermostatPopup = document.getElementById('thermostatPopup'); // Ensure it's defined
+
+    if (!customizeModal || !persistentClock) return; // Avoid errors if elements are missing
+
     if (!customizeModal.contains(event.target) && 
         !persistentClock.contains(event.target) && 
-        !thermostatPopup.contains(event.target)) {
+        (!thermostatPopup || !thermostatPopup.contains(event.target))) { 
         
         customizeModal.classList.remove('show'); // Start animation
 
