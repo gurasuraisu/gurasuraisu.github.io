@@ -126,11 +126,11 @@ function updateTitle() {
             const weatherIconElement = document.getElementById('weather-icon');
             
             if (temperatureElement && weatherIconElement && weatherIconElement.dataset.weatherCode) {
-                const temperature = temperatureElement.textContent.replace('℃', '');
+                const temperature = temperatureElement.textContent.replace('°', '');
                 const weatherCode = parseInt(weatherIconElement.dataset.weatherCode);
                 
                 if (weatherConditionsForTitle[weatherCode]) {
-                    weatherString = ` | ${temperature}℃ ${weatherConditionsForTitle[weatherCode].icon}`;
+                    weatherString = ` | ${temperature}° ${weatherConditionsForTitle[weatherCode].icon}`;
                 }
             }
         }
@@ -448,7 +448,7 @@ async function updateSmallWeather() {
         const weatherInfo = weatherConditions[weatherData.current.weathercode] || { description: 'Unknown', icon: () => '❓' };
 
         document.getElementById('weather').style.display = showWeather ? 'block' : 'none';
-        temperatureElement.textContent = `${weatherData.current.temperature}℃`;
+        temperatureElement.textContent = `${weatherData.current.temperature}°`;
         weatherIconElement.className = 'material-symbols-rounded';
         weatherIconElement.textContent = weatherInfo.icon(true);
         weatherIconElement.dataset.weatherCode = weatherData.current.weathercode;
@@ -516,7 +516,7 @@ async function displayDetailedWeather() {
     document.getElementById('detailedWeather').style.backgroundColor = backgroundColor;
 
     document.getElementById('detailedWeather').innerHTML = `
-        <h2>${current.temperature}℃</h2>
+        <h2>${current.temperature}°</h2>
         <p class="location-text">${city}</p>
         <span class="weather-icon material-symbols-rounded">${currentWeather.icon(isDaytime)}</span>
         <p>${currentWeather.description}</p>
@@ -531,7 +531,7 @@ async function displayDetailedWeather() {
                 return `
                     <div class="${hourClass}">
                         <span>${hourString}</span>
-                        <span>${hour.temperature}℃</span>
+                        <span>${hour.temperature}°</span>
                         <span class="material-symbols-rounded">${hourWeather.icon(isDaytimeForHour(hour.time))}</span>
                         <span>${hourWeather.description}</span>
                     </div>
@@ -549,7 +549,7 @@ async function displayDetailedWeather() {
                     <div class="forecast-day">
                         <p class="day-name">${dayName}</p>
                         <p class="forecast-icon material-symbols-rounded">${forecastWeather.icon(true)}</p>
-                        <p>${maxTemp}℃</p>
+                        <p>${maxTemp}°</p>
                         <p>${forecastWeather.description}</p>
                     </div>
                 `;
@@ -1584,8 +1584,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     if (storedTemperature) {
         temperatureSlider.value = storedTemperature;
-        temperatureValue.textContent = `${storedTemperature}℃`;
-        temperaturePopupValue.textContent = `${storedTemperature}℃`;
+        temperatureValue.textContent = `${storedTemperature}°`;
+        temperaturePopupValue.textContent = `${storedTemperature}°`;
     }
     
     // Event listener for light mode control
@@ -1693,8 +1693,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     temperatureSlider.addEventListener('input', function(e) {
         const value = e.target.value;
-        temperaturePopupValue.textContent = `${value}℃`;
-        temperatureValue.textContent = `${value}℃`;
+        temperaturePopupValue.textContent = `${value}°`;
+        temperatureValue.textContent = `${value}°`;
         localStorage.setItem('display_temperature', value);
         updateTemperatureIcon(value);
     });
