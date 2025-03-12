@@ -130,7 +130,7 @@ body.light-theme[style*="background-image"] .info {
     justify-content: center;
     align-items: flex-start;
     cursor: grab;
-    z-index: 1001;
+    z-index: 9997;
     touch-action: none;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
@@ -166,7 +166,7 @@ body.light-theme[style*="background-image"] .info {
     transition: color 0.3s;
     padding: 8px 14px;
     border-radius: 50px;
-    z-index: 1001;
+    z-index: 9998;
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -373,7 +373,7 @@ body.light-theme[style*="background-image"] .info {
         }
 
         #blurOverlayControls {
-            z-index: 9998;
+            z-index: 9996;
         }
 
         .cust-label {
