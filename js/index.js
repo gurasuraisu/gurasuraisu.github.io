@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         customizeModal.style.display = 'block';
         setTimeout(() => {
             customizeModal.classList.add('show');
-        }, 3);
+        }, 5);
     });
 	
     // Update clock
