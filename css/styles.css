@@ -668,7 +668,7 @@ body.light-theme[style*="background-image"] .info {
     align-items: center;
     gap: 20px;
     width: 100%;
-    margin: 10px auto;
+    margin-top: 10px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
