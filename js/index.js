@@ -1,14 +1,20 @@
-function consoleGreeting() {
+function consoleLicense() {
     const license = `
-Gurasuriasu is made by kirbIndustries
-Licensed under the GNU General Public License, Version 2.0 (GPL-2.0)
-You may obtain a copy of the License at https://www.gnu.org/licenses/gpl-2.0.html
+Gurasuriasu is made by kirbIndustries, and is licensed under the GNU General Public License, Version 2.0 (GPL-2.0)
     `;
 
     console.info(license);
 }
     
 consoleGreeting()
+
+function consoleLoaded() {
+    const greeting = `
+Loaded Gurasuraisu sucessfully!
+    `;
+
+    console.info(greeting);
+}
 
 const secondsSwitch = document.getElementById('seconds-switch');
 const appUsage = {};
@@ -3314,6 +3320,7 @@ window.addEventListener('load', checkFullscreen);
 
 window.addEventListener('load', () => {
     ensureVideoLoaded();
+    consoleLoaded();
 });
 
 // Close customizeModal when clicking outside
