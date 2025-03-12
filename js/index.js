@@ -88,17 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const appDrawer = document.getElementById('app-drawer');
     const persistentClock = document.querySelector('.persistent-clock');
     const customizeModal = document.getElementById('customizeModal');
-
-    let isCustomizeOpen = false; // Track modal state manually
-
+    
     function updatePersistentClock() {
         const isModalOpen = 
-            document.getElementById('timezoneModal')?.classList.contains('show') || 
-            document.getElementById('weatherModal')?.classList.contains('show') || 
-            isCustomizeOpen ||  // Use our manual tracking instead of checking display
+            timezoneModal.classList.contains('show') || 
+            weatherModal.classList.contains('show') || 
+            customizeModal.classList.contains('show') ||
             (appDrawer && appDrawer.classList.contains('open')) ||
             document.querySelector('.fullscreen-embed');
-
+            
         if (isModalOpen) {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -108,26 +106,17 @@ document.addEventListener('DOMContentLoaded', () => {
             persistentClock.innerHTML = '<span class="material-symbols-rounded">page_info</span>';
         }
     }
-
-    // Ensure the event listener is attached once
-    if (persistentClock) {
-        persistentClock.addEventListener('click', () => {
-            if (isCustomizeOpen) {
-                customizeModal.style.display = 'none';
-                customizeModal.classList.remove('show');
-                isCustomizeOpen = false;
-            } else {
-                customizeModal.style.display = 'block';
-                setTimeout(() => {
-                    customizeModal.classList.add('show');
-                }, 5);
-                isCustomizeOpen = true;
-            }
-        });
-    }
-
-    // Update clock every 200ms
-    setInterval(updatePersistentClock, 200);
+    
+    // Make sure we re-attach the click event listener
+    persistentClock.addEventListener('click', () => {
+        customizeModal.style.display = 'block';
+        setTimeout(() => {
+            customizeModal.classList.add('show');
+        }, 5);
+    });
+	
+    // Update clock
+    setInterval(updatePersistentClock, 500);
 });
 
 let timeLeft = 0; 
@@ -180,7 +169,7 @@ function isDaytimeForHour(timeString) {
     return hour >= 6 && hour <= 18;
 }
 
-// Start an interval to update the title
+// Start an interval to update the title every second
 setInterval(updateTitle, 1000);
 
 // Title weather conditions using emojis
@@ -3352,6 +3341,15 @@ window.addEventListener('load', checkFullscreen);
 
 window.addEventListener('load', () => {
     ensureVideoLoaded();
+});
+
+// Close customizeModal when clicking outside
+window.addEventListener('click', (event) => {
+    if (!customizeModal.contains(event.target) && !persistentClock.contains(event.target)) {
+        customizeModal.style.display = 'none';
+        customizeModal.classList.remove('show');
+        isCustomizeOpen = false; // Ensure state is updated
+    }
 });
 
 document.addEventListener("DOMContentLoaded", function() {
