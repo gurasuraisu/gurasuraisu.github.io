@@ -269,6 +269,10 @@ body.light-theme[style*="background-image"] .info {
             transform: translateX(0);
             width: clamp(280px, 90%, 400px);
             z-index: 9999; !important
+            background-color: rgba(0, 0, 0, 0);
+            box-shadow: none;
+            border: none;
+            backdrop-filter: none;
         }
         
         .modal, .modal-content {
