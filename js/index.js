@@ -3318,7 +3318,10 @@ window.addEventListener('load', () => {
 
 // Close customizeModal when clicking outside
 window.addEventListener('click', (event) => {
-    if (!customizeModal.contains(event.target) && !persistentClock.contains(event.target)) {
+    if (!customizeModal.contains(event.target) && 
+        !persistentClock.contains(event.target) && 
+        !thermostatPopup.contains(event.target)) {
+        
         customizeModal.classList.remove('show'); // Start animation
 
         setTimeout(() => {
