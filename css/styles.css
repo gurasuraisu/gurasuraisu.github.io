@@ -976,6 +976,7 @@ body.light-theme[style*="background-image"] .info {
 }
 
         .customize {
+            visibility: hidden;
             position: fixed;
             bottom: 20px;
             right: 20px;
