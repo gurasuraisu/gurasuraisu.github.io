@@ -20,12 +20,13 @@ const ASSETS_TO_CACHE = [
   'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap',
   'https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;700&display=swap',
   'https://fonts.googleapis.com/css2?family=DM+Serif+Display:wght@400;700&display=swap',
-  'https://fonts.googleapis.com/css2?family=Anton:wght@400;700&display=swap',
+  'https://fonts.googleapis.com/css2?family=Iansui:wght@400;700&display=swap',
   'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap',
   'https://fonts.googleapis.com/css2?family=DotGothic16:wght@400;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Patrick+Hand:wght@400;700&display=swap',
-  'https://fonts.googleapis.com/css2?family=Cherry+Bomb+One:wght@400;700&display=swap',
-  'https://fonts.googleapis.com/css2?family=Monomaniac+One:wght@400;700&display=swap',
+  'https://fonts.googleapis.com/css2?family=Rampart+One:wght@400;700&display=swap',
+  'https://fonts.googleapis.com/css2?family=Doto:wght@400;700&display=swap',
+  'https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0'
 ];
 
