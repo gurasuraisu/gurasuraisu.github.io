@@ -703,8 +703,9 @@ body.light-theme[style*="background-image"] .info {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: var(--transparent-color);
+    background-color: var(--overlay-color);
     border-radius: 20px;
+    backdrop-filter: blur(50px);
 }
 
 .brightness-slider-container {
@@ -793,12 +794,13 @@ body.light-theme[style*="background-image"] .info {
     display: flex;
     align-items: center;
     padding: 15px 20px;
-    background-color: var(--transparent-color);
+    background-color: var(--overlay-color);
     border-radius: 20px;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s;
     position: relative;
     min-height: 36px;
+    backdrop-filter: blur(50px);
 }
 
 .qcontrol-item:active {
@@ -999,7 +1001,8 @@ body.light-theme[style*="background-image"] .info {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: var(--transparent-color);
+    background-color: var(--overlay-color);
+    backdrop-filter: blur(50px);
 }
 
 .gurapps-optional, .minimal-mode, .font-selection, .wallpaper-upload {
@@ -1007,7 +1010,8 @@ body.light-theme[style*="background-image"] .info {
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
-    background-color: var(--transparent-color);
+    background-color: var(--overlay-color);
+    backdrop-filter: blur(50px);
 }
 
 .version-info {
@@ -1016,7 +1020,8 @@ body.light-theme[style*="background-image"] .info {
     align-items: center;
     margin: 20px 0 0;
     padding: 15px 20px;
-    background-color: var(--transparent-color);
+    background-color: var(--overlay-color);
+    backdrop-filter: blur(50px);
     border-radius: 20px;
 }
 
