@@ -1,6 +1,6 @@
 function consoleGreeting() {
     const greeting = `
-                   --==++++++++++                  
+                   --==++++++++++                  ustomizeModal.style.display = 'none'; // Hide after animation
                  :=++**********++++                
                :-++*************+++++              
               :=++**********++++++++++             
@@ -3346,8 +3346,11 @@ window.addEventListener('load', () => {
 // Close customizeModal when clicking outside
 window.addEventListener('click', (event) => {
     if (!customizeModal.contains(event.target) && !persistentClock.contains(event.target)) {
-        customizeModal.style.display = 'none';
-        customizeModal.classList.remove('show');
+        customizeModal.classList.remove('show'); // Start animation
+
+        setTimeout(() => {
+            customizeModal.style.display = 'none'; // Hide after animation
+        }, 5); 
     }
 });
 
