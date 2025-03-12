@@ -372,6 +372,10 @@ body.light-theme[style*="background-image"] .info {
             user-select: none;
         }
 
+        #blurOverlayControls {
+            z-index: 9998;
+        }
+
         .cust-label {
             display: inline-flex;
             align-items: center; /* Align text and icon vertically */
