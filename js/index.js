@@ -3348,7 +3348,6 @@ window.addEventListener('click', (event) => {
     if (!customizeModal.contains(event.target) && !persistentClock.contains(event.target)) {
         customizeModal.style.display = 'none';
         customizeModal.classList.remove('show');
-        isCustomizeOpen = false; // Ensure state is updated
     }
 });
 
