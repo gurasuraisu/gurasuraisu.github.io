@@ -2616,8 +2616,8 @@ function createFullscreenEmbed(url) {
         closeFullscreenEmbed();
     });
     
-    // Hide all elements except drawer-handle, persistent-clock, and app drawer
-    document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer)').forEach(el => {
+    // Hide all elements
+    document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
         el.style.display = 'none';
     });
     
