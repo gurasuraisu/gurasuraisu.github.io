@@ -2634,7 +2634,7 @@ function closeFullscreenEmbed() {
     
     // Restore previously hidden elements
     document.querySelectorAll('body > *').forEach(el => {
-        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer')) {
+        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay')) {
             if (el.id === 'customizeModal') {
                 el.style.display = 'none'; // Explicitly set customizeModal to none
             } else {
