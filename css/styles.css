@@ -366,7 +366,7 @@ body.light-theme[style*="background-image"] .info {
             backdrop-filter: blur(10px);
             z-index: 100;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: all 0.3s ease;
             user-select: none;
             background-color: var(--overlay-color);
         }
