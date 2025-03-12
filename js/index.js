@@ -1634,12 +1634,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Do nothing - this effectively hides all popups
             };
             
-            console.log('Silent mode enabled - popups will be suppressed');
+            console.log('Silent mode enabled');
         } else {
             // Restore the original function if we have it stored
             if (window.originalShowPopup) {
                 window.showPopup = window.originalShowPopup;
-                console.log('Silent mode disabled - popups restored');
+                console.log('Silent mode disabled');
             }
         }
     });
