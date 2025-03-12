@@ -773,7 +773,7 @@ function showPopup(message) {
     popup.style.color = 'var(--text-color)';
     popup.style.padding = '20px';
     popup.style.borderRadius = '30px';
-    popup.style.zIndex = '1000';
+    popup.style.zIndex = '9999999';
     popup.style.transition = 'opacity 0.5s';
     popup.style.display = 'flex';
     popup.style.alignItems = 'center';
