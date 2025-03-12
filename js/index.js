@@ -92,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             customizeModal.classList.add('show');
 	    blurOverlayControls.classList.add('show');
+	    blurOverlayControls.style.display = 'block';
         }, 5);
     });
 	
@@ -1890,6 +1891,7 @@ closeCustomizeModal.addEventListener('click', function() {
 // Customize modal functionality
 customizeButton.addEventListener('click', () => {
     customizeModal.style.display = 'block';
+    blurOverlayControls.style.display = 'block';
     setTimeout(() => {
         customizeModal.classList.add('show');
         blurOverlayControls.classList.add('show');
@@ -1901,6 +1903,7 @@ closeCustomizeModal.addEventListener('click', () => {
     blurOverlayControls.classList.remove('show');
     setTimeout(() => {
         customizeModal.style.display = 'none';
+	blurOverlayControls.style.display = 'none';
     }, 300);
 });
 
@@ -2369,6 +2372,7 @@ function switchWallpaper(direction) {
     if (currentWallpaperPosition >= recentWallpapers.length) {
       // Show customize modal when swiping past the end instead of upload modal
       customizeModal.style.display = 'block';
+      blurOverlayControls.style.display = 'block';
       setTimeout(() => {
         customizeModal.classList.add('show');
         blurOverlayControls.classList.add('show');
@@ -3043,6 +3047,7 @@ blurOverlay.addEventListener('click', (event) => {
 
 persistentClock.addEventListener('click', () => {
     customizeModal.style.display = 'block';
+    blurOverlayControls.style.display = 'block';
     setTimeout(() => {
         customizeModal.classList.add('show');
         blurOverlayControls.classList.add('show');
@@ -3331,6 +3336,7 @@ window.addEventListener('click', (event) => {
 	blurOverlayControls.classList.remove('show');
         setTimeout(() => {
             customizeModal.style.display = 'none'; // Hide after animation
+	    blurOverlayControls.style.display = 'none';
         }, 300); 
     }
 });
