@@ -88,15 +88,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const appDrawer = document.getElementById('app-drawer');
     const persistentClock = document.querySelector('.persistent-clock');
     const customizeModal = document.getElementById('customizeModal');
-    
+
     function updatePersistentClock() {
         const isModalOpen = 
-            timezoneModal.classList.contains('show') || 
-            weatherModal.classList.contains('show') || 
-            customizeModal.classList.contains('show') ||
+            document.getElementById('timezoneModal')?.classList.contains('show') || 
+            document.getElementById('weatherModal')?.classList.contains('show') || 
+            customizeModal.style.display === 'block' ||
             (appDrawer && appDrawer.classList.contains('open')) ||
             document.querySelector('.fullscreen-embed');
-            
+
         if (isModalOpen) {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -106,16 +106,23 @@ document.addEventListener('DOMContentLoaded', () => {
             persistentClock.innerHTML = '<span class="material-symbols-rounded">page_info</span>';
         }
     }
-    
-    // Make sure we re-attach the click event listener
-    persistentClock.addEventListener('click', () => {
-        customizeModal.style.display = 'block';
-        setTimeout(() => {
-            customizeModal.classList.add('show');
-        }, 5);
-    });
-	
-    // Update clock
+
+    // Ensure the event listener is attached once
+    if (persistentClock) {
+        persistentClock.addEventListener('click', () => {
+            if (customizeModal.style.display === 'block') {
+                customizeModal.style.display = 'none';
+                customizeModal.classList.remove('show');
+            } else {
+                customizeModal.style.display = 'block';
+                setTimeout(() => {
+                    customizeModal.classList.add('show');
+                }, 5);
+            }
+        });
+    }
+
+    // Update clock every 200ms
     setInterval(updatePersistentClock, 200);
 });
 
