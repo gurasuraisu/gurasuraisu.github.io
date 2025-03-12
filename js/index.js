@@ -89,11 +89,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const persistentClock = document.querySelector('.persistent-clock');
     const customizeModal = document.getElementById('customizeModal');
 
+    let isCustomizeOpen = false; // Track modal state manually
+
     function updatePersistentClock() {
         const isModalOpen = 
             document.getElementById('timezoneModal')?.classList.contains('show') || 
             document.getElementById('weatherModal')?.classList.contains('show') || 
-            customizeModal.style.display === 'block' ||
+            isCustomizeOpen ||  // Use our manual tracking instead of checking display
             (appDrawer && appDrawer.classList.contains('open')) ||
             document.querySelector('.fullscreen-embed');
 
@@ -110,14 +112,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // Ensure the event listener is attached once
     if (persistentClock) {
         persistentClock.addEventListener('click', () => {
-            if (customizeModal.style.display === 'block') {
+            if (isCustomizeOpen) {
                 customizeModal.style.display = 'none';
                 customizeModal.classList.remove('show');
+                isCustomizeOpen = false;
             } else {
                 customizeModal.style.display = 'block';
                 setTimeout(() => {
                     customizeModal.classList.add('show');
                 }, 5);
+                isCustomizeOpen = true;
             }
         });
     }
