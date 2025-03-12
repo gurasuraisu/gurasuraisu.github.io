@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 	
     // Update clock
-    setInterval(updatePersistentClock, 100);
+    setInterval(updatePersistentClock, 200);
 });
 
 let timeLeft = 0; 
@@ -170,7 +170,7 @@ function isDaytimeForHour(timeString) {
 }
 
 // Start an interval to update the title
-setInterval(updateTitle, 500);
+setInterval(updateTitle, 200);
 
 // Title weather conditions using emojis
         const weatherConditionsForTitle = {
