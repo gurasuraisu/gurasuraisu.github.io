@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         customizeModal.style.display = 'block';
         setTimeout(() => {
             customizeModal.classList.add('show');
-        }, 5);
+        }, 3);
     });
 	
     // Update clock
@@ -169,8 +169,8 @@ function isDaytimeForHour(timeString) {
     return hour >= 6 && hour <= 18;
 }
 
-// Start an interval to update the title every second
-setInterval(updateTitle, 1000);
+// Start an interval to update the title
+setInterval(updateTitle, 500);
 
 // Title weather conditions using emojis
         const weatherConditionsForTitle = {
