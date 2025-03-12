@@ -6,7 +6,7 @@ Gurasuriasu is made by kirbIndustries, and is licensed under the GNU General Pub
     console.info(license);
 }
     
-consoleGreeting()
+consoleLicense()
 
 function consoleLoaded() {
     const greeting = `
