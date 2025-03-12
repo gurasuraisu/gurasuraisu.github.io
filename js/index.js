@@ -170,7 +170,7 @@ function isDaytimeForHour(timeString) {
 }
 
 // Start an interval to update the title
-setInterval(updateTitle, 200);
+setInterval(updateTitle, 1000);
 
 // Title weather conditions using emojis
         const weatherConditionsForTitle = {
