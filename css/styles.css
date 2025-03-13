@@ -1308,8 +1308,8 @@ body.light-theme[style*="background-image"] .info {
             background: var(--search-background);
             backdrop-filter: blur(50px);
             border: 2px solid var(--transparent-color);
-            border-radius: 34px;
-            padding: 8px 9px;
+            border-radius: 36px;
+            padding: 8px 10px;
             display: flex;
             gap: 8px;
             left: 50%;
