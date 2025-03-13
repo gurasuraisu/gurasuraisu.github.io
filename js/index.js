@@ -3150,6 +3150,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tempOverlay.style.pointerEvents = 'none';
         tempOverlay.style.zIndex = '999997';
         tempOverlay.style.mixBlendMode = 'multiply';
+	tempOverlay.style.display = 'block !important';
         document.body.appendChild(tempOverlay);
     }
     
@@ -3283,6 +3284,7 @@ document.addEventListener('DOMContentLoaded', function() {
             pointer-events: none;
             z-index: 999998;
             mix-blend-mode: screen;
+	    display: block !important;
         }
     `;
     document.head.appendChild(style);
