@@ -763,6 +763,7 @@ body.light-theme[style*="background-image"] .info {
     pointer-events: none;
     z-index: 999999;
     transition: background-color 0.3s ease;
+    display: block !important;
 }
 
 /* Common control styles */
