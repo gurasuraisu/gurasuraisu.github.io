@@ -2792,21 +2792,16 @@ function addAppButton() {
     
     const addButton = document.createElement('div');
     addButton.id = 'add-app-button';
-    addButton.innerHTML = '+';
+    addButton.innerHTML = 'Add';
     addButton.style.position = 'absolute';
     addButton.style.left = '20px';
     addButton.style.top = 'calc(20px + (1.2rem + 16px)/2 - 2.5px)';
-    addButton.style.background = '#4285f4';
-    addButton.style.color = 'white';
-    addButton.style.width = '30px';
-    addButton.style.height = '30px';
-    addButton.style.borderRadius = '50%';
+    addButton.style.color = 'var(--text-color)';
     addButton.style.display = 'flex';
     addButton.style.justifyContent = 'center';
     addButton.style.alignItems = 'center';
-    addButton.style.fontSize = '24px';
+    addButton.style.fontSize = '1.2rem';
     addButton.style.cursor = 'pointer';
-    addButton.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
     
     addButton.addEventListener('click', showAddAppForm);
     
