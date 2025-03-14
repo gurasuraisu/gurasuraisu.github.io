@@ -155,6 +155,7 @@ body.light-theme[style*="background-image"] .info {
     background-color: var(--text-color);
     border-radius: 3px;
     opacity: 0.8;
+    max-width: 500px;
 }
 
 .persistent-clock {
