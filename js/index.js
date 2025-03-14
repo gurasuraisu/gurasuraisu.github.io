@@ -2647,13 +2647,7 @@ function closeFullscreenEmbed() {
 function populateDock() {
     dock.innerHTML = '';
     
-    // Create drawer opener as first icon
-    const drawerIcon = document.createElement('div');
-    drawerIcon.className = 'dock-icon drawer-opener';
-    
-    const drawerImg = document.createElement('img');
-    drawerImg.src = '/assets/appicon/appoff.png';
-    drawerImg.alt = 'Open Apps';
+    // Create drawer opener as first icon const drawerIcon = document.createElement('div'); drawerIcon.className = 'dock-icon drawer-opener'; const drawerImg = document.createElement('img'); drawerImg.src = '/assets/appicon/appoff.png'; drawerImg.alt = 'Open Apps';
     
     drawerIcon.appendChild(drawerImg);
     drawerIcon.addEventListener('click', () => {
