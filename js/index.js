@@ -2647,27 +2647,6 @@ function closeFullscreenEmbed() {
 function populateDock() {
     dock.innerHTML = '';
     
-    // Create drawer opener as first icon const drawerIcon = document.createElement('div'); drawerIcon.className = 'dock-icon drawer-opener'; const drawerImg = document.createElement('img'); drawerImg.src = '/assets/appicon/appoff.png'; drawerImg.alt = 'Open Apps';
-    
-    drawerIcon.appendChild(drawerImg);
-    drawerIcon.addEventListener('click', () => {
-        if (appDrawer.classList.contains('open')) {
-            appDrawer.style.transition = 'bottom 0.3s ease';
-            appDrawer.style.bottom = '-100%';
-            appDrawer.style.opacity = '0';
-            appDrawer.classList.remove('open');
-            initialDrawerPosition = -100;
-        } else {
-            appDrawer.style.transition = 'bottom 0.3s ease';
-            appDrawer.style.bottom = '0%';
-            appDrawer.style.opacity = '1';
-            appDrawer.classList.add('open');
-            initialDrawerPosition = 0;
-        }
-    });
-    
-    dock.appendChild(drawerIcon);
-    
     const sortedApps = Object.entries(apps)
         .map(([appName, appDetails]) => ({
             name: appName,
