@@ -2654,7 +2654,7 @@ function populateDock() {
             usage: appUsage[appName] || 0
         }))
         .sort((a, b) => b.usage - a.usage)
-        .slice(0, 5);
+        .slice(0, 6);
     
     sortedApps.forEach(({name, details}) => {
         const dockIcon = document.createElement('div');
