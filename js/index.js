@@ -2763,6 +2763,110 @@ function saveUsageData() {
     localStorage.setItem('appUsage', JSON.stringify(appUsage));
 }
 
+// Add the "Add App" button to the UI at the top left
+function addAppButton() {
+    const addButton = document.createElement('div');
+    addButton.id = 'add-app-button';
+    addButton.innerHTML = 'Add';
+    addButton.style.position = 'absolute';
+    addButton.style.left = '20px';
+    addButton.style.top = 'calc(20px + (1.2rem + 16px)/2 - 2.5px)';
+    addButton.style.background = '#4285f4';
+    addButton.style.color = 'white';
+    addButton.style.width = '30px';
+    addButton.style.height = '30px';
+    addButton.style.borderRadius = '50%';
+    addButton.style.display = 'flex';
+    addButton.style.justifyContent = 'center';
+    addButton.style.alignItems = 'center';
+    addButton.style.fontSize = '24px';
+    addButton.style.cursor = 'pointer';
+    addButton.style.zIndex = '1000';
+    addButton.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
+    
+    addButton.addEventListener('click', showAddAppForm);
+    document.body.appendChild(addButton);
+}
+
+// Function to show the add app form
+function showAddAppForm() {
+    const modal = document.createElement('div');
+    modal.id = 'add-app-modal';
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.backgroundColor = 'rgba(0,0,0,0.7)';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    modal.style.zIndex = '2000';
+    
+    const form = document.createElement('div');
+    form.style.backgroundColor = 'white';
+    form.style.padding = '20px';
+    form.style.borderRadius = '8px';
+    form.style.width = '80%';
+    form.style.maxWidth = '400px';
+    
+    form.innerHTML = `
+        <h3 style="margin-top: 0;">Add New App</h3>
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px;">App Name:</label>
+            <input type="text" id="app-name" style="width: 100%; padding: 8px; box-sizing: border-box;">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px;">Web URL:</label>
+            <input type="text" id="app-url" style="width: 100%; padding: 8px; box-sizing: border-box;">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label style="display: block; margin-bottom: 5px;">Icon URL:</label>
+            <input type="text" id="app-icon" style="width: 100%; padding: 8px; box-sizing: border-box;">
+            <small style="color: #666;">Enter a URL to an image or leave blank for default icon</small>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+            <button id="cancel-add-app" style="padding: 8px 15px; background: #ccc; border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
+            <button id="save-add-app" style="padding: 8px 15px; background: #4285f4; color: white; border: none; border-radius: 4px; cursor: pointer;">Add App</button>
+        </div>
+    `;
+    
+    modal.appendChild(form);
+    document.body.appendChild(modal);
+    
+    document.getElementById('cancel-add-app').addEventListener('click', () => {
+        document.body.removeChild(modal);
+    });
+    
+    document.getElementById('save-add-app').addEventListener('click', () => {
+        const appName = document.getElementById('app-name').value.trim();
+        const appUrl = document.getElementById('app-url').value.trim();
+        const appIcon = document.getElementById('app-icon').value.trim() || 'question.png';
+        
+        if (!appName || !appUrl) {
+            alert("App name and URL are required!");
+            return;
+        }
+        
+        // Add the new app to the apps object
+        apps[appName] = {
+            url: appUrl,
+            icon: appIcon.includes('/') ? 'question.png' : appIcon // If it's a full URL, use default icon
+        };
+        
+        // Save the updated apps
+        localStorage.setItem('apps', JSON.stringify(apps));
+        
+        // Update app icons
+        createAppIcons();
+        populateDock();
+        
+        // Close the modal
+        document.body.removeChild(modal);
+        showPopup(`${appName} added successfully!`);
+    });
+}
+
 function setupDrawerInteractions() {
     let startY = 0;
     let currentY = 0;
