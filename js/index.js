@@ -2691,25 +2691,20 @@ function createAppIcons() {
             usage: appUsage[appName] || 0
         }))
         .sort((a, b) => b.usage - a.usage);
-
     appsArray.forEach((app) => {
         const appIcon = document.createElement('div');
         appIcon.classList.add('app-icon');
         appIcon.dataset.app = app.name;
-
         const img = document.createElement('img');
         img.src = `/assets/appicon/${app.details.icon}`;
         img.alt = app.name;
         img.onerror = () => {
             img.src = '/assets/appicon/question.png';
         };
-
         const label = document.createElement('span');
         label.textContent = app.name;
-
         appIcon.appendChild(img);
         appIcon.appendChild(label);
-
         const handleAppOpen = (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -2741,11 +2736,13 @@ function createAppIcons() {
                 console.error(`App open error: ${error}`);
             }
         };
-
         appIcon.addEventListener('click', handleAppOpen);
         appIcon.addEventListener('touchend', handleAppOpen);
         appGrid.appendChild(appIcon);
     });
+    
+    // Add the button after creating app icons
+    addAppButton();
 }
 
 Object.keys(apps).forEach(appName => {
@@ -2763,11 +2760,17 @@ function saveUsageData() {
     localStorage.setItem('appUsage', JSON.stringify(appUsage));
 }
 
-// Add the "Add App" button to the UI at the top left
+// Add the "Add App" button to the app drawer
 function addAppButton() {
+    // Check if button already exists, remove if it does
+    const existingButton = document.getElementById('add-app-button');
+    if (existingButton) {
+        existingButton.remove();
+    }
+    
     const addButton = document.createElement('div');
     addButton.id = 'add-app-button';
-    addButton.innerHTML = 'Add';
+    addButton.innerHTML = '+';
     addButton.style.position = 'absolute';
     addButton.style.left = '20px';
     addButton.style.top = 'calc(20px + (1.2rem + 16px)/2 - 2.5px)';
@@ -2781,11 +2784,13 @@ function addAppButton() {
     addButton.style.alignItems = 'center';
     addButton.style.fontSize = '24px';
     addButton.style.cursor = 'pointer';
-    addButton.style.zIndex = '1000';
     addButton.style.boxShadow = '0 2px 5px rgba(0,0,0,0.2)';
     
     addButton.addEventListener('click', showAddAppForm);
-    document.body.appendChild(addButton);
+    
+    // Add to app drawer instead of body
+    const appDrawer = document.getElementById('app-drawer');
+    appDrawer.appendChild(addButton);
 }
 
 // Function to show the add app form
@@ -2801,7 +2806,6 @@ function showAddAppForm() {
     modal.style.display = 'flex';
     modal.style.justifyContent = 'center';
     modal.style.alignItems = 'center';
-    modal.style.zIndex = '2000';
     
     const form = document.createElement('div');
     form.style.backgroundColor = 'white';
