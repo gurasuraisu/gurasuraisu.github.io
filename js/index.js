@@ -2661,8 +2661,18 @@ function populateDock() {
         dockIcon.className = 'dock-icon';
         
         const img = document.createElement('img');
-        img.src = `/assets/appicon/${details.icon}`;
+        
+        // Handle external icon URLs properly
+        if (details.isExternalIcon) {
+            img.src = details.icon;
+        } else {
+            img.src = `/assets/appicon/${details.icon}`;
+        }
+        
         img.alt = name;
+        img.onerror = () => {
+            img.src = '/assets/appicon/question.png';
+        };
         
         dockIcon.appendChild(img);
         dockIcon.addEventListener('click', () => {
@@ -2691,20 +2701,31 @@ function createAppIcons() {
             usage: appUsage[appName] || 0
         }))
         .sort((a, b) => b.usage - a.usage);
+    
     appsArray.forEach((app) => {
         const appIcon = document.createElement('div');
         appIcon.classList.add('app-icon');
         appIcon.dataset.app = app.name;
+        
         const img = document.createElement('img');
-        img.src = `/assets/appicon/${app.details.icon}`;
+        
+        // Fix 4: Handle external icon URLs properly
+        if (app.details.isExternalIcon) {
+            img.src = app.details.icon;
+        } else {
+            img.src = `/assets/appicon/${app.details.icon}`;
+        }
+        
         img.alt = app.name;
         img.onerror = () => {
             img.src = '/assets/appicon/question.png';
         };
+        
         const label = document.createElement('span');
         label.textContent = app.name;
         appIcon.appendChild(img);
         appIcon.appendChild(label);
+        
         const handleAppOpen = (e) => {
             e.preventDefault();
             e.stopPropagation();
@@ -2736,6 +2757,7 @@ function createAppIcons() {
                 console.error(`App open error: ${error}`);
             }
         };
+        
         appIcon.addEventListener('click', handleAppOpen);
         appIcon.addEventListener('touchend', handleAppOpen);
         appGrid.appendChild(appIcon);
@@ -2793,82 +2815,117 @@ function addAppButton() {
     appDrawer.appendChild(addButton);
 }
 
-// Function to show the add app form
+// Function to show the add app form using existing modal CSS
 function showAddAppForm() {
+    // Create modal using existing CSS classes
     const modal = document.createElement('div');
     modal.id = 'add-app-modal';
-    modal.style.position = 'fixed';
-    modal.style.top = '0';
-    modal.style.left = '0';
-    modal.style.width = '100%';
-    modal.style.height = '100%';
-    modal.style.backgroundColor = 'rgba(0,0,0,0.7)';
-    modal.style.display = 'flex';
-    modal.style.justifyContent = 'center';
-    modal.style.alignItems = 'center';
+    modal.className = 'modal';
     
-    const form = document.createElement('div');
-    form.style.backgroundColor = 'white';
-    form.style.padding = '20px';
-    form.style.borderRadius = '8px';
-    form.style.width = '80%';
-    form.style.maxWidth = '400px';
+    const modalContent = document.createElement('div');
+    modalContent.className = 'modal-content';
     
-    form.innerHTML = `
-        <h3 style="margin-top: 0;">Add New App</h3>
+    const headerRow = document.createElement('div');
+    headerRow.className = 'header-row-modal';
+    
+    const title = document.createElement('h2');
+    title.textContent = 'Add New App';
+    
+    const closeButton = document.createElement('button');
+    closeButton.textContent = '×';
+    closeButton.style.background = 'none';
+    closeButton.style.border = 'none';
+    closeButton.style.fontSize = '24px';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.color = 'var(--text-color)';
+    
+    headerRow.appendChild(title);
+    headerRow.appendChild(closeButton);
+    
+    modalContent.innerHTML = `
         <div style="margin-bottom: 15px;">
             <label style="display: block; margin-bottom: 5px;">App Name:</label>
-            <input type="text" id="app-name" style="width: 100%; padding: 8px; box-sizing: border-box;">
+            <input type="text" id="app-name" style="width: 100%; padding: 8px; box-sizing: border-box; background: var(--search-background); color: var(--text-color); border: none; border-radius: 8px;">
         </div>
         <div style="margin-bottom: 15px;">
             <label style="display: block; margin-bottom: 5px;">Web URL:</label>
-            <input type="text" id="app-url" style="width: 100%; padding: 8px; box-sizing: border-box;">
+            <input type="text" id="app-url" style="width: 100%; padding: 8px; box-sizing: border-box; background: var(--search-background); color: var(--text-color); border: none; border-radius: 8px;">
         </div>
         <div style="margin-bottom: 15px;">
             <label style="display: block; margin-bottom: 5px;">Icon URL:</label>
-            <input type="text" id="app-icon" style="width: 100%; padding: 8px; box-sizing: border-box;">
-            <small style="color: #666;">Enter a URL to an image or leave blank for default icon</small>
+            <input type="text" id="app-icon" style="width: 100%; padding: 8px; box-sizing: border-box; background: var(--search-background); color: var(--text-color); border: none; border-radius: 8px;">
+            <small style="color: var(--text-color); opacity: 0.7;">Enter a URL to an image or leave blank for default icon</small>
         </div>
-        <div style="display: flex; justify-content: space-between;">
-            <button id="cancel-add-app" style="padding: 8px 15px; background: #ccc; border: none; border-radius: 4px; cursor: pointer;">Cancel</button>
-            <button id="save-add-app" style="padding: 8px 15px; background: #4285f4; color: white; border: none; border-radius: 4px; cursor: pointer;">Add App</button>
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+            <button id="cancel-add-app" style="padding: 8px 15px; background: var(--search-background); color: var(--text-color); border: none; border-radius: 8px; cursor: pointer;">Cancel</button>
+            <button id="save-add-app" style="padding: 8px 15px; background: #4285f4; color: white; border: none; border-radius: 8px; cursor: pointer;">Add App</button>
         </div>
     `;
     
-    modal.appendChild(form);
+    modalContent.insertBefore(headerRow, modalContent.firstChild);
+    modal.appendChild(modalContent);
     document.body.appendChild(modal);
     
-    document.getElementById('cancel-add-app').addEventListener('click', () => {
-        document.body.removeChild(modal);
-    });
+    // Show modal with animation
+    setTimeout(() => {
+        modal.style.display = 'block';
+        setTimeout(() => {
+            modal.classList.add('show');
+        }, 10);
+    }, 10);
+    
+    const closeModal = () => {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(modal);
+        }, 300); // Match the transition time in CSS
+    };
+    
+    closeButton.addEventListener('click', closeModal);
+    document.getElementById('cancel-add-app').addEventListener('click', closeModal);
     
     document.getElementById('save-add-app').addEventListener('click', () => {
         const appName = document.getElementById('app-name').value.trim();
         const appUrl = document.getElementById('app-url').value.trim();
-        const appIcon = document.getElementById('app-icon').value.trim() || 'question.png';
+        let appIcon = document.getElementById('app-icon').value.trim() || 'question.png';
         
         if (!appName || !appUrl) {
             alert("App name and URL are required!");
             return;
         }
         
+        // Fix 1: Properly handle external URLs for icons
+        // Store the full URL in the icon field if it's an external URL
+        const isFullUrl = appIcon.startsWith('http://') || appIcon.startsWith('https://');
+        
         // Add the new app to the apps object
         apps[appName] = {
             url: appUrl,
-            icon: appIcon.includes('/') ? 'question.png' : appIcon // If it's a full URL, use default icon
+            icon: appIcon,
+            isExternalIcon: isFullUrl
         };
         
-        // Save the updated apps
-        localStorage.setItem('apps', JSON.stringify(apps));
+        // Fix 2: Make sure apps persist after refresh by properly saving to localStorage
+        localStorage.setItem('userApps', JSON.stringify(apps));
         
         // Update app icons
         createAppIcons();
         populateDock();
         
         // Close the modal
-        document.body.removeChild(modal);
+        closeModal();
         showPopup(`${appName} added successfully!`);
     });
+}
+
+// Fix 3: Load apps from localStorage on page load
+function loadApps() {
+    const savedApps = localStorage.getItem('userApps');
+    if (savedApps) {
+        const userApps = JSON.parse(savedApps);
+        // Merge user apps with default apps
+        apps = {...apps, ...userApps};
+    }
 }
 
 function setupDrawerInteractions() {
@@ -3208,7 +3265,8 @@ window.addEventListener('offline', () => {
 // Call applyWallpaper on page load
 document.addEventListener('DOMContentLoaded', () => {
     applyWallpaper();
-	loadRecentWallpapers();
+    loadRecentWallpapers();
+    loadApps();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
