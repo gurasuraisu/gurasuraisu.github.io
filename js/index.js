@@ -3121,7 +3121,7 @@ document.addEventListener('DOMContentLoaded', function() {
         tempOverlay.style.width = '100%';
         tempOverlay.style.height = '100%';
         tempOverlay.style.pointerEvents = 'none';
-        tempOverlay.style.zIndex = '999997';
+        tempOverlay.style.zIndex = '9999997';
         tempOverlay.style.mixBlendMode = 'multiply';
 	tempOverlay.style.display = 'block !important';
         document.body.appendChild(tempOverlay);
