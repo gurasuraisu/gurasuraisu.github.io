@@ -2766,16 +2766,17 @@ function saveUsageData() {
 function setupDrawerInteractions() {
     let startY = 0;
     let currentY = 0;
-    let startTime = 0;
     let initialDrawerPosition = -100;
     let isDragging = false;
     let isDrawerInMotion = false;
-    const flickVelocityThreshold = 0.4; // This is already defined but not used
-    const dockThreshold = -25;
+    let dragStartTime = 0;
+    let lastY = 0;
+    let velocities = [];
+    const flickVelocityThreshold = 0.4;
+    const dockThreshold = -25; // Threshold for dock appearance
     const openThreshold = -50;
     const drawerPill = document.querySelector('.drawer-pill');
     const drawerHandle = document.querySelector('.drawer-handle');
-    const drawerContent = document.querySelector('.app-drawer-content'); // Add this line to get the content
     
     // Create dock element
     const dock = document.createElement('div');
@@ -2784,22 +2785,34 @@ function setupDrawerInteractions() {
     document.body.appendChild(dock);
     
     populateDock();
-    
-    // Initially hide the drawer content
-    drawerContent.style.opacity = '0';
-    drawerContent.style.visibility = 'hidden';
 
     function startDrag(yPosition) {
         startY = yPosition;
+        lastY = yPosition;
         currentY = yPosition;
-        startTime = Date.now(); // Record the start time for flick calculation
         isDragging = true;
         isDrawerInMotion = true;
+        dragStartTime = Date.now();
+        velocities = [];
         appDrawer.style.transition = 'none';
     }
 
     function moveDrawer(yPosition) {
         if (!isDragging) return;
+        
+        // Calculate and store velocity data
+        const now = Date.now();
+        const deltaTime = now - dragStartTime;
+        if (deltaTime > 0) {
+            const velocity = (lastY - yPosition) / deltaTime;
+            velocities.push(velocity);
+            // Keep only the last 5 velocity measurements
+            if (velocities.length > 5) {
+                velocities.shift();
+            }
+        }
+        lastY = yPosition;
+        
         currentY = yPosition;
         const deltaY = startY - currentY;
         const windowHeight = window.innerHeight;
@@ -2813,6 +2826,9 @@ function setupDrawerInteractions() {
             openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
             openEmbed.style.transform = `scale(${1 - (movementPercentage - 25) / 100})`;
             openEmbed.style.opacity = 1 - ((movementPercentage - 25) / 75);
+            
+            // Make app drawer transparent when in an app
+            appDrawer.style.opacity = '0';
         }
         
         // Show dock and hide drawer-pill
@@ -2825,38 +2841,40 @@ function setupDrawerInteractions() {
         }
     
         const newPosition = Math.max(-100, Math.min(0, initialDrawerPosition + movementPercentage));
-        const opacity = (newPosition + 100) / 100;
-        appDrawer.style.opacity = opacity;
-        appDrawer.style.bottom = `${newPosition}%`;
         
-        // Show drawer content only when fully opened
-        if (newPosition >= -10) { // Considering almost fully open
-            drawerContent.style.opacity = '1';
-            drawerContent.style.visibility = 'visible';
-        } else {
-            drawerContent.style.opacity = '0';
-            drawerContent.style.visibility = 'hidden';
+        // Only update opacity if no embed is open
+        if (!openEmbed) {
+            const opacity = (newPosition + 100) / 100;
+            appDrawer.style.opacity = opacity;
         }
+        
+        appDrawer.style.bottom = `${newPosition}%`;
     }
 
     function endDrag() {
         if (!isDragging) return;
     
         const deltaY = startY - currentY;
-        const deltaTime = Date.now() - startTime; // Calculate time elapsed
-        const velocity = deltaY / deltaTime; // Calculate velocity
+        const deltaTime = Date.now() - dragStartTime;
+        
+        // Calculate average velocity from the stored values
+        let avgVelocity = 0;
+        if (velocities.length > 0) {
+            avgVelocity = velocities.reduce((sum, v) => sum + v, 0) / velocities.length;
+        }
+        
         const windowHeight = window.innerHeight;
         const movementPercentage = (deltaY / windowHeight) * 100;
-        
+    
         appDrawer.style.transition = 'bottom 0.3s ease, opacity 0.3s ease';
-        
+
         // Check if there's an open embed
         const openEmbed = document.querySelector('.fullscreen-embed');
         
-        // Handle flick gesture
-        const isFlick = Math.abs(velocity) > flickVelocityThreshold;
+        // Handle flick gesture to close app
+        const isFlickUp = avgVelocity > flickVelocityThreshold;
         
-        if (openEmbed && (movementPercentage > 50 || (isFlick && deltaY > 0))) {
+        if (openEmbed && (movementPercentage > 50 || isFlickUp)) {
             // Close embed with animation
             openEmbed.style.transform = 'scale(0.8)';
             openEmbed.style.opacity = '0';
@@ -2877,82 +2895,55 @@ function setupDrawerInteractions() {
             appDrawer.style.opacity = '0';
             appDrawer.classList.remove('open');
             initialDrawerPosition = -100;
-            drawerContent.style.opacity = '0';
-            drawerContent.style.visibility = 'hidden';
         } else if (openEmbed) {
             // Reset embed if swipe wasn't enough
             openEmbed.style.transform = 'scale(1)';
             openEmbed.style.opacity = '1';
             
+            // Keep app drawer transparent when in an app
+            appDrawer.style.opacity = '0';
+            
             // Handle dock visibility for smaller swipes
             if (movementPercentage > 10 && movementPercentage <= 25) {
+                dock.classList.add('show');
+                appDrawer.style.bottom = '-100%';
+                appDrawer.classList.remove('open');
+                initialDrawerPosition = -100;
+            } else {
+                dock.classList.remove('show');
+                appDrawer.style.bottom = '-100%';
+                appDrawer.classList.remove('open');
+                initialDrawerPosition = -100;
+            }
+        } else {
+            // Normal drawer behavior when no embed is open
+            // Consider both movement percentage and velocity for flick gestures
+            const isSignificantSwipe = movementPercentage > 25 || isFlickUp;
+            const isSmallSwipe = movementPercentage > 10 && movementPercentage <= 25;
+            
+            // Small swipe - show dock
+            if (isSmallSwipe && !isFlickUp) {
                 dock.classList.add('show');
                 appDrawer.style.bottom = '-100%';
                 appDrawer.style.opacity = '0';
                 appDrawer.classList.remove('open');
                 initialDrawerPosition = -100;
-                drawerContent.style.opacity = '0';
-                drawerContent.style.visibility = 'hidden';
-            } else {
+            } 
+            // Large swipe or flick up - show full drawer
+            else if (isSignificantSwipe) {
+                dock.classList.remove('show');
+                appDrawer.style.bottom = '0%';
+                appDrawer.style.opacity = '1';
+                appDrawer.classList.add('open');
+                initialDrawerPosition = 0;
+            } 
+            // Close everything
+            else {
                 dock.classList.remove('show');
                 appDrawer.style.bottom = '-100%';
                 appDrawer.style.opacity = '0';
                 appDrawer.classList.remove('open');
                 initialDrawerPosition = -100;
-                drawerContent.style.opacity = '0';
-                drawerContent.style.visibility = 'hidden';
-            }
-        } else {
-            // Normal drawer behavior when no embed is open
-            if (isFlick) {
-                if (deltaY > 0) { // Flick up
-                    dock.classList.remove('show');
-                    appDrawer.style.bottom = '0%';
-                    appDrawer.style.opacity = '1';
-                    appDrawer.classList.add('open');
-                    initialDrawerPosition = 0;
-                    drawerContent.style.opacity = '1';
-                    drawerContent.style.visibility = 'visible';
-                } else { // Flick down
-                    dock.classList.remove('show');
-                    appDrawer.style.bottom = '-100%';
-                    appDrawer.style.opacity = '0';
-                    appDrawer.classList.remove('open');
-                    initialDrawerPosition = -100;
-                    drawerContent.style.opacity = '0';
-                    drawerContent.style.visibility = 'hidden';
-                }
-            } else {
-                // Small swipe - show dock
-                if (movementPercentage > 10 && movementPercentage <= 25) {
-                    dock.classList.add('show');
-                    appDrawer.style.bottom = '-100%';
-                    appDrawer.style.opacity = '0';
-                    appDrawer.classList.remove('open');
-                    initialDrawerPosition = -100;
-                    drawerContent.style.opacity = '0';
-                    drawerContent.style.visibility = 'hidden';
-                } 
-                // Large swipe - show full drawer
-                else if (movementPercentage > 25) {
-                    dock.classList.remove('show');
-                    appDrawer.style.bottom = '0%';
-                    appDrawer.style.opacity = '1';
-                    appDrawer.classList.add('open');
-                    initialDrawerPosition = 0;
-                    drawerContent.style.opacity = '1';
-                    drawerContent.style.visibility = 'visible';
-                } 
-                // Close everything
-                else {
-                    dock.classList.remove('show');
-                    appDrawer.style.bottom = '-100%';
-                    appDrawer.style.opacity = '0';
-                    appDrawer.classList.remove('open');
-                    initialDrawerPosition = -100;
-                    drawerContent.style.opacity = '0';
-                    drawerContent.style.visibility = 'hidden';
-                }
             }
         }
     
@@ -3016,8 +3007,6 @@ function setupDrawerInteractions() {
             appDrawer.style.bottom = '-100%';
             appDrawer.classList.remove('open');
             initialDrawerPosition = -100;
-            drawerContent.style.opacity = '0';
-            drawerContent.style.visibility = 'hidden';
         }
     });
 
@@ -3030,6 +3019,29 @@ function setupDrawerInteractions() {
             drawerPill.style.opacity = '1'; // Restore drawer-pill opacity when dock is hidden
         }
     });
+    
+    // Make app drawer transparent when an app is open
+    function updateDrawerOpacityForApps() {
+        const openEmbed = document.querySelector('.fullscreen-embed');
+        if (openEmbed) {
+            appDrawer.style.opacity = '0';
+        } else if (appDrawer.classList.contains('open')) {
+            appDrawer.style.opacity = '1';
+        }
+    }
+    
+    // Monitor for opened apps
+    const bodyObserver = new MutationObserver(() => {
+        updateDrawerOpacityForApps();
+    });
+    
+    bodyObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+    
+    // Initial check
+    updateDrawerOpacityForApps();
 }
 
 const appDrawerObserver = new MutationObserver((mutations) => {
