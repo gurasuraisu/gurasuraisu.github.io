@@ -2785,6 +2785,19 @@ function setupDrawerInteractions() {
     document.body.appendChild(dock);
     
     populateDock();
+    
+    // Create transparent overlay for app swipe detection
+    const swipeOverlay = document.createElement('div');
+    swipeOverlay.id = 'swipe-overlay';
+    swipeOverlay.style.position = 'fixed';
+    swipeOverlay.style.bottom = '0';
+    swipeOverlay.style.left = '0';
+    swipeOverlay.style.width = '100%';
+    swipeOverlay.style.height = '15%'; // Bottom 15% of screen for swipe detection
+    swipeOverlay.style.zIndex = '1000';
+    swipeOverlay.style.display = 'none';
+    swipeOverlay.style.pointerEvents = 'none'; // Start with no interaction
+    document.body.appendChild(swipeOverlay);
 
     function startDrag(yPosition) {
         startY = yPosition;
@@ -2888,6 +2901,10 @@ function setupDrawerInteractions() {
                 });
                 // Explicitly ensure customizeModal is hidden
                 document.getElementById('customizeModal').style.display = 'none';
+                
+                // Hide the swipe overlay
+                swipeOverlay.style.display = 'none';
+                swipeOverlay.style.pointerEvents = 'none';
             }, 300);
             // Reset drawer state
             dock.classList.remove('show');
@@ -2945,6 +2962,10 @@ function setupDrawerInteractions() {
                 appDrawer.classList.remove('open');
                 initialDrawerPosition = -100;
             }
+            
+            // Hide the swipe overlay when not in an app
+            swipeOverlay.style.display = 'none';
+            swipeOverlay.style.pointerEvents = 'none';
         }
     
         isDragging = false;
@@ -2954,7 +2975,77 @@ function setupDrawerInteractions() {
         }, 300); // 300ms matches the transition duration in the CSS
     }
 
-    // Touch Events
+    // Add initial swipe detection in app
+    function setupAppSwipeDetection() {
+        let touchStartY = 0;
+        let touchStartTime = 0;
+        let isInSwipeMode = false;
+        
+        swipeOverlay.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+            touchStartTime = Date.now();
+        }, { passive: true });
+        
+        swipeOverlay.addEventListener('touchmove', (e) => {
+            const currentY = e.touches[0].clientY;
+            const deltaY = touchStartY - currentY;
+            
+            if (deltaY > 20 && !isInSwipeMode) { // Detected upward swipe
+                isInSwipeMode = true;
+                startDrag(touchStartY);
+                // Capture all further events
+                swipeOverlay.style.pointerEvents = 'auto';
+            }
+            
+            if (isInSwipeMode) {
+                moveDrawer(currentY);
+                e.preventDefault(); // Prevent default scrolling when in swipe mode
+            }
+        }, { passive: false });
+        
+        swipeOverlay.addEventListener('touchend', () => {
+            if (isInSwipeMode) {
+                endDrag();
+                isInSwipeMode = false;
+            }
+            // Return to passive mode
+            swipeOverlay.style.pointerEvents = 'none';
+        });
+        
+        // Similar handling for mouse events
+        swipeOverlay.addEventListener('mousedown', (e) => {
+            touchStartY = e.clientY;
+            touchStartTime = Date.now();
+        });
+        
+        swipeOverlay.addEventListener('mousemove', (e) => {
+            if (e.buttons !== 1) return; // Only proceed if left mouse button is pressed
+            
+            const deltaY = touchStartY - e.clientY;
+            
+            if (deltaY > 20 && !isInSwipeMode) {
+                isInSwipeMode = true;
+                startDrag(touchStartY);
+                swipeOverlay.style.pointerEvents = 'auto';
+            }
+            
+            if (isInSwipeMode) {
+                moveDrawer(e.clientY);
+            }
+        });
+        
+        swipeOverlay.addEventListener('mouseup', () => {
+            if (isInSwipeMode) {
+                endDrag();
+                isInSwipeMode = false;
+            }
+            swipeOverlay.style.pointerEvents = 'none';
+        });
+    }
+    
+    setupAppSwipeDetection();
+
+    // Touch Events for regular drawer interaction
     document.addEventListener('touchstart', (e) => {
         const touch = e.touches[0];
         const element = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -2977,7 +3068,7 @@ function setupDrawerInteractions() {
         endDrag();
     });
 
-    // Mouse Events
+    // Mouse Events for regular drawer interaction
     document.addEventListener('mousedown', (e) => {
         if (e.button !== 0) return;
         const element = document.elementFromPoint(e.clientX, e.clientY);
@@ -3025,8 +3116,18 @@ function setupDrawerInteractions() {
         const openEmbed = document.querySelector('.fullscreen-embed');
         if (openEmbed) {
             appDrawer.style.opacity = '0';
-        } else if (appDrawer.classList.contains('open')) {
-            appDrawer.style.opacity = '1';
+            
+            // Show the swipe overlay when an app is open
+            swipeOverlay.style.display = 'block';
+        } else {
+            // Only update opacity if drawer is open
+            if (appDrawer.classList.contains('open')) {
+                appDrawer.style.opacity = '1';
+            }
+            
+            // Hide the swipe overlay when no app is open
+            swipeOverlay.style.display = 'none';
+            swipeOverlay.style.pointerEvents = 'none';
         }
     }
     
