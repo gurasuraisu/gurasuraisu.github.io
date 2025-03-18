@@ -1386,6 +1386,31 @@ body.light-theme[style*="background-image"] .info {
             height: 100%;
             border: none;
         }
+    
+        #gesture-overlay {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        
+        /* Ensure drawer handle is above apps */
+        .drawer-handle, .drawer-pill {
+            position: relative;
+            z-index: 1001;
+        }
+        
+        /* When app drawer is transparent, make handle visible */
+        .fullscreen-embed ~ .app-drawer .drawer-handle {
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .fullscreen-embed ~ .app-drawer .drawer-pill {
+            background-color: rgba(255, 255, 255, 0.7);
+        }
 
         @media (max-width: 800px) {
             .clock {
