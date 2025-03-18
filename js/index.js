@@ -2775,7 +2775,7 @@ function setupDrawerInteractions() {
     const openThreshold = -50;
     const drawerPill = document.querySelector('.drawer-pill');
     const drawerHandle = document.querySelector('.drawer-handle');
-    const drawerContent = document.querySelector('.drawer-content'); // Add this line to get the content
+    const drawerContent = document.querySelector('.app-drawer-content'); // Add this line to get the content
     
     // Create dock element
     const dock = document.createElement('div');
