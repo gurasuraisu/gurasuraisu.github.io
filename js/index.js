@@ -2769,8 +2769,9 @@ function setupDrawerInteractions() {
     let initialDrawerPosition = -100;
     let isDragging = false;
     let isDrawerInMotion = false;
-    const flickVelocityThreshold = 0.4;
-    const dockThreshold = -25; // Threshold for dock appearance
+    let dragStartTime = 0;
+    const flickVelocityThreshold = 0.4; // Now this will be used
+    const dockThreshold = -25;
     const openThreshold = -50;
     const drawerPill = document.querySelector('.drawer-pill');
     const drawerHandle = document.querySelector('.drawer-handle');
@@ -2781,6 +2782,14 @@ function setupDrawerInteractions() {
     dock.className = 'dock';
     document.body.appendChild(dock);
     
+    // Create invisible app-closing drawer
+    const appCloseDrawer = document.createElement('div');
+    appCloseDrawer.id = 'app-close-drawer';
+    appCloseDrawer.className = 'app-drawer';
+    appCloseDrawer.style.background = 'transparent';
+    appCloseDrawer.style.pointerEvents = 'none';
+    document.body.appendChild(appCloseDrawer);
+    
     populateDock();
 
     function startDrag(yPosition) {
@@ -2788,7 +2797,14 @@ function setupDrawerInteractions() {
         currentY = yPosition;
         isDragging = true;
         isDrawerInMotion = true;
+        dragStartTime = Date.now();
         appDrawer.style.transition = 'none';
+        
+        // If there's an open embed, make the appCloseDrawer active
+        const openEmbed = document.querySelector('.fullscreen-embed');
+        if (openEmbed) {
+            appCloseDrawer.style.pointerEvents = 'auto';
+        }
     }
 
     function moveDrawer(yPosition) {
@@ -2827,8 +2843,8 @@ function setupDrawerInteractions() {
         if (!isDragging) return;
     
         const deltaY = startY - currentY;
-        const deltaTime = 100;
-        const velocity = deltaY / deltaTime;
+        const deltaTime = Date.now() - dragStartTime;
+        const velocity = deltaY / deltaTime; // Pixels per millisecond
         const windowHeight = window.innerHeight;
         const movementPercentage = (deltaY / windowHeight) * 100;
     
@@ -2837,7 +2853,8 @@ function setupDrawerInteractions() {
         // Check if there's an open embed
         const openEmbed = document.querySelector('.fullscreen-embed');
         
-        if (openEmbed && movementPercentage > 50) {
+        // Close app with flick detection
+        if (openEmbed && (velocity > flickVelocityThreshold || movementPercentage > 50)) {
             // Close embed with animation
             openEmbed.style.transform = 'scale(0.8)';
             openEmbed.style.opacity = '0';
@@ -2879,8 +2896,17 @@ function setupDrawerInteractions() {
             }
         } else {
             // Normal drawer behavior when no embed is open
+            // Handle flick gesture
+            if (velocity > flickVelocityThreshold && movementPercentage > 10) {
+                // Fast flick - show full drawer
+                dock.classList.remove('show');
+                appDrawer.style.bottom = '0%';
+                appDrawer.style.opacity = '1';
+                appDrawer.classList.add('open');
+                initialDrawerPosition = 0;
+            }
             // Small swipe - show dock
-            if (movementPercentage > 10 && movementPercentage <= 25) {
+            else if (movementPercentage > 10 && movementPercentage <= 25) {
                 dock.classList.add('show');
                 appDrawer.style.bottom = '-100%';
                 appDrawer.style.opacity = '0';
@@ -2906,6 +2932,9 @@ function setupDrawerInteractions() {
         }
     
         isDragging = false;
+        
+        // Disable pointer events on appCloseDrawer when not needed
+        appCloseDrawer.style.pointerEvents = 'none';
     
         setTimeout(() => {
             isDrawerInMotion = false;
@@ -2917,8 +2946,13 @@ function setupDrawerInteractions() {
         const touch = e.touches[0];
         const element = document.elementFromPoint(touch.clientX, touch.clientY);
         
+        const openEmbed = document.querySelector('.fullscreen-embed');
+        
         // Check if touch is on handle area or if drawer is already open
-        if (drawerHandle.contains(element) || (appDrawer.classList.contains('open') && appDrawer.contains(element))) {
+        // or if we have an open embed and are starting a drag from the bottom of the screen
+        if (drawerHandle.contains(element) || 
+            (appDrawer.classList.contains('open') && appDrawer.contains(element)) ||
+            (openEmbed && touch.clientY > window.innerHeight * 0.8)) {
             startDrag(touch.clientY);
             e.preventDefault();
         }
@@ -2940,8 +2974,13 @@ function setupDrawerInteractions() {
         if (e.button !== 0) return;
         const element = document.elementFromPoint(e.clientX, e.clientY);
         
+        const openEmbed = document.querySelector('.fullscreen-embed');
+        
         // Check if click is on handle area or if drawer is already open
-        if (drawerHandle.contains(element) || (appDrawer.classList.contains('open') && appDrawer.contains(element))) {
+        // or if we have an open embed and are starting a drag from the bottom of the screen
+        if (drawerHandle.contains(element) || 
+            (appDrawer.classList.contains('open') && appDrawer.contains(element)) ||
+            (openEmbed && e.clientY > window.innerHeight * 0.8)) {
             startDrag(e.clientY);
         }
     });
