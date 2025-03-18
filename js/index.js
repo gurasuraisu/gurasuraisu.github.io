@@ -2739,7 +2739,7 @@ function createAppIcons() {
             } catch (error) {
                 showPopup(`Failed to open ${app.name}`);
                 console.error(`App open error: ${error}`);
-            }
+            }ccccccccccccc
         };
 
         appIcon.addEventListener('click', handleAppOpen);
@@ -2785,6 +2785,20 @@ function setupDrawerInteractions() {
     document.body.appendChild(dock);
     
     populateDock();
+    
+    // Create a transparent overlay for capturing gestures when an app is open
+    const gestureOverlay = document.createElement('div');
+    gestureOverlay.id = 'gesture-overlay';
+    gestureOverlay.style.cssText = `
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 100px;
+        z-index: 1000;
+        pointer-events: none;
+    `;
+    document.body.appendChild(gestureOverlay);
 
     function startDrag(yPosition) {
         startY = yPosition;
@@ -2795,6 +2809,10 @@ function setupDrawerInteractions() {
         dragStartTime = Date.now();
         velocities = [];
         appDrawer.style.transition = 'none';
+        
+        // When dragging starts, make the overlay capture all events
+        gestureOverlay.style.pointerEvents = 'auto';
+        gestureOverlay.style.height = '100%';
     }
 
     function moveDrawer(yPosition) {
@@ -2948,13 +2966,81 @@ function setupDrawerInteractions() {
         }
     
         isDragging = false;
+        
+        // Reset the gesture overlay
+        gestureOverlay.style.pointerEvents = 'none';
+        gestureOverlay.style.height = '100px';
     
         setTimeout(() => {
             isDrawerInMotion = false;
         }, 300); // 300ms matches the transition duration in the CSS
     }
 
-    // Touch Events
+    // Make drawer handle visible over apps
+    function ensureDrawerHandleVisibility() {
+        const openEmbed = document.querySelector('.fullscreen-embed');
+        if (openEmbed) {
+            // Make sure drawer handle is on top of the app
+            drawerHandle.style.zIndex = '1001';
+            drawerPill.style.zIndex = '1001';
+            
+            // Make sure gesture overlay is on top too
+            gestureOverlay.style.zIndex = '1000';
+        } else {
+            // Reset z-index when no app is open
+            drawerHandle.style.zIndex = '';
+            drawerPill.style.zIndex = '';
+        }
+    }
+
+    // Monitor for opened apps
+    const bodyObserver = new MutationObserver(() => {
+        ensureDrawerHandleVisibility();
+        updateDrawerOpacityForApps();
+    });
+    
+    bodyObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+    
+    // Initial check
+    ensureDrawerHandleVisibility();
+
+    // Gesture overlay events
+    gestureOverlay.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        startDrag(touch.clientY);
+        e.preventDefault();
+    }, { passive: false });
+
+    gestureOverlay.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+            e.preventDefault();
+            moveDrawer(e.touches[0].clientY);
+        }
+    }, { passive: false });
+
+    gestureOverlay.addEventListener('touchend', () => {
+        endDrag();
+    });
+
+    gestureOverlay.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        startDrag(e.clientY);
+    });
+
+    gestureOverlay.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            moveDrawer(e.clientY);
+        }
+    });
+
+    gestureOverlay.addEventListener('mouseup', () => {
+        endDrag();
+    });
+
+    // Original touch events
     document.addEventListener('touchstart', (e) => {
         const touch = e.touches[0];
         const element = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -3030,16 +3116,6 @@ function setupDrawerInteractions() {
         }
     }
     
-    // Monitor for opened apps
-    const bodyObserver = new MutationObserver(() => {
-        updateDrawerOpacityForApps();
-    });
-    
-    bodyObserver.observe(document.body, {
-        childList: true,
-        subtree: true
-    });
-    
     // Initial check
     updateDrawerOpacityForApps();
 }
@@ -3047,7 +3123,7 @@ function setupDrawerInteractions() {
 const appDrawerObserver = new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
         if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-            
+            // Additional class-related logic can go here if needed
         }
     });
 });
