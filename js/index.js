@@ -1550,7 +1550,6 @@ searchInput.addEventListener('keydown', (event) => {
 });
 
 
-
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize control states
     const storedLightMode = localStorage.getItem('theme') || 'dark';
@@ -1743,6 +1742,7 @@ const uploadButton = document.getElementById('uploadButton');
 const SLIDESHOW_INTERVAL = 600000; // 10 minutes in milliseconds
 const gurappsSwitch = document.getElementById("gurapps-switch");
 const contrastSwitch = document.getElementById('contrast-switch');
+const animationSwitch = document.getElementById('animation-switch');
 let gurappsEnabled = localStorage.getItem("gurappsEnabled") !== "false";
 let slideshowInterval = null;
 let currentWallpaperIndex = 0;
@@ -1769,6 +1769,22 @@ contrastSwitch.addEventListener('change', function() {
     const highContrast = this.checked;
     localStorage.setItem('highContrast', highContrast);
     document.body.classList.toggle('high-contrast', highContrast);
+});
+
+// Load saved preference (default to true/on if not set)
+const animationsEnabled = localStorage.getItem('animationsEnabled') !== 'false';
+animationSwitch.checked = animationsEnabled;
+
+// Apply initial state
+if (!animationsEnabled) {
+    document.body.classList.add('reduce-animations');
+}
+
+// Event listener for animation toggle
+animationSwitch.addEventListener('change', function() {
+    const enableAnimations = this.checked;
+    localStorage.setItem('animationsEnabled', enableAnimations);
+    document.body.classList.toggle('reduce-animations', !enableAnimations);
 });
 
 // Function to handle Gurapps visibility
