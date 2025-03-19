@@ -1549,6 +1549,8 @@ searchInput.addEventListener('keydown', (event) => {
     }
 });
 
+
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize control states
     const storedLightMode = localStorage.getItem('theme') || 'dark';
@@ -1740,6 +1742,7 @@ const wallpaperInput = document.getElementById('wallpaperInput');
 const uploadButton = document.getElementById('uploadButton');
 const SLIDESHOW_INTERVAL = 600000; // 10 minutes in milliseconds
 const gurappsSwitch = document.getElementById("gurapps-switch");
+const contrastSwitch = document.getElementById('contrast-switch');
 let gurappsEnabled = localStorage.getItem("gurappsEnabled") !== "false";
 let slideshowInterval = null;
 let currentWallpaperIndex = 0;
@@ -1751,6 +1754,18 @@ function setupThemeSwitcher() {
     const currentTheme = localStorage.getItem('theme') || 'dark';
     document.body.classList.toggle('light-theme', currentTheme === 'light');
 }
+
+// Load saved preference
+const highContrastEnabled = localStorage.getItem('highContrast') === 'true';
+contrastSwitch.checked = highContrastEnabled;
+document.body.classList.toggle('high-contrast', highContrastEnabled);
+
+// Event listener for contrast toggle
+contrastSwitch.addEventListener('change', function() {
+    const highContrast = this.checked;
+    localStorage.setItem('highContrast', highContrast);
+    document.body.classList.toggle('high-contrast', highContrast);
+});
 
 // Function to handle Gurapps visibility
 function updateGurappsVisibility() {
