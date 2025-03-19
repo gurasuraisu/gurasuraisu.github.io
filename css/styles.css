@@ -38,7 +38,7 @@
     --modal-transparent-dark-highcontrast: #333333;
     --search-background-dark-highcontrast: #333333;
     --dark-overlay-highcontrast: #333333;
-    --dark-transparent-highcontrast: #ffffff;
+    --dark-transparent-highcontrast: #000000;
     
     /* High Contrast Light Theme Variables */
     --background-color-light-highcontrast: #f0f0f0;
