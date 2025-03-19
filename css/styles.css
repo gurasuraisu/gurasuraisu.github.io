@@ -160,6 +160,38 @@ body.light-theme[style*="background-image"] .info {
   'GRAD' 0,
   'opsz' 24
 }
+ 
+/* When animations are disabled */
+.reduce-animations * {
+    /* Override all animations with a simple crossfade */
+    animation: none !important;
+    transition: opacity 0.3s ease !important;
+    
+    /* Stop any existing animations */
+    -webkit-animation: none !important;
+    -moz-animation: none !important;
+    -o-animation: none !important;
+    -ms-animation: none !important;
+    animation: none !important;
+    
+    /* Remove any transforms */
+    -webkit-transform: none !important;
+    -moz-transform: none !important;
+    -o-transform: none !important;
+    -ms-transform: none !important;
+    transform: none !important;
+    
+    /* Disable transitions except opacity */
+    transition-property: opacity !important;
+    -webkit-transition-property: opacity !important;
+    -moz-transition-property: opacity !important;
+    -o-transition-property: opacity !important;
+}
+
+/* Retain hover effects for accessibility but only with opacity */
+.reduce-animations *:hover {
+    transition: opacity 0.3s ease !important;
+}
 
 .drawer-handle {
     position: absolute;
