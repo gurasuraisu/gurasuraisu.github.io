@@ -1040,16 +1040,7 @@ body.light-theme[style*="background-image"] .info {
             display: none;
         }
 
-.weather-settings, .clock-settings, .theme-toggle, .contrast-settings {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background-color: var(--search-background);
-    backdrop-filter: blur(20px);
-}
-
-.gurapps-optional, .minimal-mode, .font-selection, .wallpaper-upload {
+.gurapps-optional, .minimal-mode, .font-selection, .wallpaper-upload, .weather-settings, .clock-settings, .theme-toggle, .contrast-settings, .animation-settings {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1069,7 +1060,7 @@ body.light-theme[style*="background-image"] .info {
     border-radius: 20px;
 }
 
-#theme-switch, #seconds-switch, #weather-switch, #minimal-switch, #gurapps-switch, #contrast-switch {
+#theme-switch, #seconds-switch, #weather-switch, #minimal-switch, #gurapps-switch, #contrast-switch, #animation-switch {
     appearance: none;
     width: 50px;
     height: 32px;
@@ -1082,7 +1073,7 @@ body.light-theme[style*="background-image"] .info {
 
 #theme-switch::before, #seconds-switch::before, 
 #weather-switch::before, #minimal-switch::before, 
-#gurapps-switch::before, #contrast-switch::before {
+#gurapps-switch::before, #contrast-switch::before, #animation-switch::before {
     content: '';
     position: absolute;
     width: 24px;
@@ -1096,13 +1087,13 @@ body.light-theme[style*="background-image"] .info {
 
 #theme-switch:checked, #seconds-switch:checked, 
 #weather-switch:checked, #minimal-switch:checked, 
-#gurapps-switch:checked, #contrast-switch:checked {
+#gurapps-switch:checked, #contrast-switch:checked, #animation-switch:checked {
     background-color: var(--secondary-text-color);
 }
 
 #theme-switch:checked::before, #seconds-switch:checked::before, 
 #weather-switch:checked::before, #minimal-switch:checked::before, 
-#gurapps-switch:checked::before, #contrast-switch:checked::before {
+#gurapps-switch:checked::before, #contrast-switch:checked::before, #animation-switch:checked::before {
     transform: translateX(18px);
     background-color: var(--background-color);
 }
