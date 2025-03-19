@@ -1758,13 +1758,22 @@ function setupThemeSwitcher() {
 // Load saved preference
 const highContrastEnabled = localStorage.getItem('highContrast') === 'true';
 contrastSwitch.checked = highContrastEnabled;
-document.body.classList.toggle('high-contrast', highContrastEnabled);
+
+// Apply high contrast if enabled
+if (highContrastEnabled) {
+    document.body.classList.add('high-contrast');
+}
 
 // Event listener for contrast toggle
 contrastSwitch.addEventListener('change', function() {
     const highContrast = this.checked;
     localStorage.setItem('highContrast', highContrast);
-    document.body.classList.toggle('high-contrast', highContrast);
+    
+    if (highContrast) {
+        document.body.classList.add('high-contrast');
+    } else {
+        document.body.classList.remove('high-contrast');
+    }
 });
 
 // Function to handle Gurapps visibility
