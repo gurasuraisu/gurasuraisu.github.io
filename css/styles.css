@@ -163,34 +163,39 @@ body.light-theme[style*="background-image"] .info {
  
 /* When animations are disabled */
 .reduce-animations * {
-    /* Override all animations with a simple crossfade */
-    animation: none !important;
+    /* Override animations but preserve layout */
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+    
+    /* Replace all transitions with only opacity transition */
     transition: opacity 0.3s ease !important;
     
-    /* Stop any existing animations */
-    -webkit-animation: none !important;
-    -moz-animation: none !important;
-    -o-animation: none !important;
-    -ms-animation: none !important;
-    animation: none !important;
-    
-    /* Remove any transforms */
-    -webkit-transform: none !important;
-    -moz-transform: none !important;
-    -o-transform: none !important;
-    -ms-transform: none !important;
-    transform: none !important;
-    
-    /* Disable transitions except opacity */
+    /* Preserve transforms that might be needed for layout */
     transition-property: opacity !important;
-    -webkit-transition-property: opacity !important;
-    -moz-transition-property: opacity !important;
-    -o-transition-property: opacity !important;
 }
 
-/* Retain hover effects for accessibility but only with opacity */
-.reduce-animations *:hover {
+/* Special handling for clickable elements */
+.reduce-animations [onclick],
+.reduce-animations button,
+.reduce-animations a,
+.reduce-animations input[type="button"],
+.reduce-animations input[type="submit"],
+.reduce-animations .clickable {
+    /* Keep initial state but remove transition */
+    transform: scale(1) !important;
     transition: opacity 0.3s ease !important;
+}
+
+/* Keep active state functional but without animation */
+.reduce-animations [onclick]:active,
+.reduce-animations button:active,
+.reduce-animations a:active,
+.reduce-animations input[type="button"]:active,
+.reduce-animations input[type="submit"]:active,
+.reduce-animations .clickable:active {
+    /* Apply scale instantly without transition */
+    transform: scale(0.98) !important;
+    transition: none !important;
 }
 
 .drawer-handle {
