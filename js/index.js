@@ -1759,7 +1759,7 @@ function setupThemeSwitcher() {
 const highContrastEnabled = localStorage.getItem('highContrast') === 'true';
 contrastSwitch.checked = highContrastEnabled;
 
-// Apply high contrast if enabled
+// Apply high contrast if enabled (initial state)
 if (highContrastEnabled) {
     document.body.classList.add('high-contrast');
 }
@@ -1768,12 +1768,7 @@ if (highContrastEnabled) {
 contrastSwitch.addEventListener('change', function() {
     const highContrast = this.checked;
     localStorage.setItem('highContrast', highContrast);
-    
-    if (highContrast) {
-        document.body.classList.add('high-contrast');
-    } else {
-        document.body.classList.remove('high-contrast');
-    }
+    document.body.classList.toggle('high-contrast', highContrast);
 });
 
 // Function to handle Gurapps visibility
