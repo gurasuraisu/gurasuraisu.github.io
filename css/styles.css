@@ -75,9 +75,8 @@ body.light-theme {
     --transparent-color: var(--light-transparent);
 }
 
-.high-contrast.dark-theme {
-    --background-color: var(--background-color-dark-highcontrast);
-    --text-color: var(--text-color-dark-highcontrast);
+/* For dark theme (default) with high contrast */
+body.high-contrast:not(.light-theme) {
     --secondary-text-color: var(--secondary-text-color-dark-highcontrast);
     --modal-background: var(--modal-background-dark-highcontrast);
     --modal-transparent: var(--modal-transparent-dark-highcontrast);
@@ -86,9 +85,8 @@ body.light-theme {
     --transparent-color: var(--dark-transparent-highcontrast);
 }
 
-.high-contrast.light-theme {
-    --background-color: var(--background-color-light-highcontrast);
-    --text-color: var(--text-color-light-highcontrast);
+/* For light theme with high contrast */
+body.high-contrast.light-theme {
     --secondary-text-color: var(--secondary-text-color-light-highcontrast);
     --modal-background: var(--modal-background-light-highcontrast);
     --modal-transparent: var(--modal-transparent-light-highcontrast);
