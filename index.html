@@ -101,13 +101,6 @@
             </label>
             <input type="checkbox" id="seconds-switch" checked>
         </div>
-        <div class="contrast-settings control-middle">
-            <label for="seconds-switch" class="cust-label">
-                <span class="material-symbols-rounded">filter_b_and_w</span>
-                High Contrast
-            </label>
-            <input type="checkbox" id="contrast-switch">
-        </div>
         <div class="animation-settings control-middle">
             <label for="seconds-switch" class="cust-label">
                 <span class="material-symbols-rounded">animation</span>
@@ -115,7 +108,22 @@
             </label>
             <input type="checkbox" id="animation-switch" checked>
         </div>
-        <div class="font-selection control-middle">
+        <div class="contrast-settings control-middle">
+            <label for="seconds-switch" class="cust-label">
+                <span class="material-symbols-rounded">filter_b_and_w</span>
+                Contrast
+            </label>
+            <input type="checkbox" id="contrast-switch">
+        </div>
+        <div class="wallpaper-upload control-middle">
+            <label class="cust-label">
+                <span class="material-symbols-rounded">filter_vintage</span>
+                Wallpaper
+            </label>
+            <input type="file" id="wallpaperInput" accept=".png, .jpeg, .jpg, .webp, .gif, .mp4" multiple>
+            <button id="uploadButton">Add</button>
+        </div>
+        <div class="font-selection control-last">
             <label for="font-select" class="cust-label">
                 <span class="material-symbols-rounded">custom_typography</span>
                 Style
@@ -133,14 +141,6 @@
                 <option value="Doto">Dot</option>
                 <option value="Nunito">Round</option>
             </select>
-        </div>
-        <div class="wallpaper-upload control-last">
-            <label class="cust-label">
-                <span class="material-symbols-rounded">filter_vintage</span>
-                Wallpaper
-            </label>
-            <input type="file" id="wallpaperInput" accept=".png, .jpeg, .jpg, .webp, .gif, .mp4" multiple>
-            <button id="uploadButton">Add</button>
         </div>
         <div class="version-info">
             <label class="cust-label">
