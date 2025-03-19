@@ -30,6 +30,26 @@
     --light-overlay: rgba(220, 220, 220, 0.2);
     --light-transparent: rgba(255, 255, 255, 0.1); 
     
+    /* High Contrast Dark Theme Variables */
+    --background-color-dark-highcontrast: #1c1c1c;
+    --text-color-dark-highcontrast: #f9f9f9;
+    --secondary-text-color-dark-highcontrast: #b3b3b3;
+    --modal-background-dark-highcontrast: #333333;
+    --modal-transparent-dark-highcontrast: #333333;
+    --search-background-dark-highcontrast: #333333;
+    --dark-overlay-highcontrast: #333333;
+    --dark-transparent-highcontrast: #ffffff;
+    
+    /* High Contrast Light Theme Variables */
+    --background-color-light-highcontrast: #f0f0f0;
+    --text-color-light-highcontrast: #333333;
+    --secondary-text-color-light-highcontrast: #4d4d4d;
+    --modal-background-light-highcontrast: #dcdcdc;
+    --modal-transparent-light-highcontrast: #f0f0f0;
+    --search-background-light-highcontrast: #dcdcdc;
+    --light-overlay-highcontrast: #dcdcdc;
+    --light-transparent-highcontrast: #ffffff;
+    
     /* Base Variables */
     --base-font-size: clamp(16px, 2vw + 1rem, 24px);
     
@@ -53,6 +73,28 @@ body.light-theme {
     --search-background: var(--search-background-light);
     --overlay-color: var(--light-overlay);
     --transparent-color: var(--light-transparent);
+}
+
+.high-contrast.dark-theme {
+    --background-color: var(--background-color-dark-highcontrast);
+    --text-color: var(--text-color-dark-highcontrast);
+    --secondary-text-color: var(--secondary-text-color-dark-highcontrast);
+    --modal-background: var(--modal-background-dark-highcontrast);
+    --modal-transparent: var(--modal-transparent-dark-highcontrast);
+    --search-background: var(--search-background-dark-highcontrast);
+    --overlay-color: var(--dark-overlay-highcontrast);
+    --transparent-color: var(--dark-transparent-highcontrast);
+}
+
+.high-contrast.light-theme {
+    --background-color: var(--background-color-light-highcontrast);
+    --text-color: var(--text-color-light-highcontrast);
+    --secondary-text-color: var(--secondary-text-color-light-highcontrast);
+    --modal-background: var(--modal-background-light-highcontrast);
+    --modal-transparent: var(--modal-transparent-light-highcontrast);
+    --search-background: var(--search-background-light-highcontrast);
+    --overlay-color: var(--light-overlay-highcontrast);
+    --transparent-color: var(--light-transparent-highcontrast);
 }
 
 /* For all clickable elements */
