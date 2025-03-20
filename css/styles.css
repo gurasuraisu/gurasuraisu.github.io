@@ -215,7 +215,6 @@ body.light-theme[style*="background-image"] .info {
     z-index: 9997;
     touch-action: none;
     user-select: none;
-    -webkit-tap-highlight-color: transparent;
     transform: scale(1);
     transition: transform 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
 }
