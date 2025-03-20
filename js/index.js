@@ -2665,6 +2665,10 @@ function createFullscreenEmbed(url) {
         embedContainer.style.opacity = '1';
         embedContainer.style.display = 'block';
         
+        // IMPORTANT FIX: Restore proper z-index and pointer events
+        embedContainer.style.pointerEvents = 'auto';
+        embedContainer.style.zIndex = '1001'; // Higher than interaction-blocker (999)
+        
         // Force reflow to apply the immediate style changes
         void embedContainer.offsetWidth;
         
@@ -2684,6 +2688,13 @@ function createFullscreenEmbed(url) {
             swipeOverlay.style.display = 'block';
         }
         
+        // IMPORTANT FIX: Make sure interaction blocker doesn't block embed
+        const interactionBlocker = document.getElementById('interaction-blocker');
+        if (interactionBlocker) {
+            interactionBlocker.style.pointerEvents = 'none';
+            interactionBlocker.style.display = 'none';
+        }
+        
         return;
     }
     
@@ -2700,6 +2711,9 @@ function createFullscreenEmbed(url) {
     embedContainer.style.display = 'block'; // Ensure it's visible
     embedContainer.style.transform = 'scale(1)';
     embedContainer.style.opacity = '1';
+    // IMPORTANT FIX: Set proper z-index and pointer events
+    embedContainer.style.pointerEvents = 'auto';
+    embedContainer.style.zIndex = '1001'; // Higher than interaction-blocker (999)
     embedContainer.appendChild(iframe);
     
     // Store the URL as a data attribute
@@ -2749,6 +2763,13 @@ function createFullscreenEmbed(url) {
     if (swipeOverlay) {
         swipeOverlay.style.display = 'block';
     }
+    
+    // IMPORTANT FIX: Make sure interaction blocker doesn't block embed
+    const interactionBlocker = document.getElementById('interaction-blocker');
+    if (interactionBlocker) {
+        interactionBlocker.style.pointerEvents = 'none';
+        interactionBlocker.style.display = 'none';
+    }
 }
 
 function minimizeFullscreenEmbed() {
@@ -2763,9 +2784,10 @@ function minimizeFullscreenEmbed() {
             // After animation completes, actually hide it completely
             embedContainer.style.display = 'none';
             
-            // Make sure it doesn't block interactions
+            // IMPORTANT FIX: Use a different z-index approach when minimized
+            // Don't use negative z-index as it can cause issues
             embedContainer.style.pointerEvents = 'none';
-            embedContainer.style.zIndex = '-1';
+            embedContainer.style.zIndex = '0'; // Use 0 instead of -1
         }
     }
     
@@ -2783,7 +2805,7 @@ function minimizeFullscreenEmbed() {
     // Hide all fullscreen embeds that are not being displayed
     document.querySelectorAll('.fullscreen-embed:not([style*="display: block"])').forEach(embed => {
         embed.style.pointerEvents = 'none';
-        embed.style.zIndex = '-1';
+        embed.style.zIndex = '0'; // IMPORTANT FIX: Use 0 instead of -1
     });
     
     // Hide the swipe overlay when minimizing
@@ -2792,37 +2814,12 @@ function minimizeFullscreenEmbed() {
         swipeOverlay.style.display = 'none';
         swipeOverlay.style.pointerEvents = 'none';
     }
-}
-
-function closeFullscreenEmbed() {
-    const embedContainer = document.querySelector('.fullscreen-embed');
-    if (embedContainer) {
-        // Also remove from minimized embeds if present
-        const url = embedContainer.dataset.embedUrl;
-        if (url && minimizedEmbeds[url]) {
-            delete minimizedEmbeds[url];
-        }
-        
-        // Actually remove it when explicitly closing
-        embedContainer.remove();
-    }
     
-    // Restore previously hidden elements
-    document.querySelectorAll('body > *').forEach(el => {
-        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay')) {
-            if (el.id === 'customizeModal') {
-                el.style.display = 'none'; // Explicitly set customizeModal to none
-            } else {
-                el.style.display = '';
-            }
-        }
-    });
-    
-    // Hide the swipe overlay when closing
-    const swipeOverlay = document.getElementById('swipe-overlay');
-    if (swipeOverlay) {
-        swipeOverlay.style.display = 'none';
-        swipeOverlay.style.pointerEvents = 'none';
+    // IMPORTANT FIX: Reset interaction blocker to default state
+    const interactionBlocker = document.getElementById('interaction-blocker');
+    if (interactionBlocker) {
+        interactionBlocker.style.pointerEvents = 'auto';
+        // Let other code control its display property
     }
 }
 
