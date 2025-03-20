@@ -2615,6 +2615,7 @@ function createFullscreenEmbed(url) {
     // Create a container for the iframe
     const embedContainer = document.createElement('div');
     embedContainer.className = 'fullscreen-embed';
+    embedContainer.style.display = 'block'; // Ensure it's visible
     embedContainer.appendChild(iframe);
     
     // Flag to track embedding status
@@ -2631,15 +2632,13 @@ function createFullscreenEmbed(url) {
                 iframeContent.body.textContent.includes('frame denied')) {
                 embedFailed = true;
                 window.open(url, '_blank');
-                embedContainer.remove();
-                closeFullscreenEmbed();
+                // Don't remove the container or close the embed
             }
         } catch (error) {
             // If accessing content fails, it might be blocked
             embedFailed = true;
             window.open(url, '_blank');
-            embedContainer.remove();
-            closeFullscreenEmbed();
+            // Don't remove the container or close the embed
         }
     });
     
@@ -2647,8 +2646,7 @@ function createFullscreenEmbed(url) {
     iframe.addEventListener('error', () => {
         embedFailed = true;
         window.open(url, '_blank');
-        embedContainer.remove();
-        closeFullscreenEmbed();
+        // Don't remove the container or close the embed
     });
     
     // Hide all elements
@@ -2660,11 +2658,29 @@ function createFullscreenEmbed(url) {
     document.body.appendChild(embedContainer);
 }
 
-function closeFullscreenEmbed() {
-    // Remove the fullscreen embed container
+function minimizeFullscreenEmbed() {
+    // Instead of removing the embed, just hide it
     const embedContainer = document.querySelector('.fullscreen-embed');
     if (embedContainer) {
-        embedContainer.remove();
+        embedContainer.style.display = 'none'; // Hide instead of remove
+    }
+    
+    // Restore previously hidden elements
+    document.querySelectorAll('body > *').forEach(el => {
+        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay')) {
+            if (el.id === 'customizeModal') {
+                el.style.display = 'none'; // Explicitly set customizeModal to none
+            } else {
+                el.style.display = '';
+            }
+        }
+    });
+}
+
+function closeFullscreenEmbed() {
+    const embedContainer = document.querySelector('.fullscreen-embed');
+    if (embedContainer) {
+        embedContainer.remove(); // Actually remove it when explicitly closing
     }
     
     // Restore previously hidden elements
@@ -2882,9 +2898,11 @@ function setupDrawerInteractions() {
         // Show dock and hide drawer-pill
         if (movementPercentage > 10 && movementPercentage < 25) {
             dock.classList.add('show');
+            dock.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.1)'; // Enable box shadow when visible
             drawerPill.style.opacity = '0';
         } else {
             dock.classList.remove('show');
+            dock.style.boxShadow = 'none'; // Disable box shadow when not visible
             drawerPill.style.opacity = '1';
         }
     
@@ -2927,7 +2945,7 @@ function setupDrawerInteractions() {
             openEmbed.style.transform = 'scale(0.8)';
             openEmbed.style.opacity = '0';
             setTimeout(() => {
-                closeFullscreenEmbed();
+                minimizeFullscreenEmbed();
                 // Show all elements again
                 document.querySelectorAll('body > *').forEach(el => {
                     if (el.style.display === 'none') {
@@ -2943,6 +2961,7 @@ function setupDrawerInteractions() {
             }, 300);
             // Reset drawer state
             dock.classList.remove('show');
+            dock.style.boxShadow = 'none'; // Disable box shadow when hiding
             appDrawer.style.bottom = '-100%';
             appDrawer.style.opacity = '0';
             appDrawer.classList.remove('open');
@@ -2958,11 +2977,13 @@ function setupDrawerInteractions() {
             // Handle dock visibility for smaller swipes
             if (movementPercentage > 10 && movementPercentage <= 25) {
                 dock.classList.add('show');
+                dock.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.1)'; // Enable box shadow when visible
                 appDrawer.style.bottom = '-100%';
                 appDrawer.classList.remove('open');
                 initialDrawerPosition = -100;
             } else {
                 dock.classList.remove('show');
+                dock.style.boxShadow = 'none'; // Disable box shadow when not visible
                 appDrawer.style.bottom = '-100%';
                 appDrawer.classList.remove('open');
                 initialDrawerPosition = -100;
@@ -2976,6 +2997,7 @@ function setupDrawerInteractions() {
             // Small swipe - show dock
             if (isSmallSwipe && !isFlickUp) {
                 dock.classList.add('show');
+                dock.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.1)'; // Enable box shadow when visible
                 appDrawer.style.bottom = '-100%';
                 appDrawer.style.opacity = '0';
                 appDrawer.classList.remove('open');
@@ -2984,6 +3006,7 @@ function setupDrawerInteractions() {
             // Large swipe or flick up - show full drawer
             else if (isSignificantSwipe) {
                 dock.classList.remove('show');
+                dock.style.boxShadow = 'none'; // Disable box shadow when not visible
                 appDrawer.style.bottom = '0%';
                 appDrawer.style.opacity = '1';
                 appDrawer.classList.add('open');
@@ -2992,6 +3015,7 @@ function setupDrawerInteractions() {
             // Close everything
             else {
                 dock.classList.remove('show');
+                dock.style.boxShadow = 'none'; // Disable box shadow when not visible
                 appDrawer.style.bottom = '-100%';
                 appDrawer.style.opacity = '0';
                 appDrawer.classList.remove('open');
@@ -3142,6 +3166,7 @@ function setupDrawerInteractions() {
             !drawerHandle.contains(e.target) && 
             !appDrawer.classList.contains('open')) { // Only hide dock if drawer is closed
             dock.classList.remove('show');
+            dock.style.boxShadow = 'none'; // Disable box shadow when hiding dock
             drawerPill.style.opacity = '1'; // Restore drawer-pill opacity when dock is hidden
         }
     });
@@ -3178,6 +3203,9 @@ function setupDrawerInteractions() {
     
     // Initial check
     updateDrawerOpacityForApps();
+    
+    // Ensure box shadow is disabled initially
+    dock.style.boxShadow = 'none';
 }
 
 const appDrawerObserver = new MutationObserver((mutations) => {
