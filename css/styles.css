@@ -95,6 +95,10 @@ body.high-contrast.light-theme {
     --transparent-color: var(--light-transparent-highcontrast);
 }
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* For all clickable elements */
 [onclick], 
 button, 
