@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             weatherModal.classList.contains('show') || 
             customizeModal.classList.contains('show') ||
             (appDrawer && appDrawer.classList.contains('open')) ||
-            document.querySelector('.fullscreen-embed');
+            document.querySelector('.fullscreen-embed[style*="display: block"]'); // Only count visible embeds
             
         if (isModalOpen) {
             const now = new Date();
@@ -88,16 +88,62 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Make sure we re-attach the click event listener
     persistentClock.addEventListener('click', () => {
-        customizeModal.style.display = 'block';
-        setTimeout(() => {
-            customizeModal.classList.add('show');
-	    blurOverlayControls.classList.add('show');
-	    blurOverlayControls.style.display = 'block';
-        }, 5);
+        // Check if there's a visible embed open before showing customize modal
+        const visibleEmbed = document.querySelector('.fullscreen-embed[style*="display: block"]');
+        if (!visibleEmbed) {
+            customizeModal.style.display = 'block';
+            setTimeout(() => {
+                customizeModal.classList.add('show');
+                blurOverlayControls.classList.add('show');
+                blurOverlayControls.style.display = 'block';
+            }, 5);
+        }
     });
-	
+    
+    // Setup observer to watch for embed visibility changes to update clock immediately
+    const embedObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'style' && 
+                (mutation.target.classList.contains('fullscreen-embed') || 
+                 mutation.target.matches('#app-drawer'))) {
+                updatePersistentClock();
+            }
+        });
+    });
+    
+    // Observe fullscreen-embed style changes
+    document.querySelectorAll('.fullscreen-embed').forEach(embed => {
+        embedObserver.observe(embed, { attributes: true });
+    });
+    
+    // Also observe app drawer for open/close state changes
+    if (appDrawer) {
+        embedObserver.observe(appDrawer, { attributes: true });
+    }
+    
+    // Watch for new embed elements being added
+    const bodyObserver = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === 1 && // Element node
+                        node.classList && 
+                        node.classList.contains('fullscreen-embed')) {
+                        embedObserver.observe(node, { attributes: true });
+                        updatePersistentClock();
+                    }
+                });
+            }
+        });
+    });
+    
+    bodyObserver.observe(document.body, { childList: true, subtree: true });
+    
     // Update clock
     setInterval(updatePersistentClock, 500);
+    
+    // Initial update
+    updatePersistentClock();
 });
 
 let timeLeft = 0; 
