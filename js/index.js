@@ -2632,6 +2632,12 @@ function createFullscreenEmbed(url) {
             }
         });
         
+        // Show the swipe overlay when restoring an app
+        const swipeOverlay = document.getElementById('swipe-overlay');
+        if (swipeOverlay) {
+            swipeOverlay.style.display = 'block';
+        }
+        
         return;
     }
     
@@ -2691,25 +2697,29 @@ function createFullscreenEmbed(url) {
     
     // Append the container
     document.body.appendChild(embedContainer);
+    
+    // Show the swipe overlay when opening an app
+    const swipeOverlay = document.getElementById('swipe-overlay');
+    if (swipeOverlay) {
+        swipeOverlay.style.display = 'block';
+    }
 }
 
 function minimizeFullscreenEmbed() {
-    const embedContainer = document.querySelector('.fullscreen-embed');
+    const embedContainer = document.querySelector('.fullscreen-embed[style*="display: block"]');
     if (embedContainer) {
         // Get the URL before hiding it
         const url = embedContainer.dataset.embedUrl;
         if (url) {
-            // Wait for the animation to complete before storing
-            // The animation is already happening in endDrag
-            
             // Store the embed in our minimized embeds object
             minimizedEmbeds[url] = embedContainer;
             
             // After animation completes, actually hide it completely
             embedContainer.style.display = 'none';
             
-            // Reset the transform and opacity for next time it's shown
-            // We'll reset these when the embed is restored
+            // Make sure it doesn't block interactions
+            embedContainer.style.pointerEvents = 'none';
+            embedContainer.style.zIndex = '-1';
         }
     }
     
@@ -2723,6 +2733,19 @@ function minimizeFullscreenEmbed() {
             }
         }
     });
+    
+    // Hide all fullscreen embeds that are not being displayed
+    document.querySelectorAll('.fullscreen-embed:not([style*="display: block"])').forEach(embed => {
+        embed.style.pointerEvents = 'none';
+        embed.style.zIndex = '-1';
+    });
+    
+    // Hide the swipe overlay when minimizing
+    const swipeOverlay = document.getElementById('swipe-overlay');
+    if (swipeOverlay) {
+        swipeOverlay.style.display = 'none';
+        swipeOverlay.style.pointerEvents = 'none';
+    }
 }
 
 function closeFullscreenEmbed() {
@@ -2748,6 +2771,13 @@ function closeFullscreenEmbed() {
             }
         }
     });
+    
+    // Hide the swipe overlay when closing
+    const swipeOverlay = document.getElementById('swipe-overlay');
+    if (swipeOverlay) {
+        swipeOverlay.style.display = 'none';
+        swipeOverlay.style.pointerEvents = 'none';
+    }
 }
 
 function populateDock() {
@@ -3010,7 +3040,7 @@ function setupDrawerInteractions() {
         appDrawer.style.transition = 'bottom 0.3s ease, opacity 0.3s ease';
 
         // Check if there's an open embed
-        const openEmbed = document.querySelector('.fullscreen-embed');
+        const openEmbed = document.querySelector('.fullscreen-embed[style*="display: block"]');
         
         // Handle flick gesture to close app
         const isFlickUp = avgVelocity > flickVelocityThreshold;
@@ -3250,7 +3280,7 @@ function setupDrawerInteractions() {
     
     // Make app drawer transparent when an app is open
     function updateDrawerOpacityForApps() {
-        const openEmbed = document.querySelector('.fullscreen-embed');
+        const openEmbed = document.querySelector('.fullscreen-embed[style*="display: block"]');
         if (openEmbed) {
             appDrawer.style.opacity = '0';
             
