@@ -2610,8 +2610,20 @@ let minimizedEmbeds = {}; // Object to store minimized embeds by URL
 function createFullscreenEmbed(url) {
     // Check if we have this URL minimized already
     if (minimizedEmbeds[url]) {
-        // Restore the minimized embed instead of creating a new one
-        minimizedEmbeds[url].style.display = 'block';
+        // Restore the minimized embed
+        const embedContainer = minimizedEmbeds[url];
+        
+        // Reset the animation properties first
+        embedContainer.style.transition = 'none';
+        embedContainer.style.transform = 'scale(1)';
+        embedContainer.style.opacity = '1';
+        embedContainer.style.display = 'block';
+        
+        // Force reflow to apply the immediate style changes
+        void embedContainer.offsetWidth;
+        
+        // Restore normal transitions for future animations
+        embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
         
         // Hide all elements as when creating a new embed
         document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
@@ -2619,6 +2631,7 @@ function createFullscreenEmbed(url) {
                 el.style.display = 'none';
             }
         });
+        
         return;
     }
     
@@ -2631,7 +2644,10 @@ function createFullscreenEmbed(url) {
     // Create a container for the iframe
     const embedContainer = document.createElement('div');
     embedContainer.className = 'fullscreen-embed';
+    embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
     embedContainer.style.display = 'block'; // Ensure it's visible
+    embedContainer.style.transform = 'scale(1)';
+    embedContainer.style.opacity = '1';
     embedContainer.appendChild(iframe);
     
     // Store the URL as a data attribute
@@ -2680,14 +2696,21 @@ function createFullscreenEmbed(url) {
 function minimizeFullscreenEmbed() {
     const embedContainer = document.querySelector('.fullscreen-embed');
     if (embedContainer) {
-        // Store the embed in our minimized embeds object
+        // Get the URL before hiding it
         const url = embedContainer.dataset.embedUrl;
         if (url) {
+            // Wait for the animation to complete before storing
+            // The animation is already happening in endDrag
+            
+            // Store the embed in our minimized embeds object
             minimizedEmbeds[url] = embedContainer;
+            
+            // After animation completes, actually hide it completely
+            embedContainer.style.display = 'none';
+            
+            // Reset the transform and opacity for next time it's shown
+            // We'll reset these when the embed is restored
         }
-        
-        // Hide it completely (display:none)
-        embedContainer.style.display = 'none';
     }
     
     // Restore previously hidden elements
@@ -2994,23 +3017,18 @@ function setupDrawerInteractions() {
         
         if (openEmbed && (movementPercentage > 50 || isFlickUp)) {
             // Close embed with animation
+            openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
             openEmbed.style.transform = 'scale(0.8)';
             openEmbed.style.opacity = '0';
+            
             setTimeout(() => {
                 minimizeFullscreenEmbed();
-                // Show all elements again
-                document.querySelectorAll('body > *').forEach(el => {
-                    if (el.style.display === 'none') {
-                        el.style.display = '';
-                    }
-                });
-                // Explicitly ensure customizeModal is hidden
-                document.getElementById('customizeModal').style.display = 'none';
                 
                 // Hide the swipe overlay
                 swipeOverlay.style.display = 'none';
                 swipeOverlay.style.pointerEvents = 'none';
             }, 300);
+            
             // Reset drawer state
             dock.classList.remove('show');
             dock.style.boxShadow = 'none'; // Disable box shadow when hiding
