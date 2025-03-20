@@ -2773,7 +2773,10 @@ function createFullscreenEmbed(url) {
 }
 
 function minimizeFullscreenEmbed() {
+    // IMPORTANT FIX: Be more specific about which embed to minimize
+    // Only get embeds that are currently visible with display: block
     const embedContainer = document.querySelector('.fullscreen-embed[style*="display: block"]');
+    
     if (embedContainer) {
         // Get the URL before hiding it
         const url = embedContainer.dataset.embedUrl;
@@ -2784,10 +2787,9 @@ function minimizeFullscreenEmbed() {
             // After animation completes, actually hide it completely
             embedContainer.style.display = 'none';
             
-            // IMPORTANT FIX: Use a different z-index approach when minimized
-            // Don't use negative z-index as it can cause issues
+            // Use a different z-index approach when minimized
             embedContainer.style.pointerEvents = 'none';
-            embedContainer.style.zIndex = '0'; // Use 0 instead of -1
+            embedContainer.style.zIndex = '0';
         }
     }
     
@@ -2805,7 +2807,7 @@ function minimizeFullscreenEmbed() {
     // Hide all fullscreen embeds that are not being displayed
     document.querySelectorAll('.fullscreen-embed:not([style*="display: block"])').forEach(embed => {
         embed.style.pointerEvents = 'none';
-        embed.style.zIndex = '0'; // IMPORTANT FIX: Use 0 instead of -1
+        embed.style.zIndex = '0';
     });
     
     // Hide the swipe overlay when minimizing
@@ -2815,11 +2817,10 @@ function minimizeFullscreenEmbed() {
         swipeOverlay.style.pointerEvents = 'none';
     }
     
-    // IMPORTANT FIX: Reset interaction blocker to default state
+    // Reset interaction blocker to default state
     const interactionBlocker = document.getElementById('interaction-blocker');
     if (interactionBlocker) {
         interactionBlocker.style.pointerEvents = 'auto';
-        // Let other code control its display property
     }
 }
 
@@ -3086,8 +3087,8 @@ function setupDrawerInteractions() {
         const movementPercentage = (deltaY / windowHeight) * 100;
     
         appDrawer.style.transition = 'bottom 0.3s ease, opacity 0.3s ease';
-
-        // Check if there's an open embed
+    
+        // IMPORTANT FIX: Be specific about which embed is open
         const openEmbed = document.querySelector('.fullscreen-embed[style*="display: block"]');
         
         // Handle flick gesture to close app
@@ -3109,7 +3110,7 @@ function setupDrawerInteractions() {
             
             // Reset drawer state
             dock.classList.remove('show');
-            dock.style.boxShadow = 'none'; // Disable box shadow when hiding
+            dock.style.boxShadow = 'none';
             appDrawer.style.bottom = '-100%';
             appDrawer.style.opacity = '0';
             appDrawer.classList.remove('open');
