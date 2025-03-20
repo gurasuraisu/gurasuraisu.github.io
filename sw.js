@@ -1,4 +1,3 @@
-const CACHE_NAME = 'gurasuraisu-cache-v2';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
@@ -16,10 +15,7 @@ const ASSETS_TO_CACHE = [
   '/assets/appicon/photos.png',
   '/assets/appicon/sketch.png',
   '/assets/appicon/tasks.png',
-  '/assets/appicon/video.png'
-];
-
-const FONT_URLS = [
+  '/assets/appicon/video.png',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap',
   'https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;700&display=swap',
@@ -36,71 +32,82 @@ const FONT_URLS = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    (async () => {
-      const cache = await caches.open(CACHE_NAME);
-      await cache.addAll(ASSETS_TO_CACHE);
-      // Fetch and cache fonts separately
-      for (const url of FONT_URLS) {
-        try {
-          const response = await fetch(url);
-          if (response.ok) {
-            await cache.put(url, response);
-          }
-        } catch (error) {
-          console.warn('Font caching failed:', url);
-        }
-      }
-    })()
+    caches.open('gurasuraisu-cache')
+      .then(cache => {
+        return cache.addAll(ASSETS_TO_CACHE);
+      })
   );
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
-    caches.keys().then(cacheNames =>
-      Promise.all(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
         cacheNames.map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
+          if (cacheName !== 'gurasuraisu-cache') {
             return caches.delete(cacheName);
           }
         })
-      )
-    )
+      );
+    })
   );
 });
 
 self.addEventListener('fetch', event => {
   event.respondWith(
-    (async () => {
-      // Bypass cache for API calls
-      if (event.request.url.includes('api.open-meteo.com') || event.request.url.includes('nominatim.openstreetmap.org')) {
-        return fetch(event.request).catch(() => caches.match(event.request));
-      }
+    caches.match(event.request)
+      .then(async cachedResponse => {
+        try {
+          // Skip API calls
+          if (event.request.url.includes('api.open-meteo.com') || 
+              event.request.url.includes('nominatim.openstreetmap.org')) {
+            return cachedResponse || fetch(event.request);
+          }
 
-      const cache = await caches.open(CACHE_NAME);
-      const cachedResponse = await caches.match(event.request);
+          // Fetch network response
+          const networkResponse = await fetch(event.request);
+          const networkResponseClone = networkResponse.clone();
 
-      if (cachedResponse) {
-        // Try fetching a fresh version in the background
-        fetch(event.request)
-          .then(networkResponse => {
-            if (networkResponse.ok) {
-              cache.put(event.request, networkResponse.clone());
+          // Compare responses
+          if (cachedResponse) {
+            const areSame = await compareResponses(cachedResponse.clone(), networkResponseClone);
+
+            if (!areSame) {
+              // Update cache if different
+              const cache = await caches.open('gurasuraisu-cache');
+              await cache.put(event.request, networkResponse.clone());
+              return networkResponse;
             }
-          })
-          .catch(() => null);
-        return cachedResponse;
-      }
+            return cachedResponse;
+          }
 
-      // If no cached response, fetch from network
-      try {
-        const networkResponse = await fetch(event.request);
-        if (networkResponse.ok) {
-          cache.put(event.request, networkResponse.clone());
+          // If no cached response, add to cache
+          const cache = await caches.open('gurasuraisu-cache');
+          await cache.put(event.request, networkResponse.clone());
+          return networkResponse;
+        } catch (error) {
+          // Fallback to cached response or root
+          return cachedResponse || caches.match('/');
         }
-        return networkResponse;
-      } catch (error) {
-        return cachedResponse || caches.match('/');
-      }
-    })()
+      })
   );
 });
+
+async function compareResponses(cachedResponse, networkResponse) {
+  // Compare response types
+  if (cachedResponse.type !== networkResponse.type) return false;
+  
+  // Compare response status
+  if (cachedResponse.status !== networkResponse.status) return false;
+  
+  try {
+    const cachedText = await cachedResponse.text();
+    const networkText = await networkResponse.text();
+    return cachedText === networkText;
+  } catch (error) {
+    // Fallback to header comparison if text comparison fails
+    const cachedHeaders = Object.fromEntries(cachedResponse.headers.entries());
+    const networkHeaders = Object.fromEntries(networkResponse.headers.entries());
+    return JSON.stringify(cachedHeaders) === JSON.stringify(networkHeaders);
+  }
+}
