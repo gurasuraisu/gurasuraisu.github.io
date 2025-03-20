@@ -8,6 +8,8 @@ const ASSETS_TO_CACHE = [
   '/manifest.json',
   '/assets/favicon.png',
   '/assets/gurasuraisu.png',
+  '/assets/gurasuraisu-icon.png',
+  '/assets/gurasuraisu-icon-alt.png',
   '/assets/appicon/alarm.png',
   '/assets/appicon/calculator.png',
   '/assets/appicon/docs.png',
