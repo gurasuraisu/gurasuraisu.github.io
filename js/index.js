@@ -494,7 +494,7 @@ async function updateSmallWeather() {
         const weatherInfo = weatherConditions[weatherData.current.weathercode] || { description: 'Unknown', icon: () => '❓' };
 
         document.getElementById('weather').style.display = showWeather ? 'block' : 'none';
-        temperatureElement.textContent = `${weatherData.current.temperature}°`;
+        temperatureElement.textContent = `${Math.round(weatherData.current.temperature)}°`;
         weatherIconElement.className = 'material-symbols-rounded';
         weatherIconElement.textContent = weatherInfo.icon(true);
         weatherIconElement.dataset.weatherCode = weatherData.current.weathercode;
