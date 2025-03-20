@@ -3038,18 +3038,18 @@ function setupDrawerInteractions() {
             // Make app drawer transparent when in an app
             appDrawer.style.opacity = '0';
             
-            // IMPORTANT FIX: Ensure the interaction blocker is hidden when in an open embed
-            interactionBlocker.style.display = 'none';
+            // IMPORTANT FIX: Set pointer-events to none when an embed is open
+            interactionBlocker.style.pointerEvents = 'none';
         }
         
         // Show dock and hide drawer-pill
         if (movementPercentage > 10 && movementPercentage < 25) {
             dock.classList.add('show');
-            dock.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.1)'; // Enable box shadow when visible
+            dock.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.1)'; 
             drawerPill.style.opacity = '0';
         } else {
             dock.classList.remove('show');
-            dock.style.boxShadow = 'none'; // Disable box shadow when not visible
+            dock.style.boxShadow = 'none'; 
             drawerPill.style.opacity = '1';
         }
     
@@ -3064,9 +3064,10 @@ function setupDrawerInteractions() {
         appDrawer.style.bottom = `${newPosition}%`;
         
         // Show interaction blocker if drawer is partially visible (not at 0% or -100%)
-        // IMPORTANT FIX: Don't show the interaction blocker if an embed is open
-        if (newPosition > -100 && newPosition < 0 && !openEmbed) {
+        if (newPosition > -100 && newPosition < 0) {
             interactionBlocker.style.display = 'block';
+            // IMPORTANT FIX: Only capture pointer events if no embed is open
+            interactionBlocker.style.pointerEvents = openEmbed ? 'none' : 'auto';
         } else {
             interactionBlocker.style.display = 'none';
         }
@@ -3337,8 +3338,8 @@ function setupDrawerInteractions() {
             // Show the swipe overlay when an app is open
             swipeOverlay.style.display = 'block';
             
-            // IMPORTANT FIX: Make sure interaction blocker is hidden when an embed is open
-            interactionBlocker.style.display = 'none';
+            // IMPORTANT FIX: Set pointer-events to none when an embed is open
+            interactionBlocker.style.pointerEvents = 'none';
         } else {
             // Only update opacity if drawer is open
             if (appDrawer.classList.contains('open')) {
@@ -3348,6 +3349,11 @@ function setupDrawerInteractions() {
             // Hide the swipe overlay when no app is open
             swipeOverlay.style.display = 'none';
             swipeOverlay.style.pointerEvents = 'none';
+            
+            // IMPORTANT FIX: Reset pointer-events when no embed is open
+            if (appDrawer.classList.contains('open')) {
+                interactionBlocker.style.pointerEvents = 'auto';
+            }
         }
     }
     
