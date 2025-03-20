@@ -3037,6 +3037,9 @@ function setupDrawerInteractions() {
             
             // Make app drawer transparent when in an app
             appDrawer.style.opacity = '0';
+            
+            // IMPORTANT FIX: Ensure the interaction blocker is hidden when in an open embed
+            interactionBlocker.style.display = 'none';
         }
         
         // Show dock and hide drawer-pill
@@ -3061,7 +3064,8 @@ function setupDrawerInteractions() {
         appDrawer.style.bottom = `${newPosition}%`;
         
         // Show interaction blocker if drawer is partially visible (not at 0% or -100%)
-        if (newPosition > -100 && newPosition < 0) {
+        // IMPORTANT FIX: Don't show the interaction blocker if an embed is open
+        if (newPosition > -100 && newPosition < 0 && !openEmbed) {
             interactionBlocker.style.display = 'block';
         } else {
             interactionBlocker.style.display = 'none';
@@ -3332,6 +3336,9 @@ function setupDrawerInteractions() {
             
             // Show the swipe overlay when an app is open
             swipeOverlay.style.display = 'block';
+            
+            // IMPORTANT FIX: Make sure interaction blocker is hidden when an embed is open
+            interactionBlocker.style.display = 'none';
         } else {
             // Only update opacity if drawer is open
             if (appDrawer.classList.contains('open')) {
