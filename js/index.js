@@ -2605,8 +2605,24 @@ function initializeCustomization() {
         },
     };
 
+let minimizedEmbeds = {}; // Object to store minimized embeds by URL
+
 function createFullscreenEmbed(url) {
-    // Attempt to create an iframe
+    // Check if we have this URL minimized already
+    if (minimizedEmbeds[url]) {
+        // Restore the minimized embed instead of creating a new one
+        minimizedEmbeds[url].style.display = 'block';
+        
+        // Hide all elements as when creating a new embed
+        document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
+            if (!el.matches('.fullscreen-embed')) {
+                el.style.display = 'none';
+            }
+        });
+        return;
+    }
+    
+    // Create new embed if not already minimized
     const iframe = document.createElement('iframe');
     iframe.src = url;
     iframe.setAttribute('frameborder', '0');
@@ -2617,6 +2633,9 @@ function createFullscreenEmbed(url) {
     embedContainer.className = 'fullscreen-embed';
     embedContainer.style.display = 'block'; // Ensure it's visible
     embedContainer.appendChild(iframe);
+    
+    // Store the URL as a data attribute
+    embedContainer.dataset.embedUrl = url;
     
     // Flag to track embedding status
     let embedFailed = false;
@@ -2659,15 +2678,21 @@ function createFullscreenEmbed(url) {
 }
 
 function minimizeFullscreenEmbed() {
-    // Instead of removing the embed, just hide it
     const embedContainer = document.querySelector('.fullscreen-embed');
     if (embedContainer) {
-        embedContainer.style.display = 'none'; // Hide instead of remove
+        // Store the embed in our minimized embeds object
+        const url = embedContainer.dataset.embedUrl;
+        if (url) {
+            minimizedEmbeds[url] = embedContainer;
+        }
+        
+        // Hide it completely (display:none)
+        embedContainer.style.display = 'none';
     }
     
     // Restore previously hidden elements
     document.querySelectorAll('body > *').forEach(el => {
-        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay')) {
+        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
             if (el.id === 'customizeModal') {
                 el.style.display = 'none'; // Explicitly set customizeModal to none
             } else {
@@ -2680,7 +2705,14 @@ function minimizeFullscreenEmbed() {
 function closeFullscreenEmbed() {
     const embedContainer = document.querySelector('.fullscreen-embed');
     if (embedContainer) {
-        embedContainer.remove(); // Actually remove it when explicitly closing
+        // Also remove from minimized embeds if present
+        const url = embedContainer.dataset.embedUrl;
+        if (url && minimizedEmbeds[url]) {
+            delete minimizedEmbeds[url];
+        }
+        
+        // Actually remove it when explicitly closing
+        embedContainer.remove();
     }
     
     // Restore previously hidden elements
@@ -2835,6 +2867,19 @@ function setupDrawerInteractions() {
     dock.className = 'dock';
     document.body.appendChild(dock);
     
+    // Create interaction blocker overlay
+    const interactionBlocker = document.createElement('div');
+    interactionBlocker.id = 'interaction-blocker';
+    interactionBlocker.style.position = 'fixed';
+    interactionBlocker.style.top = '0';
+    interactionBlocker.style.left = '0';
+    interactionBlocker.style.width = '100%';
+    interactionBlocker.style.height = '100%';
+    interactionBlocker.style.zIndex = '999'; // Below the drawer but above other content
+    interactionBlocker.style.display = 'none';
+    interactionBlocker.style.background = 'transparent';
+    document.body.appendChild(interactionBlocker);
+    
     populateDock();
     
     // Create transparent overlay for app swipe detection
@@ -2915,6 +2960,13 @@ function setupDrawerInteractions() {
         }
         
         appDrawer.style.bottom = `${newPosition}%`;
+        
+        // Show interaction blocker if drawer is partially visible (not at 0% or -100%)
+        if (newPosition > -100 && newPosition < 0) {
+            interactionBlocker.style.display = 'block';
+        } else {
+            interactionBlocker.style.display = 'none';
+        }
     }
 
     function endDrag() {
@@ -2966,6 +3018,7 @@ function setupDrawerInteractions() {
             appDrawer.style.opacity = '0';
             appDrawer.classList.remove('open');
             initialDrawerPosition = -100;
+            interactionBlocker.style.display = 'none';
         } else if (openEmbed) {
             // Reset embed if swipe wasn't enough
             openEmbed.style.transform = 'scale(1)';
@@ -2981,12 +3034,14 @@ function setupDrawerInteractions() {
                 appDrawer.style.bottom = '-100%';
                 appDrawer.classList.remove('open');
                 initialDrawerPosition = -100;
+                interactionBlocker.style.display = 'none';
             } else {
                 dock.classList.remove('show');
                 dock.style.boxShadow = 'none'; // Disable box shadow when not visible
                 appDrawer.style.bottom = '-100%';
                 appDrawer.classList.remove('open');
                 initialDrawerPosition = -100;
+                interactionBlocker.style.display = 'none';
             }
         } else {
             // Normal drawer behavior when no embed is open
@@ -3002,6 +3057,7 @@ function setupDrawerInteractions() {
                 appDrawer.style.opacity = '0';
                 appDrawer.classList.remove('open');
                 initialDrawerPosition = -100;
+                interactionBlocker.style.display = 'none';
             } 
             // Large swipe or flick up - show full drawer
             else if (isSignificantSwipe) {
@@ -3011,6 +3067,7 @@ function setupDrawerInteractions() {
                 appDrawer.style.opacity = '1';
                 appDrawer.classList.add('open');
                 initialDrawerPosition = 0;
+                interactionBlocker.style.display = 'none';
             } 
             // Close everything
             else {
@@ -3020,6 +3077,7 @@ function setupDrawerInteractions() {
                 appDrawer.style.opacity = '0';
                 appDrawer.classList.remove('open');
                 initialDrawerPosition = -100;
+                interactionBlocker.style.display = 'none';
             }
             
             // Hide the swipe overlay when not in an app
@@ -3157,6 +3215,7 @@ function setupDrawerInteractions() {
             appDrawer.style.bottom = '-100%';
             appDrawer.classList.remove('open');
             initialDrawerPosition = -100;
+            interactionBlocker.style.display = 'none';
         }
     });
 
@@ -3206,6 +3265,16 @@ function setupDrawerInteractions() {
     
     // Ensure box shadow is disabled initially
     dock.style.boxShadow = 'none';
+    
+    // Add interaction blocker click handler to close drawer on click outside
+    interactionBlocker.addEventListener('click', () => {
+        appDrawer.style.transition = 'bottom 0.3s ease, opacity 0.3s ease';
+        appDrawer.style.bottom = '-100%';
+        appDrawer.style.opacity = '0';
+        appDrawer.classList.remove('open');
+        initialDrawerPosition = -100;
+        interactionBlocker.style.display = 'none';
+    });
 }
 
 const appDrawerObserver = new MutationObserver((mutations) => {
