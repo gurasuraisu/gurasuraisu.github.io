@@ -248,7 +248,7 @@ body.light-theme[style*="background-image"] .info {
     transition: color 0.3s;
     padding: 8px 14px;
     border-radius: 50px;
-    z-index: 9998;
+    z-index: 9995;
     opacity: 1;
     visibility: visible;
     transition: opacity 0.3s ease, visibility 0.3s ease;
