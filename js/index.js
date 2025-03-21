@@ -3514,6 +3514,81 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+  // Function to get color from the top center pixel
+  function getTopCenterColor() {
+    // Create a small canvas to sample the pixel
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size to match window
+    canvas.width = window.innerWidth;
+    canvas.height = 1;
+    
+    // Draw current view to canvas
+    ctx.drawImage(document, 0, 0, window.innerWidth, window.innerHeight, 
+                  0, 0, canvas.width, canvas.height);
+    
+    // Get pixel data from center of top row
+    const centerX = Math.floor(window.innerWidth / 2);
+    const pixelData = ctx.getImageData(centerX, 0, 1, 1).data;
+    
+    // Convert to hex color
+    const hex = '#' + 
+      ('0' + pixelData[0].toString(16)).slice(-2) +
+      ('0' + pixelData[1].toString(16)).slice(-2) +
+      ('0' + pixelData[2].toString(16)).slice(-2);
+    
+    return hex;
+  }
+  
+  // Function to update manifest colors
+  function updateManifestColors() {
+    const color = getTopCenterColor();
+    
+    // Get manifest link element
+    const manifestLink = document.querySelector('link[rel="manifest"]');
+    
+    // Fetch the current manifest
+    fetch(manifestLink.href)
+      .then(response => response.json())
+      .then(manifest => {
+        // Update colors
+        manifest.background_color = color;
+        manifest.theme_color = color;
+        
+        // Create a blob with updated manifest
+        const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
+        const newManifestURL = URL.createObjectURL(blob);
+        
+        // Update manifest link
+        manifestLink.href = newManifestURL;
+        
+        // Also update theme-color meta tag for immediate effect
+        let metaThemeColor = document.querySelector('meta[name="theme-color"]');
+        if (!metaThemeColor) {
+          metaThemeColor = document.createElement('meta');
+          metaThemeColor.name = 'theme-color';
+          document.head.appendChild(metaThemeColor);
+        }
+        metaThemeColor.content = color;
+      });
+  }
+  
+  // Update initially
+  updateManifestColors();
+  
+  // Update on page changes or content loads
+  const observer = new MutationObserver(updateManifestColors);
+  observer.observe(document.body, { 
+    childList: true, 
+    subtree: true 
+  });
+  
+  // Update on resize
+  window.addEventListener('resize', updateManifestColors);
+});
+
+document.addEventListener('DOMContentLoaded', function() {
     // Create brightness overlay div if it doesn't exist
     if (!document.getElementById('brightness-overlay')) {
         const overlay = document.createElement('div');
