@@ -74,65 +74,6 @@ function promptToInstallPWA() {
   }
 }
 
-// Function to convert RGB to hex
-function rgbToHex(rgb) {
-  // Handle different formats (rgb, rgba, or already hex)
-  if (rgb.startsWith('#')) return rgb;
-  
-  if (rgb.startsWith('rgb')) {
-    const rgbValues = rgb.match(/\d+/g);
-    if (rgbValues && rgbValues.length >= 3) {
-      return '#' + ((1 << 24) + (parseInt(rgbValues[0]) << 16) + 
-                    (parseInt(rgbValues[1]) << 8) + 
-                    parseInt(rgbValues[2])).toString(16).slice(1);
-    }
-  }
-  
-  return '#1c1c1c'; // Default fallback
-}
-
-// Function to update the manifest colors
-function updateManifestColors(color) {
-  // Create a link element for the manifest if it doesn't exist
-  let link = document.querySelector('link[rel="manifest"]');
-  
-  if (!link) {
-    link = document.createElement('link');
-    link.rel = 'manifest';
-    document.head.appendChild(link);
-  }
-  
-  // Fetch the current manifest
-  fetch(link.href || '/manifest.json')
-    .then(response => response.json())
-    .then(manifest => {
-      // Update the colors
-      manifest.background_color = color;
-      manifest.theme_color = color;
-      
-      // Create a blob from the updated manifest
-      const blob = new Blob([JSON.stringify(manifest)], {type: 'application/json'});
-      const manifestURL = URL.createObjectURL(blob);
-      
-      // Update the manifest link
-      link.href = manifestURL;
-      
-      // Also update the theme-color meta tag if it exists
-      let metaThemeColor = document.querySelector('meta[name="theme-color"]');
-      if (metaThemeColor) {
-        metaThemeColor.content = color;
-      } else {
-        metaThemeColor = document.createElement('meta');
-        metaThemeColor.name = 'theme-color';
-        metaThemeColor.content = color;
-        document.head.appendChild(metaThemeColor);
-      }
-    })
-    .catch(error => {
-      console.error('Error updating manifest:', error);
-    });
-}
-
 // Function to get current time in 24-hour format (HH:MM:SS)
 function getCurrentTime24() {
     const now = new Date();
@@ -3764,17 +3705,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize the temperature display
     updateTemperature(storedTemperature);
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-  // Get the current body background color
-  const bodyBgColor = getComputedStyle(document.body).backgroundColor;
-  
-  // Convert RGB to hex if needed
-  const hexColor = rgbToHex(bodyBgColor);
-  
-  // Update the manifest dynamically
-  updateManifestColors(hexColor);
 });
 
 window.addEventListener('load', checkFullscreen);
