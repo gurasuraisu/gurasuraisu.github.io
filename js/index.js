@@ -52,6 +52,28 @@ function initDB() {
     });
 }
 
+function checkIfPWA() {
+  // Check if the app is running as a PWA (in standalone mode)
+  if (window.matchMedia('(display-mode: standalone)').matches) {
+    return true;
+  }
+
+  // Check if service workers are supported
+  if ('serviceWorker' in navigator) {
+    return false;
+  }
+
+  return false;
+}
+
+function promptToInstallPWA() {
+  // Check if not in PWA mode and show a one-time popup
+  if (!localStorage.getItem('pwaPromptShown') && !checkIfPWA()) {
+    showPopup('Install as an app to get all features');
+    localStorage.setItem('pwaPromptShown', 'true');
+  }
+}
+
 // Function to get current time in 24-hour format (HH:MM:SS)
 function getCurrentTime24() {
     const now = new Date();
@@ -3720,6 +3742,7 @@ setInterval(ensureVideoLoaded, 1000);
     initializeCustomization();
     setupWeatherToggle()
     firstSetup();
+    promptToInstallPWA();
     updateDisplay();
     initAppDraw();
     updateWeatherVisibility();
