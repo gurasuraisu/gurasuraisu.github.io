@@ -10,7 +10,7 @@ consoleLicense()
 
 function consoleLoaded() {
     const greeting = `
-Loaded Gurasuraisu sucessfully!
+Gurasuraisu loaded successfully
     `;
 
     console.info(greeting);
@@ -1677,7 +1677,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Replace with silent version (that does nothing)
             window.showPopup = function(message) {
-                console.log('Silent mode active, suppressing popup:', message);
+                console.log('Silent mode suppressing popup:', message);
                 // Do nothing - this effectively hides all popups
             };
             
