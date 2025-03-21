@@ -1781,7 +1781,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const customizeButton = document.getElementById('customize');
 const customizeModal = document.getElementById('customizeModal');
-const closeCustomizeModal = document.getElementById('closeCustomizeModal');
 const themeSwitch = document.getElementById('theme-switch');
 const wallpaperInput = document.getElementById('wallpaperInput');
 const uploadButton = document.getElementById('uploadButton');
@@ -1964,11 +1963,6 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Update minimal mode when exiting customize modal
-closeCustomizeModal.addEventListener('click', function() {
-    updateMinimalMode();
-});
-
 // Customize modal functionality
 customizeButton.addEventListener('click', () => {
     customizeModal.style.display = 'block';
@@ -1977,15 +1971,6 @@ customizeButton.addEventListener('click', () => {
         customizeModal.classList.add('show');
         blurOverlayControls.classList.add('show');
     }, 10);
-});
-
-closeCustomizeModal.addEventListener('click', () => {
-    customizeModal.classList.remove('show');
-    blurOverlayControls.classList.remove('show');
-    setTimeout(() => {
-        customizeModal.style.display = 'none';
-	blurOverlayControls.style.display = 'none';
-    }, 300);
 });
 
 // Wallpaper upload functionality
