@@ -50,7 +50,15 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open('gurasuraisu-cache')
       .then(cache => {
-        return cache.addAll(ASSETS_TO_CACHE);
+        // Use individual cache.add() calls that won't fail the entire operation
+        return Promise.allSettled(
+          ASSETS_TO_CACHE.map(url => 
+            cache.add(url).catch(error => {
+              console.warn(`Failed to cache: ${url}`, error);
+              // Continue despite this individual failure
+            })
+          )
+        );
       })
   );
 });
