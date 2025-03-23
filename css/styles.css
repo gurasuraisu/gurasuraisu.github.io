@@ -759,7 +759,7 @@ body.light-theme[style*="background-image"] .info {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: clamp(0.5rem, 2vw, 1rem);
     width: 100%;
     margin-top: 10px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
