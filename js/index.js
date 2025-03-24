@@ -867,6 +867,8 @@ timeInput.addEventListener('keypress', (e) => {
     if (e.key === 'Enter') timeInput.blur();
 });
 
+updateActionButtons();
+
 function showPopup(message) {
     const popup = document.createElement('div');
     popup.style.position = 'fixed';
