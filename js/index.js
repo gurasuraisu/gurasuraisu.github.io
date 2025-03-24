@@ -745,20 +745,29 @@ function updateTimerWidget() {
 }
 
 function toggleTimer() {
-    if (timerId) { clearInterval(timerId); timerId = null; startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>'; }
-    else if (timeLeft > 0) {
-        timerId = setInterval(() => {
-            timeLeft--; updateDisplay(); updateTimerWidget();
-            if (timeLeft <= 0) {
-                clearInterval(timerId); timerId = null;
-                startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
-                timerWidget.style.display = 'none';
-                playAlarm();
-            }
-        }, 1000);
-        startBtn.innerHTML = '<span class="material-symbols-rounded">pause</span>';
+    if (timerId) {
+        clearInterval(timerId);
+        timerId = null;
+        startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
+    } else {
+        if (timeLeft > 0) {
+            timerId = setInterval(() => {
+                timeLeft--;
+                updateDisplay();
+                updateTimerWidget();
+                if (timeLeft <= 0) {
+                    clearInterval(timerId);
+                    timerId = null;
+                    startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
+                    timerWidget.style.display = 'none';
+                    playAlarm();
+                }
+            }, 1000);
+            startBtn.innerHTML = '<span class="material-symbols-rounded">pause</span>';
+        }
     }
     updateActionButtons();
+    updateTimerWidget(); // Added this line
 }
 
 function updateActionButtons() {
