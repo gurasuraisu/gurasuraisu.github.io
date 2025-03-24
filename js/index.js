@@ -781,7 +781,6 @@ function toggleTimer() {
             timerId = setInterval(() => {
                 timeLeft--;
                 updateDisplay();
-		updateActionButtons();
                 updateTimerWidget();
                 if (timeLeft <= 0) {
                     clearInterval(timerId);
@@ -794,7 +793,6 @@ function toggleTimer() {
             startBtn.innerHTML = '<span class="material-symbols-rounded">pause</span>';
         }
     }
-    updateTimerWidget();
     updateActionButtons();
 }
 
@@ -803,12 +801,16 @@ function updateActionButtons() {
     const resetBtn = document.getElementById('resetBtn');
     
     if (timeLeft === 0) {
-        if (alarmSound.currentTime > 0 && alarmSound.paused) {
-            // Timer was active and alarm has played
+        if (alarmSound.currentTime > 0 && !alarmSound.paused) {
+            // Timer is currently playing alarm
+            startBtn.style.display = 'none';
+            resetBtn.style.display = 'block';
+        } else if (alarmSound.currentTime > 0) {
+            // Alarm has finished playing
             startBtn.style.display = 'none';
             resetBtn.style.display = 'block';
         } else {
-            // No time set and no alarm
+            // No time set, no alarm
             startBtn.style.display = 'block';
             resetBtn.style.display = 'none';
         }
