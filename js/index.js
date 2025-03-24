@@ -755,6 +755,7 @@ function addTime(seconds) {
     // Update the display
     updateDisplay();
     updateTimerWidget();
+    updateActionButtons();
 }
 
 const timerWidget = document.getElementById('timer-widget');
@@ -780,6 +781,7 @@ function toggleTimer() {
             timerId = setInterval(() => {
                 timeLeft--;
                 updateDisplay();
+		updateActionButtons();
                 updateTimerWidget();
                 if (timeLeft <= 0) {
                     clearInterval(timerId);
@@ -793,6 +795,28 @@ function toggleTimer() {
         }
     }
     updateTimerWidget();
+    updateActionButtons();
+}
+
+function updateActionButtons() {
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    
+    if (timeLeft === 0) {
+        if (alarmSound.currentTime > 0 && alarmSound.paused) {
+            // Timer was active and alarm has played
+            startBtn.style.display = 'none';
+            resetBtn.style.display = 'block';
+        } else {
+            // No time set and no alarm
+            startBtn.style.display = 'block';
+            resetBtn.style.display = 'none';
+        }
+    } else {
+        // Time is set
+        startBtn.style.display = 'block';
+        resetBtn.style.display = 'block';
+    }
 }
 
 function resetTimer() {
@@ -806,10 +830,14 @@ function resetTimer() {
     startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
     alarmSound.pause(); // Stop the alarm sound
     alarmSound.currentTime = 0; // Reset the sound to the beginning
+    
+    // Update button visibility
+    updateActionButtons();
 }
 
 function playAlarm() {
     alarmSound.play();
+    updateActionButtons();
 }
 
 display.addEventListener('click', () => {
@@ -817,6 +845,7 @@ display.addEventListener('click', () => {
     timeInput.style.display = 'block';
     display.style.display = 'none';
     timeInput.focus();
+    updateActionButtons();
 });
 
 timeInput.addEventListener('blur', () => {
@@ -829,6 +858,7 @@ timeInput.addEventListener('blur', () => {
         totalTime = timeLeft;
     }
     updateDisplay();
+    updateActionButtons();
     timeInput.style.display = 'none';
     display.style.display = 'block';
 });
