@@ -785,7 +785,8 @@ function toggleTimer() {
                     timerId = null;
                     startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
                     timerWidget.style.display = 'none';
-                    playAlarm(); // This calls updateActionButtons()
+                    playAlarm();
+                    updateActionButtons(); // Update buttons after alarm
                 }
             }, 1000);
             startBtn.innerHTML = '<span class="material-symbols-rounded">pause</span>';
