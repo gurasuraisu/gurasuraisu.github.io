@@ -743,6 +743,9 @@ function addTime(seconds) {
     // If timer wasn't running, update totalTime
     if (!wasRunning) {
         totalTime = timeLeft;
+    } else {
+        // If timer was running, recalculate totalTime
+        totalTime = timeLeft + (totalTime - timeLeft);
     }
     
     // Update the display
