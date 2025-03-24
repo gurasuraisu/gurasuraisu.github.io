@@ -715,8 +715,12 @@ function formatTime(seconds) {
 }
 
 function updateDisplay() {
+    // Prevent division by zero and ensure percentage is always between 0 and 100
+    const percent = totalTime > 0 
+        ? Math.min(100, Math.max(0, (timeLeft / totalTime) * 100)) 
+        : 0;
+    
     display.textContent = formatTime(timeLeft);
-    const percent = (timeLeft / totalTime) * 100;
     setProgress(percent);
 
     // Show/hide progress ring based on whether there's time set
@@ -737,15 +741,16 @@ function addTime(seconds) {
         startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
     }
     
-    // Add the time
+    // Calculate new total time
     timeLeft += seconds;
     
-    // If timer was running, update totalTime to reflect the new total time
-    if (wasRunning) {
-        totalTime = timeLeft + (totalTime - timeLeft); // Preserve the original total duration
-    } else {
+    // Recalculate total time only if timer wasn't running
+    if (!wasRunning) {
         totalTime = timeLeft;
     }
+    
+    // Ensure total time is never less than current time left
+    totalTime = Math.max(totalTime, timeLeft);
     
     // Update the display
     updateDisplay();
