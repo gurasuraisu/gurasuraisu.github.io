@@ -735,6 +735,13 @@ const timerText = document.getElementById('timer-text');
 function updateTimerWidget() {
     timerWidget.style.display = timeLeft > 0 ? 'flex' : 'none';
     timerText.textContent = formatTime(timeLeft);
+    const timerIcon = document.querySelector('.timer-icon');
+
+    if (timerId) { // If timer is running (not paused)
+        timerIcon.textContent = 'timer'; // Show timer icon
+    } else { // If timer is paused or not started
+        timerIcon.textContent = 'pause'; // Show pause icon
+    }
 }
 
 function toggleTimer() {
