@@ -168,7 +168,6 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePersistentClock();
 });
 
-let timeLeft = 0; 
 let timerId = null; 
 
 // Function to update the document title
