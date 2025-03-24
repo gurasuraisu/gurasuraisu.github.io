@@ -2458,14 +2458,6 @@ function switchWallpaper(direction) {
   if (direction === 'right') {
     currentWallpaperPosition++;
     if (currentWallpaperPosition >= recentWallpapers.length) {
-      // Show customize modal when swiping past the end instead of upload modal
-      customizeModal.style.display = 'block';
-      blurOverlayControls.style.display = 'block';
-      setTimeout(() => {
-        customizeModal.classList.add('show');
-        blurOverlayControls.classList.add('show');
-      }, 10);
-      
       // Reset position to last valid wallpaper
       currentWallpaperPosition = recentWallpapers.length - 1;
       return;
