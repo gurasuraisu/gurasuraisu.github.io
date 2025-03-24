@@ -3694,6 +3694,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 setInterval(ensureVideoLoaded, 1000);
 
+function preventLeaving() {
+  window.addEventListener('beforeunload', function (e) {
+    e.preventDefault();
+    e.returnValue = ''; // Standard for most browsers
+    return ''; // For some older browsers
+  });
+}
+
     // Initialize app drawer
     function initAppDraw() {
         createAppIcons();
@@ -3708,3 +3716,4 @@ setInterval(ensureVideoLoaded, 1000);
     updateDisplay();
     initAppDraw();
     updateWeatherVisibility();
+    preventLeaving();
