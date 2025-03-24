@@ -682,6 +682,7 @@ setInterval(updateClockAndDate, 1000);
 setInterval(updateSmallWeather, 600000);
 updateClockAndDate();
 updateSmallWeather();
+
 // Timer Variables
 let totalTime = 0;
 let timeLeft = 0;
@@ -755,8 +756,19 @@ function toggleTimer() {
 
 function updateActionButtons() {
     const isAlarmPlaying = alarmSound.currentTime > 0 && !alarmSound.paused;
-    startBtn.style.display = (timeLeft === 0 && !isAlarmPlaying) ? 'block' : 'none';
-    resetBtn.style.display = (timeLeft === 0 && isAlarmPlaying) ? 'block' : (timeLeft > 0 ? 'block' : 'none');
+    if (timeLeft === 0 && isAlarmPlaying){
+        startBtn.style.display = 'none';
+        resetBtn.style.display = 'block';
+    } else if (timeLeft === 0 && !isAlarmPlaying){
+        startBtn.style.display = 'none';
+        resetBtn.style.display = 'block';
+    } else if (timeLeft > 0){
+        startBtn.style.display = 'block';
+        resetBtn.style.display = 'block';
+    } else {
+        startBtn.style.display = 'block';
+        resetBtn.style.display = 'none';
+    }
 }
 
 function resetTimer() {
@@ -768,10 +780,7 @@ function resetTimer() {
 
 function playAlarm() {
     alarmSound.play();
-    // updateActionButtons(); //Moved inside alarmSound.onended
-    alarmSound.onended = () => {
-        updateActionButtons();
-    }
+    updateActionButtons();
 }
 
 display.addEventListener('click', () => {
