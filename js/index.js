@@ -688,6 +688,8 @@ updateSmallWeather();
 
 // Timer Variables
 let totalTime = 0;
+let timeLeft = 0; // Initialize timeLeft
+let timerId = null;
 const display = document.getElementById('display');
 const timeInput = document.getElementById('timeInput');
 const startBtn = document.getElementById('startBtn');
@@ -716,10 +718,10 @@ function formatTime(seconds) {
 
 function updateDisplay() {
     // Prevent division by zero and ensure percentage is always between 0 and 100
-    const percent = totalTime > 0 
-        ? Math.min(100, Math.max(0, (timeLeft / totalTime) * 100)) 
+    const percent = totalTime > 0
+        ? Math.min(100, Math.max(0, (timeLeft / totalTime) * 100))
         : 0;
-    
+
     display.textContent = formatTime(timeLeft);
     setProgress(percent);
 
@@ -740,18 +742,18 @@ function addTime(seconds) {
         wasRunning = true;
         startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
     }
-    
+
     // Calculate new total time
     timeLeft += seconds;
-    
+
     // Recalculate total time only if timer wasn't running
     if (!wasRunning) {
         totalTime = timeLeft;
     }
-    
+
     // Ensure total time is never less than current time left
     totalTime = Math.max(totalTime, timeLeft);
-    
+
     // Update the display
     updateDisplay();
     updateTimerWidget();
@@ -771,7 +773,6 @@ function updateTimerWidget() {
 }
 
 function toggleTimer() {
-    if (!timezoneModal.classList.contains('show')) return;
     if (timerId) {
         clearInterval(timerId);
         timerId = null;
@@ -788,6 +789,7 @@ function toggleTimer() {
                     startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
                     timerWidget.style.display = 'none';
                     playAlarm();
+                    updateActionButtons(); // Update buttons after alarm
                 }
             }, 1000);
             startBtn.innerHTML = '<span class="material-symbols-rounded">pause</span>';
@@ -799,7 +801,7 @@ function toggleTimer() {
 function updateActionButtons() {
     const startBtn = document.getElementById('startBtn');
     const resetBtn = document.getElementById('resetBtn');
-    
+
     if (timeLeft === 0) {
         if (alarmSound.currentTime > 0 && !alarmSound.paused) {
             // Timer is currently playing alarm
@@ -822,7 +824,6 @@ function updateActionButtons() {
 }
 
 function resetTimer() {
-    if (!timezoneModal.classList.contains('show')) return;
     if (timerId) clearInterval(timerId);
     timerId = null;
     timeLeft = 0;
@@ -832,7 +833,7 @@ function resetTimer() {
     startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
     alarmSound.pause(); // Stop the alarm sound
     alarmSound.currentTime = 0; // Reset the sound to the beginning
-    
+
     // Update button visibility
     updateActionButtons();
 }
