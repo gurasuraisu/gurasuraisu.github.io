@@ -682,10 +682,9 @@ setInterval(updateClockAndDate, 1000);
 setInterval(updateSmallWeather, 600000);
 updateClockAndDate();
 updateSmallWeather();
-
 // Timer Variables
 let totalTime = 0;
-let timeLeft = 0; // Initialize timeLeft
+let timeLeft = 0;
 let timerId = null;
 const display = document.getElementById('display');
 const timeInput = document.getElementById('timeInput');
@@ -714,158 +713,81 @@ function formatTime(seconds) {
 }
 
 function updateDisplay() {
-    // Prevent division by zero and ensure percentage is always between 0 and 100
-    const percent = totalTime > 0
-        ? Math.min(100, Math.max(0, (timeLeft / totalTime) * 100))
-        : 0;
-
+    const percent = totalTime > 0 ? Math.min(100, Math.max(0, (timeLeft / totalTime) * 100)) : 0;
     display.textContent = formatTime(timeLeft);
     setProgress(percent);
-
-    // Show/hide progress ring based on whether there's time set
-    if (timeLeft > 0) {
-        progressRing.classList.add('active');
-    } else {
-        progressRing.classList.remove('active');
-    }
+    progressRing.classList[timeLeft > 0 ? 'add' : 'remove']('active');
 }
 
 function addTime(seconds) {
-    // If timer is running, pause it first
-    let wasRunning = false;
-    if (timerId) {
-        clearInterval(timerId);
-        timerId = null;
-        wasRunning = true;
-        startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
-    }
-
-    // Calculate new total time
+    let wasRunning = !!timerId;
+    if (timerId) { clearInterval(timerId); timerId = null; startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>'; }
     timeLeft += seconds;
-
-    // Recalculate total time only if timer wasn't running
-    if (!wasRunning) {
-        totalTime = timeLeft;
-    }
-
-    // Ensure total time is never less than current time left
+    if (!wasRunning) totalTime = timeLeft;
     totalTime = Math.max(totalTime, timeLeft);
-
-    // Update the display
-    updateDisplay();
-    updateTimerWidget();
-    updateActionButtons();
+    updateDisplay(); updateTimerWidget(); updateActionButtons();
 }
 
 const timerWidget = document.getElementById('timer-widget');
 const timerText = document.getElementById('timer-text');
 
 function updateTimerWidget() {
-    if (timeLeft > 0) {
-        timerWidget.style.display = 'flex';
-        timerText.textContent = formatTime(timeLeft);
-    } else {
-        timerWidget.style.display = 'none';
-    }
+    timerWidget.style.display = timeLeft > 0 ? 'flex' : 'none';
+    timerText.textContent = formatTime(timeLeft);
 }
 
 function toggleTimer() {
-    if (timerId) {
-        clearInterval(timerId);
-        timerId = null;
-        startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
-    } else {
-        if (timeLeft > 0) {
-            timerId = setInterval(() => {
-                timeLeft--;
-                updateDisplay();
-                updateTimerWidget();
-                if (timeLeft <= 0) {
-                    clearInterval(timerId);
-                    timerId = null;
-                    startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
-                    timerWidget.style.display = 'none';
-                    playAlarm();
-                    updateActionButtons(); // Update buttons after alarm
-                }
-            }, 1000);
-            startBtn.innerHTML = '<span class="material-symbols-rounded">pause</span>';
-        }
+    if (timerId) { clearInterval(timerId); timerId = null; startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>'; }
+    else if (timeLeft > 0) {
+        timerId = setInterval(() => {
+            timeLeft--; updateDisplay(); updateTimerWidget();
+            if (timeLeft <= 0) {
+                clearInterval(timerId); timerId = null;
+                startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
+                timerWidget.style.display = 'none';
+                playAlarm();
+            }
+        }, 1000);
+        startBtn.innerHTML = '<span class="material-symbols-rounded">pause</span>';
     }
     updateActionButtons();
 }
 
 function updateActionButtons() {
-    const startBtn = document.getElementById('startBtn');
-    const resetBtn = document.getElementById('resetBtn');
-
-    if (timeLeft === 0) {
-        if (alarmSound.currentTime > 0 && !alarmSound.paused) {
-            // Timer is currently playing alarm
-            startBtn.style.display = 'none';
-            resetBtn.style.display = 'block';
-        } else if (alarmSound.currentTime > 0) {
-            // Alarm has finished playing
-            startBtn.style.display = 'none';
-            resetBtn.style.display = 'block';
-        } else {
-            // No time set, no alarm
-            startBtn.style.display = 'block';
-            resetBtn.style.display = 'none';
-        }
-    } else {
-        // Time is set
-        startBtn.style.display = 'block';
-        resetBtn.style.display = 'block';
-    }
+    const isAlarmPlaying = alarmSound.currentTime > 0 && !alarmSound.paused;
+    startBtn.style.display = (timeLeft === 0 && !isAlarmPlaying) ? 'block' : 'none';
+    resetBtn.style.display = (timeLeft === 0 && isAlarmPlaying) ? 'block' : (timeLeft > 0 ? 'block' : 'none');
 }
 
 function resetTimer() {
     if (timerId) clearInterval(timerId);
-    timerId = null;
-    timeLeft = 0;
-    totalTime = 0;
-    updateDisplay();
-    updateTimerWidget();
+    timerId = null; timeLeft = 0; totalTime = 0; updateDisplay(); updateTimerWidget();
     startBtn.innerHTML = '<span class="material-symbols-rounded">play_arrow</span>';
-    alarmSound.pause(); // Stop the alarm sound
-    alarmSound.currentTime = 0; // Reset the sound to the beginning
-
-    // Update button visibility
-    updateActionButtons();
+    alarmSound.pause(); alarmSound.currentTime = 0; updateActionButtons();
 }
 
 function playAlarm() {
     alarmSound.play();
-    updateActionButtons();
+    // updateActionButtons(); //Moved inside alarmSound.onended
+    alarmSound.onended = () => {
+        updateActionButtons();
+    }
 }
 
 display.addEventListener('click', () => {
     timeInput.value = formatTime(timeLeft).replace(':', '');
-    timeInput.style.display = 'block';
-    display.style.display = 'none';
-    timeInput.focus();
-    updateActionButtons();
+    timeInput.style.display = 'block'; display.style.display = 'none'; timeInput.focus(); updateActionButtons();
 });
 
 timeInput.addEventListener('blur', () => {
-    const input = timeInput.value.padStart(4, '0'); // Ensure at least 4 digits by padding with leading zeros
-    const minutes = parseInt(input.slice(0, -2), 10); // First two digits (or first digit for 3-digit inputs)
-    const seconds = parseInt(input.slice(-2), 10); // Last two digits
-
-    if (!isNaN(minutes) && !isNaN(seconds)) {
-        timeLeft = minutes * 60 + seconds; // Convert to total seconds
-        totalTime = timeLeft;
-    }
-    updateDisplay();
-    updateActionButtons();
-    timeInput.style.display = 'none';
-    display.style.display = 'block';
+    const input = timeInput.value.padStart(4, '0');
+    const minutes = parseInt(input.slice(0, -2), 10);
+    const seconds = parseInt(input.slice(-2), 10);
+    if (!isNaN(minutes) && !isNaN(seconds)) { timeLeft = minutes * 60 + seconds; totalTime = timeLeft; }
+    updateDisplay(); updateActionButtons(); timeInput.style.display = 'none'; display.style.display = 'block';
 });
 
-timeInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') timeInput.blur();
-});
+timeInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') timeInput.blur(); });
 
 updateActionButtons();
 
