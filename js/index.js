@@ -2639,56 +2639,61 @@ function initializeCustomization() {
 let minimizedEmbeds = {}; // Object to store minimized embeds by URL
 
 // Hanute
-        const drawerPill = document.querySelector('.drawer-handle');
-        const hanutePoup = document.getElementById('hanute-popup');
-        let pressTimer;
+const drawerPill = document.querySelector('.drawer-handle');
+const hanutePopup = document.getElementById('hanute-popup');
+let pressTimer;
+let isHolding = false; // Flag to track if the pill is being held
 
-        drawerPill.addEventListener('mousedown', startPressTimer);
-        drawerPill.addEventListener('mouseup', cancelPressTimer);
-        drawerPill.addEventListener('mouseleave', cancelPressTimer);
+drawerPill.addEventListener('mousedown', startPressTimer);
+drawerPill.addEventListener('mouseup', cancelPressTimer);
+drawerPill.addEventListener('mouseleave', cancelPressTimer);
 
-        function startPressTimer() {
-            pressTimer = setTimeout(() => {
-                hanutePoup.classList.add('active');
-                
-                // Add click listener to document to close popup when clicking outside
-                document.addEventListener('click', closePopupOutside);
-            }, 3000); // 3 seconds
+function startPressTimer() {
+    isHolding = true; // Set holding flag
+    pressTimer = setTimeout(() => {
+        if (isHolding) { // Only activate if still holding
+            hanutePopup.classList.add('active');
+
+            // Add click listener to document to close popup when clicking outside
+            document.addEventListener('click', closePopupOutside);
         }
+    }, 3000); // 3 seconds
+}
 
-        function cancelPressTimer() {
-            clearTimeout(pressTimer);
-        }
+function cancelPressTimer() {
+    isHolding = false; // Reset holding flag
+    clearTimeout(pressTimer);
+}
 
-        function closePopupOutside(event) {
-            // Check if click is outside popup and not on drawer pill
-            if (!hanutePoup.contains(event.target) && 
-                !drawerPill.contains(event.target)) {
-                hanutePoup.classList.remove('active');
-                
-                // Remove the outside click listener
-                document.removeEventListener('click', closePopupOutside);
-            }
-        }
+function closePopupOutside(event) {
+    // Check if click is outside popup and not on drawer pill
+    if (!hanutePopup.contains(event.target) &&
+        !drawerPill.contains(event.target)) {
+        hanutePopup.classList.remove('active');
 
-        // Hanute initialization
-        document.addEventListener('DOMContentLoaded', () => {
-            const hanute = new Hanute();
-            
-            // Text input button
-            document.getElementById('send-button').addEventListener('click', () => {
-                const userInput = document.getElementById('user-input').value;
-                const responseElement = document.getElementById('response');
-                
-                const response = hanute.processInput(userInput);
-                responseElement.textContent = response;
-            });
-            
-            // Voice input button
-            document.getElementById('voice-button').addEventListener('click', () => {
-                hanute.startListening();
-            });
-        });
+        // Remove the outside click listener
+        document.removeEventListener('click', closePopupOutside);
+    }
+}
+
+// Hanute initialization
+document.addEventListener('DOMContentLoaded', () => {
+    const hanute = new Hanute();
+
+    // Text input button
+    document.getElementById('send-button').addEventListener('click', () => {
+        const userInput = document.getElementById('user-input').value;
+        const responseElement = document.getElementById('response');
+
+        const response = hanute.processInput(userInput);
+        responseElement.textContent = response;
+    });
+
+    // Voice input button
+    document.getElementById('voice-button').addEventListener('click', () => {
+        hanute.startListening();
+    });
+});
 
 function createFullscreenEmbed(url) {
     // Check if we have this URL minimized already
