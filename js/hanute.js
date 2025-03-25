@@ -2,12 +2,9 @@ class Hanute {
   constructor() {
     // Predefined answers database
     this.answers = {
-      "hello": "Hello! I'm Hanute, your assistant for Gurasuraisu. How can I help you today?",
+      "hello": "How can I help you today?",
       "help": "I can provide information about Gurasuraisu, assist with common tasks, or answer frequently asked questions.",
-      "what is gurasuraisu": "Gurasuraisu is a project focused on [your project description here].",
-      "contact": "You can reach the Gurasuraisu team at [contact information].",
-      "features": "Gurasuraisu offers the following features: [list your features].",
-      // Add more predefined Q&A pairs
+      "who are you": "Hanute is an assistant for Gurasuraisu",
     };
     
     this.fallbackThreshold = 0.4; // Confidence threshold for matching
