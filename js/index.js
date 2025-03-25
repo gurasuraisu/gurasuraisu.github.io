@@ -2638,6 +2638,58 @@ function initializeCustomization() {
 
 let minimizedEmbeds = {}; // Object to store minimized embeds by URL
 
+// Hanute
+        const drawerPill = document.querySelector('.drawer-pill');
+        const hanutePoup = document.getElementById('hanute-popup');
+        let pressTimer;
+
+        drawerPill.addEventListener('mousedown', startPressTimer);
+        drawerPill.addEventListener('mouseup', cancelPressTimer);
+        drawerPill.addEventListener('mouseleave', cancelPressTimer);
+
+        function startPressTimer() {
+            pressTimer = setTimeout(() => {
+                hanutePoup.classList.add('active');
+                
+                // Add click listener to document to close popup when clicking outside
+                document.addEventListener('click', closePopupOutside);
+            }, 3000); // 3 seconds
+        }
+
+        function cancelPressTimer() {
+            clearTimeout(pressTimer);
+        }
+
+        function closePopupOutside(event) {
+            // Check if click is outside popup and not on drawer pill
+            if (!hanutePoup.contains(event.target) && 
+                !drawerPill.contains(event.target)) {
+                hanutePoup.classList.remove('active');
+                
+                // Remove the outside click listener
+                document.removeEventListener('click', closePopupOutside);
+            }
+        }
+
+        // Hanute initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            const hanute = new Hanute();
+            
+            // Text input button
+            document.getElementById('send-button').addEventListener('click', () => {
+                const userInput = document.getElementById('user-input').value;
+                const responseElement = document.getElementById('response');
+                
+                const response = hanute.processInput(userInput);
+                responseElement.textContent = response;
+            });
+            
+            // Voice input button
+            document.getElementById('voice-button').addEventListener('click', () => {
+                hanute.startListening();
+            });
+        });
+
 function createFullscreenEmbed(url) {
     // Check if we have this URL minimized already
     if (minimizedEmbeds[url]) {
