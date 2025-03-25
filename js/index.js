@@ -2639,7 +2639,7 @@ function initializeCustomization() {
 let minimizedEmbeds = {}; // Object to store minimized embeds by URL
 
 // Hanute
-        const drawerPill = document.querySelector('.drawer-pill');
+        const drawerPill = document.querySelector('.drawer-handle');
         const hanutePoup = document.getElementById('hanute-popup');
         let pressTimer;
 
