@@ -286,18 +286,6 @@ body.light-theme[style*="background-image"] .info {
             min-height: 50px;
         }
 
-        /* Drawer pill */
-        .drawer-pill {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-        }
-
 .persistent-clock {
     position: fixed;
     top: 20px;
