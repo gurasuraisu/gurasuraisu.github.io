@@ -246,10 +246,11 @@ body.light-theme[style*="background-image"] .info {
             left: 50%;
             transform: translate(-50%, -50%);
             width: 400px;
-            background-color: white;
-            border: 2px solid #333;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            background: var(--search-background);
+            backdrop-filter: blur(50px);
+            border: 2px solid var(--transparent-color);
+            border-radius: 36px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
             padding: 20px;
             z-index: 1000;
             display: none;
