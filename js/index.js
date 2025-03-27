@@ -1,6 +1,6 @@
 function consoleLicense() {
     const license = `
-Gurasuriasu is made by kirbIndustries, and is licensed under the GNU General Public License, Version 2.0 (GPL-2.0)
+Gurasuraisu is made by kirbIndustries, and is licensed under the GNU General Public License, Version 2.0 (GPL-2.0)
     `;
 
     console.info(license);
@@ -1152,17 +1152,17 @@ function createSetupScreen() {
     const setupPages = [
         {
             title: "Hi there",
-            description: "Get started with Gurasuraisu.",
+            description: "Language: English",
             options: []
         },
         {
             title: "Open & Private",
-            description: "Your data stays on device at all times. No identifying data is transferred to any online services.",
+            description: "Your data stays on device at all times. No user data is transferred to any of our services.",
             options: []
         },
         {
             title: "Allow Permissions",
-            description: "Allow some permissions to allow Gurasuraisu work optimally.",
+            description: "",
             options: [
                 { 
                     name: "Basic access",
@@ -1183,7 +1183,7 @@ function createSetupScreen() {
         },
         {
             title: "Cannibalize your Gurasuraisu",
-            description: "Select a style that matches you.",
+            description: "",
             options: [
                 { name: "Light", value: "light" },
                 { name: "Dark", value: "dark", default: true }
@@ -1191,7 +1191,7 @@ function createSetupScreen() {
         },
         {
             title: "Clock Format",
-            description: "Choose a format to view time in.",
+            description: "",
             options: [
                 { name: "Show Seconds", value: true, default: true },
                 { name: "Hide Seconds", value: false }
@@ -1199,7 +1199,7 @@ function createSetupScreen() {
         },
         {
             title: "Show or Hide Weather",
-            description: "Choose to show or hide Weather. To get Weather, allow location access.",
+            description: "",
             options: [
                 { name: "Show Weather", value: true, default: true },
                 { name: "Hide Weather", value: false }
@@ -1212,7 +1212,7 @@ function createSetupScreen() {
         },
         {
             title: "Configure more Options in Controls",
-            description: "To configure your Gurasuraisu, press on Controls on the top right or access Controls in app by pressing on the clock.",
+            description: "Press on Controls on the top right or access Controls in app by pressing on the clock.",
             options: []
         },
     ];
