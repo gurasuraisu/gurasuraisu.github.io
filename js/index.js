@@ -9,6 +9,7 @@ function applyLanguage(language) {
     document.querySelector('#minimal_mode_qc .qc-label').innerText = language.MINIMAL;
     document.querySelector('#light_mode_qc .qc-label').innerText = language.DAYLIGHT;
     
+    // Updating text content without removing icons
     document.querySelector('.weather-settings .cust-label').childNodes[2].textContent = language.WEATHER;
     document.querySelector('.gurapps-optional .cust-label').childNodes[2].textContent = language.GURAPPS;
     document.querySelector('.clock-settings .cust-label').childNodes[2].textContent = language.SECONDS;
@@ -17,14 +18,18 @@ function applyLanguage(language) {
     document.querySelector('.wallpaper-upload .cust-label').childNodes[2].textContent = language.WALLPAPER;
     document.querySelector('#uploadButton').innerText = language.ADD;
     document.querySelector('.font-selection .cust-label').childNodes[2].textContent = language.STYLE;
-
+    
     // Ensuring only the text node is updated
     const thermostatPopupHeader = document.querySelector('#thermostat-popup .thermostat-popup-header');
-    if (thermostatPopupHeader.childNodes.length > 2) {
+    if (thermostatPopupHeader && thermostatPopupHeader.childNodes.length > 2) {
         thermostatPopupHeader.childNodes[2].textContent = language.ADJUST;
     }
 
-    document.querySelector('label[for="language-switcher"] .cust-label').childNodes[1].textContent = language.LANGPICK;
+    // Update the language selection label
+    const languageSwitcherLabel = document.querySelector('label[for="language-switcher"] .cust-label');
+    if (languageSwitcherLabel && languageSwitcherLabel.childNodes.length > 1) {
+        languageSwitcherLabel.childNodes[1].textContent = language.LANGPICK;
+    }
 }
 
 function consoleLicense() {
@@ -3795,17 +3800,18 @@ window.addEventListener('click', (event) => {
     }
 });
 
-document.getElementById('language-switcher').addEventListener('change', function () {
-    const selectedLanguage = this.value;
-    localStorage.setItem('selectedLanguage', selectedLanguage);
-    firstSetup(); // Re-initialize to apply the selected language
-});
-
 document.addEventListener("DOMContentLoaded", function() {
     updateGurappsVisibility();
 });
 
-document.addEventListener('DOMContentLoaded', firstSetup);
+document.addEventListener('DOMContentLoaded', function() {
+    firstSetup();
+    document.getElementById('language-switcher').addEventListener('change', function () {
+        const selectedLanguage = this.value;
+        localStorage.setItem('selectedLanguage', selectedLanguage);
+        firstSetup(); // Re-initialize to apply the selected language
+    });
+});
 
 setInterval(ensureVideoLoaded, 1000);
 
