@@ -1,3 +1,24 @@
+function applyLanguage(language) {
+    document.getElementById('user-input').placeholder = language.PLACEHOLDER_MESSAGE;
+    document.getElementById('send-button').innerText = language.SEND;
+    document.getElementById('voice-button').innerText = language.VOICE;
+    document.getElementById('search-input').placeholder = language.SEARCH_PLACEHOLDER;
+    document.querySelector('.modal-content h2').innerText = language.CONTROLS;
+    document.querySelector('#silent_switch_qc .qc-label').innerText = language.SILENT;
+    document.querySelector('#temp_control_qc .qc-label').innerText = language.TONE;
+    document.querySelector('#minimal_mode_qc .qc-label').innerText = language.MINIMAL;
+    document.querySelector('#light_mode_qc .qc-label').innerText = language.DAYLIGHT;
+    document.querySelector('.weather-settings .cust-label').innerText = language.WEATHER;
+    document.querySelector('.gurapps-optional .cust-label').innerText = language.GURAPPS;
+    document.querySelector('.clock-settings .cust-label').innerText = language.SECONDS;
+    document.querySelector('.animation-settings .cust-label').innerText = language.MOTION;
+    document.querySelector('.contrast-settings .cust-label').innerText = language.CONTRAST;
+    document.querySelector('.wallpaper-upload .cust-label').innerText = language.WALLPAPER;
+    document.querySelector('#uploadButton').innerText = language.ADD;
+    document.querySelector('.font-selection .cust-label').innerText = language.STYLE;
+    document.querySelector('#thermostat-popup .thermostat-popup-header span').innerText = language.ADJUST;
+}
+
 function consoleLicense() {
     const license = `
 Gurasuraisu is made by kirbIndustries, and is licensed under the GNU General Public License, Version 2.0 (GPL-2.0)
@@ -988,19 +1009,24 @@ function checkFullscreen() {
 
 function firstSetup() {
     const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
+    const selectedLanguage = localStorage.getItem('selectedLanguage') || 'EN';
+    let language;
+
+    switch (selectedLanguage) {
+        case 'JP':
+            language = LANG_JP;
+            break;
+        // Add more languages as needed...
+        default:
+            language = LANG_EN;
+    }
+
+    applyLanguage(language);
 
     if (!hasVisitedBefore) {
         createSetupScreen(); // Show setup screen for first-time users
     }
 
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-
-    if (!localStorage.getItem('hasSeenPopupTouchscreen') && !isTouchDevice) {
-        showPopup('Touchscreen ready to use');
-        localStorage.setItem('hasSeenPopupTouchscreen', 'true');
-    }
-
-    // Set the visited flag after setup is complete
     localStorage.setItem('hasVisitedBefore', 'true');
 }
 
@@ -3765,6 +3791,8 @@ document.addEventListener("DOMContentLoaded", function() {
     updateGurappsVisibility();
 });
 
+document.addEventListener('DOMContentLoaded', firstSetup);
+
 setInterval(ensureVideoLoaded, 1000);
 
 function preventLeaving() {
@@ -3784,7 +3812,6 @@ function preventLeaving() {
     // Call initialization
     initializeCustomization();
     setupWeatherToggle()
-    firstSetup();
     promptToInstallPWA();
     updateDisplay();
     initAppDraw();
