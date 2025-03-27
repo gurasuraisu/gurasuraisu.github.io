@@ -1154,7 +1154,7 @@ body.light-theme[style*="background-image"] .info {
             display: none;
         }
 
-.gurapps-optional, .minimal-mode, .font-selection, .wallpaper-upload, .weather-settings, .clock-settings, .theme-toggle, .contrast-settings, .animation-settings {
+.gurapps-optional, .minimal-mode, .font-selection, .lang-selection, .wallpaper-upload, .weather-settings, .clock-settings, .theme-toggle, .contrast-settings, .animation-settings {
     display: flex;
     justify-content: space-between;
     align-items: center;
