@@ -8,7 +8,7 @@ function applyLanguage(language) {
     document.querySelector('#temp_control_qc .qc-label').innerText = language.TONE;
     document.querySelector('#minimal_mode_qc .qc-label').innerText = language.MINIMAL;
     document.querySelector('#light_mode_qc .qc-label').innerText = language.DAYLIGHT;
-    
+
     document.querySelector('.weather-settings .cust-label').childNodes[2].textContent = language.WEATHER;
     document.querySelector('.gurapps-optional .cust-label').childNodes[2].textContent = language.GURAPPS;
     document.querySelector('.clock-settings .cust-label').childNodes[2].textContent = language.SECONDS;
@@ -18,7 +18,7 @@ function applyLanguage(language) {
     document.querySelector('#uploadButton').innerText = language.ADD;
     document.querySelector('.font-selection .cust-label').childNodes[2].textContent = language.STYLE;
     document.querySelector('#thermostat-popup .thermostat-popup-header span').innerText = language.ADJUST;
-    document.querySelector('label[for="language-switcher"] .cust-label').childNodes[2].textContent = language.LANGPICK;
+    document.querySelector('label[for="language-switcher"] .cust-label').childNodes[1].textContent = language.LANGPICK;
 }
 
 function consoleLicense() {
