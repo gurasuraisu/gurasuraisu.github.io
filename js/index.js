@@ -17,6 +17,7 @@ function applyLanguage(language) {
     document.querySelector('#uploadButton').innerText = language.ADD;
     document.querySelector('.font-selection .cust-label').innerText = language.STYLE;
     document.querySelector('#thermostat-popup .thermostat-popup-header span').innerText = language.ADJUST;
+    document.querySelector('label[for="language-switcher"] .cust-label').innerText = language.LANGPICK;
 }
 
 function consoleLicense() {
@@ -3785,6 +3786,12 @@ window.addEventListener('click', (event) => {
 	    blurOverlayControls.style.display = 'none';
         }, 300); 
     }
+});
+
+document.getElementById('language-switcher').addEventListener('change', function () {
+    const selectedLanguage = this.value;
+    localStorage.setItem('selectedLanguage', selectedLanguage);
+    firstSetup(); // Re-initialize to apply the selected language
 });
 
 document.addEventListener("DOMContentLoaded", function() {
