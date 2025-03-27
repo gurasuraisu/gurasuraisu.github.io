@@ -19,7 +19,8 @@ const LANG_EN = {
     WALLPAPER: "Wallpaper",
     ADD: "Add",
     STYLE: "Style",
-    ADJUST: "Adjust"
+    ADJUST: "Adjust",
+    LANGPICK: "Language"
 };
 
 const LANG_JP = {
@@ -46,5 +47,6 @@ const LANG_JP = {
     WALLPAPER: "壁紙",
     ADD: "追加",
     STYLE: "スタイル",
-    ADJUST: "調整"
+    ADJUST: "調整",
+    LANGPICK: "言語"
 };
