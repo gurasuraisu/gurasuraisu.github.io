@@ -1191,7 +1191,7 @@ function createSetupScreen() {
     const setupPages = [
         {
             title: "Hi there",
-            description: "Language: English",
+            description: "",
             options: []
         },
         {
