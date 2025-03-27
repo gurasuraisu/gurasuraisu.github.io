@@ -141,17 +141,6 @@
                 </label>
                 <input type="checkbox" id="contrast-switch">
             </div>
-            <div class="lang-selection control-middle">
-                <label class="cust-label">
-                    <span class="material-symbols-rounded">language</span>
-                    LANG_LANGPICK
-                </label>
-                <select id="language-switcher">
-                    <option value="EN">English</option>
-                    <option value="JP">日本語</option>
-                    <!-- Add more languages as needed -->
-                </select>
-            </div>
             <div class="wallpaper-upload control-middle">
                 <label class="cust-label">
                     <span class="material-symbols-rounded">filter_vintage</span>
@@ -177,6 +166,16 @@
                     <option value="Rampart One">Raised</option>
                     <option value="Doto">Dot</option>
                     <option value="Nunito">Round</option>
+                </select>
+            </div>
+            <div class="lang-selection control-middle">
+                <label for="language-switcher" class="cust-label">
+                    <span class="material-symbols-rounded">language</span>
+                    <span id="language-label">LANG_LANGPICK</span>
+                </label>
+                <select id="language-switcher">
+                    <option value="EN">English</option>
+                    <option value="JP">日本語</option>
                 </select>
             </div>
             <div class="version-info">
