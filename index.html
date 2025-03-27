@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en"><head>
+<html lang="en">
+<head>
     <link rel="icon" href="/assets/favicon.png" type="image/png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,36 +12,37 @@
     <script>
         let FF_FOUC_FIX;
         if ('serviceWorker' in navigator) {
-          window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js')
-              .then(registration => {
-                console.log('ServiceWorker registered:', registration);
-              })
-              .catch(error => {
-                console.log('ServiceWorker registration failed:', error);
-              });
-          });
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registered:', registration);
+                    })
+                    .catch(error => {
+                        console.log('ServiceWorker registration failed:', error);
+                    });
+            });
         }
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0"></head>
-<body>    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0">
+</head>
+<body>
     <div class="drawer-handle">
         <div class="drawer-pill"></div>
     </div>
 
     <div id="hanute-popup">
-        <input type="text" id="user-input" placeholder="Type your message">
+        <input type="text" id="user-input" placeholder="LANG_PLACEHOLDER_MESSAGE">
         <div>
-            <button id="send-button">Send</button>
-            <button id="voice-button">Voice</button>
+            <button id="send-button">LANG_SEND</button>
+            <button id="voice-button">LANG_VOICE</button>
         </div>
         <div id="response"></div>
     </div>
-    
+
     <div id="persistent-clock" class="persistent-clock"></div>
-    
+
     <div class="container">
         <div class="info">
             <div class="date" id="date"></div>
@@ -49,148 +51,148 @@
         <div class="clockwidgets">
             <div class="search-container">
                 <span id="search-icon" class="material-symbols-rounded search-icon">search</span>
-                <input type="text" class="search-input" id="search-input" placeholder="Search">
+                <input type="text" class="search-input" id="search-input" placeholder="LANG_SEARCH_PLACEHOLDER">
                 <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
             </div>
             <div class="weather-widget" id="weather">
                 <span class="temperature" id="temperature"></span>
                 <span class="weather-icon" id="weather-icon">
                     <svg width="24" height="24" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: var(--text-color);">
-                        <style>.spinner_V8m1{transform-origin:center;animation:spinner_zKoa 2s linear infinite}.spinner_V8m1 circle{stroke-linecap:round;animation:spinner_YpZS 1.5s ease-in-out infinite}@keyframes spinner_zKoa{100%{transform:rotate(360deg)}}@keyframes spinner_YpZS{0%{stroke-dasharray:0 150;stroke-dashoffset:0}47.5%{stroke-dasharray:42 150;stroke-dashoffset:-16}95%,100%{stroke-dasharray:42 150;stroke-dashoffset:-59}}</style>
+                        <style>.spinner_V8m1{transform-origin:center;animation:spinner_zKoa 2s linear infinite}.spinner_V8m1 circle{stroke-linecap:round;animation:spinner_YpZS 1.5s ease-in-out infinite}</style>
                         <g class="spinner_V8m1"><circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3"></circle></g>
                     </svg>
                 </span>
             </div>
             <div class="timer-widget" id="timer-widget">
-                 <span class="timer-text" id="timer-text"></span>
-                 <span class="timer-icon material-symbols-rounded">timer</span>
+                <span class="timer-text" id="timer-text"></span>
+                <span class="timer-icon material-symbols-rounded">timer</span>
             </div>
         </div>
     </div>
-                
-<div id="customizeModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <h2>Controls</h2>
-        <div class="quick-controls">
-            <div class="qcontrol-item" id="silent_switch_qc">
-                <span class="material-symbols-rounded">notifications_off</span>
-                <span class="qc-label">Silent</span>
-                <input type="checkbox" id="silent_switch" class="qc-switch" hidden>
-            </div>
-            <div class="qcontrol-item" id="temp_control_qc">
-                <span class="material-symbols-rounded">thermostat</span>
-                <span class="qc-label">Tone</span>
-                <span id="thermostat-value">30℃</span>
-            </div>
-            <div class="qcontrol-item" id="minimal_mode_qc">
-                <span class="material-symbols-rounded">hide</span>
-                <span class="qc-label">Minimal</span>
-                <input type="checkbox" id="security-switch" class="qc-switch" hidden>
-            </div>
-            <div class="qcontrol-item" id="light_mode_qc">
-                <span class="material-symbols-rounded">contrast</span>
-                <span class="qc-label">Daylight</span>
-                <input type="checkbox" id="camera-switch" class="qc-switch" hidden>
-            </div>
-        </div>
-        <div class="display-controls">
-            <div class="display-item">
-                <label for="brightness-control" class="cust-label">
-                    <span class="material-symbols-rounded">brightness_6</span>
-                </label>
-                <div class="brightness-slider-container">
-                    <span id="brightness-value">100%</span>
-                    <input type="range" min="20" max="100" value="100" class="brightness-slider" id="brightness-control">
+
+    <div id="customizeModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2>LANG_CONTROLS</h2>
+            <div class="quick-controls">
+                <div class="qcontrol-item" id="silent_switch_qc">
+                    <span class="material-symbols-rounded">notifications_off</span>
+                    <span class="qc-label">LANG_SILENT</span>
+                    <input type="checkbox" id="silent_switch" class="qc-switch" hidden>
+                </div>
+                <div class="qcontrol-item" id="temp_control_qc">
+                    <span class="material-symbols-rounded">thermostat</span>
+                    <span class="qc-label">LANG_TONE</span>
+                    <span id="thermostat-value">30℃</span>
+                </div>
+                <div class="qcontrol-item" id="minimal_mode_qc">
+                    <span class="material-symbols-rounded">hide</span>
+                    <span class="qc-label">LANG_MINIMAL</span>
+                    <input type="checkbox" id="security-switch" class="qc-switch" hidden>
+                </div>
+                <div class="qcontrol-item" id="light_mode_qc">
+                    <span class="material-symbols-rounded">contrast</span>
+                    <span class="qc-label">LANG_DAYLIGHT</span>
+                    <input type="checkbox" id="camera-switch" class="qc-switch" hidden>
                 </div>
             </div>
-        </div>
-        <div class="weather-settings control-first">
-            <label for="weather-switch" class="cust-label">
-                <span class="material-symbols-rounded">partly_cloudy_day</span>
-                Weather
-            </label>
-            <input type="checkbox" id="weather-switch" checked>
-        </div>
-        <div class="gurapps-optional control-middle">
-            <label for="gurapps-switch" class="cust-label">
-                <span class="material-symbols-rounded">grid_view</span>
-                Gurapps
-            </label>
-            <input type="checkbox" id="gurapps-switch">
-        </div>
-        <div class="clock-settings control-middle">
-            <label for="seconds-switch" class="cust-label">
-                <span class="material-symbols-rounded">timer_10_select</span>
-                Seconds
-            </label>
-            <input type="checkbox" id="seconds-switch" checked>
-        </div>
-        <div class="animation-settings control-middle">
-            <label for="seconds-switch" class="cust-label">
-                <span class="material-symbols-rounded">animation</span>
-                Motion
-            </label>
-            <input type="checkbox" id="animation-switch" checked>
-        </div>
-        <div class="contrast-settings control-middle">
-            <label for="seconds-switch" class="cust-label">
-                <span class="material-symbols-rounded">filter_b_and_w</span>
-                Contrast
-            </label>
-            <input type="checkbox" id="contrast-switch">
-        </div>
-        <div class="wallpaper-upload control-middle">
-            <label class="cust-label">
-                <span class="material-symbols-rounded">filter_vintage</span>
-                Wallpaper
-            </label>
-            <input type="file" id="wallpaperInput" accept=".png, .jpeg, .jpg, .webp, .gif, .mp4" multiple>
-            <button id="uploadButton">Add</button>
-        </div>
-        <div class="font-selection control-last">
-            <label for="font-select" class="cust-label">
-                <span class="material-symbols-rounded">custom_typography</span>
-                Style
-            </label>
-            <select id="font-select">
-                <option value="Inter">Default</option>
-                <option value="Roboto">Work</option>
-                <option value="DynaPuff">Puffy</option>
-                <option value="DM Serif Display">Classic</option>
-                <option value="Iansui">Strokes</option>
-                <option value="JetBrains Mono">Mono</option>
-                <option value="DotGothic16">Pixel</option>
-                <option value="Patrick Hand">Written</option>
-                <option value="Rampart One">Raised</option>
-                <option value="Doto">Dot</option>
-                <option value="Nunito">Round</option>
-            </select>
-        </div>
-        <div class="version-info">
-            <label class="cust-label">
-                <img src="/assets/13.png" alt="Sodium 13 Icon" style="width: 24px; height: 24px;">
-                Sodium 13.0.3
-            </label>
-            <button id="versionButton">Details</button>
+            <div class="display-controls">
+                <div class="display-item">
+                    <label for="brightness-control" class="cust-label">
+                        <span class="material-symbols-rounded">brightness_6</span>
+                    </label>
+                    <div class="brightness-slider-container">
+                        <span id="brightness-value">100%</span>
+                        <input type="range" min="20" max="100" value="100" class="brightness-slider" id="brightness-control">
+                    </div>
+                </div>
+            </div>
+            <div class="weather-settings control-first">
+                <label for="weather-switch" class="cust-label">
+                    <span class="material-symbols-rounded">partly_cloudy_day</span>
+                    LANG_WEATHER
+                </label>
+                <input type="checkbox" id="weather-switch" checked>
+            </div>
+            <div class="gurapps-optional control-middle">
+                <label for="gurapps-switch" class="cust-label">
+                    <span class="material-symbols-rounded">grid_view</span>
+                    LANG_GURAPPS
+                </label>
+                <input type="checkbox" id="gurapps-switch">
+            </div>
+            <div class="clock-settings control-middle">
+                <label for="seconds-switch" class="cust-label">
+                    <span class="material-symbols-rounded">timer_10_select</span>
+                    LANG_SECONDS
+                </label>
+                <input type="checkbox" id="seconds-switch" checked>
+            </div>
+            <div class="animation-settings control-middle">
+                <label for="seconds-switch" class="cust-label">
+                    <span class="material-symbols-rounded">animation</span>
+                    LANG_MOTION
+                </label>
+                <input type="checkbox" id="animation-switch" checked>
+            </div>
+            <div class="contrast-settings control-middle">
+                <label for="seconds-switch" class="cust-label">
+                    <span class="material-symbols-rounded">filter_b_and_w</span>
+                    LANG_CONTRAST
+                </label>
+                <input type="checkbox" id="contrast-switch">
+            </div>
+            <div class="wallpaper-upload control-middle">
+                <label class="cust-label">
+                    <span class="material-symbols-rounded">filter_vintage</span>
+                    LANG_WALLPAPER
+                </label>
+                <input type="file" id="wallpaperInput" accept=".png, .jpeg, .jpg, .webp, .gif, .mp4" multiple>
+                <button id="uploadButton">LANG_ADD</button>
+            </div>
+            <div class="font-selection control-last">
+                <label for="font-select" class="cust-label">
+                    <span class="material-symbols-rounded">custom_typography</span>
+                    LANG_STYLE
+                </label>
+                <select id="font-select">
+                    <option value="Inter">Default</option>
+                    <option value="Roboto">Work</option>
+                    <option value="DynaPuff">Puffy</option>
+                    <option value="DM Serif Display">Classic</option>
+                    <option value="Iansui">Strokes</option>
+                    <option value="JetBrains Mono">Mono</option>
+                    <option value="DotGothic16">Pixel</option>
+                    <option value="Patrick Hand">Written</option>
+                    <option value="Rampart One">Raised</option>
+                    <option value="Doto">Dot</option>
+                    <option value="Nunito">Round</option>
+                </select>
+            </div>
+            <div class="version-info">
+                <label class="cust-label">
+                    <img src="/assets/13.png" alt="Sodium 13 Icon" style="width: 24px; height: 24px;">
+                    Sodium 13.0.3
+                </label>
+                <button id="versionButton">Details</button>
+            </div>
         </div>
     </div>
-</div>
 
-<div id="thermostat-popup" class="thermostat-popup">
-    <div class="thermostat-popup-content">
-        <div class="thermostat-popup-header">
-            <button id="close-thermostat-popup" class="close-popup-btn">
-                <span class="material-symbols-rounded">close</span>
-            </button>
-            <span>Adjust</span>
-        </div>
-        <div class="thermostat-slider-container">
-            <input type="range" min="-10" max="10" value="0" class="thermostat-slider" id="thermostat-control">
-            <div id="thermostat-popup-value">0</div>
+    <div id="thermostat-popup" class="thermostat-popup">
+        <div class="thermostat-popup-content">
+            <div class="thermostat-popup-header">
+                <button id="close-thermostat-popup" class="close-popup-btn">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
+                <span>LANG_ADJUST</span>
+            </div>
+            <div class="thermostat-slider-container">
+                <input type="range" min="-10" max="10" value="0" class="thermostat-slider" id="thermostat-control">
+                <div id="thermostat-popup-value">0</div>
+            </div>
         </div>
     </div>
-</div>
-    
+
     <div id="timezoneModal" class="modal">
         <div class="modal-content">
             <button class="close" id="closeModal"><span class="material-symbols-rounded">timer</span></button>
@@ -215,25 +217,25 @@
             </div>
         </div>
     </div>
-    
+
     <div id="weatherModal" class="modal">
         <div class="modal-content">
             <button class="close" id="closeWeatherModal"><span class="material-symbols-rounded">partly_cloudy_day</span></button>
             <div id="detailedWeather" class="detailed-weather">
                 <p>
                     <svg width="24" height="24" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="color: var(--text-color);">
-                        <style>.spinner_V8m1{transform-origin:center;animation:spinner_zKoa 2s linear infinite}.spinner_V8m1 circle{stroke-linecap:round;animation:spinner_YpZS 1.5s ease-in-out infinite}@keyframes spinner_zKoa{100%{transform:rotate(360deg)}}@keyframes spinner_YpZS{0%{stroke-dasharray:0 150;stroke-dashoffset:0}47.5%{stroke-dasharray:42 150;stroke-dashoffset:-16}95%,100%{stroke-dasharray:42 150;stroke-dashoffset:-59}}</style>
+                        <style>.spinner_V8m1{transform-origin:center;animation:spinner_zKoa 2s linear infinite}.spinner_V8m1 circle{stroke-linecap:round;animation:spinner_YpZS 1.5s ease-in-out infinite}</style>
                         <g class="spinner_V8m1"><circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3"></circle></g>
                     </svg>
                 </p>
             </div>
         </div>
     </div>
-    
+
     <input type="file" id="wallpaperInput" accept=".jpg, .jpeg, .png">
-        <div class="customize" id="customize">
-            <span class="material-symbols-rounded">page_info</span>
-        </div>
+    <div class="customize" id="customize">
+        <span class="material-symbols-rounded">page_info</span>
+    </div>
 
     <div class="blur-overlay" id="blurOverlay"></div>
 
@@ -247,7 +249,7 @@
         </div>
     </div>
 
-    <script src="js/index.js"></script> 
+    <script src="js/index.js"></script>
     <script src="js/hanute.js"></script>
 </body>
 </html>
