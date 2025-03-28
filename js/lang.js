@@ -1,3 +1,5 @@
+// lang.js
+
 const LANG_EN = {
     GREETING: "Gurasuraisu loaded successfully",
     LICENCE: "Gurasuraisu is made by kirbIndustries, and is licensed under the GNU General Public License, Version 2.0 (GPL-2.0)",
