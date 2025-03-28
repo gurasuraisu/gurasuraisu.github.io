@@ -30,6 +30,10 @@ function applyLanguage(language) {
     if (languageSwitcherLabel && languageSwitcherLabel.childNodes.length > 1) {
         languageSwitcherLabel.childNodes[1].textContent = language.LANGPICK;
     }
+
+    // Update checkWords and closeWords
+    window.checkWords = language.CHECK_WORDS;
+    window.closeWords = language.CLOSE_WORDS;
 }
 
 function consoleLicense() {
@@ -43,11 +47,7 @@ Gurasuraisu is made by kirbIndustries, and is licensed under the GNU General Pub
 consoleLicense()
 
 function consoleLoaded() {
-    const greeting = `
-Gurasuraisu loaded successfully
-    `;
-
-    console.info(greeting);
+    showPopup(LANG_EN.LOAD_SUCCESS);
 }
 
 const secondsSwitch = document.getElementById('seconds-switch');
@@ -101,11 +101,10 @@ function checkIfPWA() {
 }
 
 function promptToInstallPWA() {
-  // Check if not in PWA mode and show a one-time popup
-  if (!localStorage.getItem('pwaPromptShown') && !checkIfPWA()) {
-    showPopup('Install as an app to get all features');
-    localStorage.setItem('pwaPromptShown', 'true');
-  }
+    if (!localStorage.getItem('pwaPromptShown') && !checkIfPWA()) {
+        showPopup(LANG_EN.INSTALL_PROMPT);
+        localStorage.setItem('pwaPromptShown', 'true');
+    }
 }
 
 // Function to get current time in 24-hour format (HH:MM:SS)
@@ -503,7 +502,7 @@ async function fetchLocationAndWeather() {
             } catch (error) {
                 console.error('Error fetching weather data:', error);
                 if (!navigator.onLine) {
-                    showPopup('You are offline');
+                    showPopup(LANG_EN.OFFLINE);
                 }
                 // Return cached data if available
                 const cachedData = localStorage.getItem('lastWeatherData');
@@ -554,7 +553,7 @@ async function updateSmallWeather() {
     } catch (error) {
         console.error('Error updating small weather widget:', error);
         document.getElementById('weather').style.display = 'none';
-        showPopup('Failed to retrieve weather');
+        showPopup(LANG_EN.FAIL_WEATHER);
     }
 
     updateTitle();
@@ -868,9 +867,9 @@ function showPopup(message) {
     popup.style.gap = '10px';
 
     // Check for specific words to determine icon
-    const checkWords = ['updated', 'complete', 'done', 'success', 'completed', 'ready', 'sucessfully', 'accepted', 'accept', 'yes'];
-    const closeWords = ['failed', 'canceled', 'error', 'failure', 'fail', 'cancel', 'rejected', 'reject', 'not', 'no'];
-    
+    const checkWords = window.checkWords || ['updated', 'complete', 'done', 'success', 'completed', 'ready', 'successfully', 'accepted', 'accept', 'yes'];
+    const closeWords = window.closeWords || ['failed', 'canceled', 'error', 'failure', 'fail', 'cancel', 'rejected', 'reject', 'not', 'no'];
+
     let shouldShowIcon = false;
     let iconType = '';
     
@@ -1016,7 +1015,7 @@ function goFullscreen() {
 
 function checkFullscreen() {
   if (!isFullScreen()) {
-    showPopup('Not fullscreen');
+    showPopup(LANG_EN.NOT_FULLSCREEN);
   }
 }
 
@@ -1380,7 +1379,6 @@ function createSetupScreen() {
                 setTimeout(() => {
                     setupContainer.remove();
                     goFullscreen()
-                    showPopup('Setup complete')
                 }, 500);
             } else {
                 currentPage++;
@@ -2070,7 +2068,7 @@ wallpaperInput.addEventListener('change', async (event) => {
       if (['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif', 'video/mp4'].includes(file.type)) {
         saveWallpaper(file);
       } else {
-        showPopup('Failed to update wallpaper');
+        showPopup(LANG_EN.WALLPAPER_UPDATE_FAIL);
       }
     } else {
       let wallpaperEntries = [];
@@ -2112,14 +2110,14 @@ wallpaperInput.addEventListener('change', async (event) => {
         saveRecentWallpapers();
         currentWallpaperPosition = 0;
         applyWallpaper();
-        showPopup('Multiple wallpapers updated');
+        showPopup(LANG_EN.MULTIPLE_WALLPAPERS_UPDATED);
       } else {
-        showPopup('No valid wallpapers found');
+        showPopup(LANG_EN.NO_VALID_WALLPAPERS);
       }
     }
   } catch (error) {
     console.error('Error handling wallpapers:', error);
-    showPopup('Failed to update wallpapers');
+    showPopup(LANG_EN.WALLPAPER_SAVE_FAIL);
   }
 });
 
@@ -2223,7 +2221,7 @@ async function saveWallpaper(file) {
         
       } catch (error) {
         if (error.name === 'QuotaExceededError') {
-          showPopup('Failed to update wallpaper: File too large');
+          showPopup(LANG_EN.WALLPAPER_UPDATE_FAIL);
           return;
         }
         throw error;
@@ -2242,10 +2240,10 @@ async function saveWallpaper(file) {
     saveRecentWallpapers();
     currentWallpaperPosition = 0;
     applyWallpaper();
-    showPopup('Wallpaper updated');
+    showPopup(LANG_EN.WALLPAPER_UPDATED);
   } catch (error) {
     console.error('Error saving wallpaper:', error);
-    showPopup('Failed to save wallpaper');
+    showPopup(LANG_EN.WALLPAPER_SAVE_FAIL);
   }
 }
 
@@ -2289,7 +2287,6 @@ async function applyWallpaper() {
 
                         video.onerror = (e) => {
                             console.error('Video loading error:', e);
-                            showPopup('Error loading video wallpaper');
                         };
 
                         video.onloadeddata = () => {
@@ -2315,7 +2312,6 @@ async function applyWallpaper() {
                 currentWallpaperIndex = (currentWallpaperIndex + 1) % wallpapers.length;
             } catch (error) {
                 console.error('Error applying wallpaper:', error);
-                showPopup('Failed to apply wallpaper');
             }
         }
         
@@ -2356,7 +2352,6 @@ async function applyWallpaper() {
 
                     video.onerror = (e) => {
                         console.error('Video loading error:', e);
-                        showPopup('Error loading video wallpaper');
                     };
 
                     video.onloadeddata = () => {
@@ -2383,7 +2378,6 @@ async function applyWallpaper() {
             }
         } catch (error) {
             console.error('Error applying wallpaper:', error);
-            showPopup('Failed to apply wallpaper');
         }
     }
 }
@@ -2471,7 +2465,7 @@ function saveRecentWallpapers() {
     localStorage.setItem('recentWallpapers', JSON.stringify(recentWallpapers));
   } catch (error) {
     console.error('Error saving recent wallpapers:', error);
-    showPopup('Failed to save wallpaper history');
+    showPopup(LANG_EN.WALLPAPER_HISTORY_FAIL);
   }
 }
 
@@ -2510,7 +2504,7 @@ function switchWallpaper(direction) {
       localStorage.setItem('wallpapers', JSON.stringify(wallpapers));
       currentWallpaperIndex = 0;
       applyWallpaper();
-      showPopup('Slideshow wallpaper');
+      showPopup(LANG_EN.SLIDESHOW_WALLPAPER);
     }
   } else {
     // Apply a single wallpaper
@@ -2527,7 +2521,7 @@ function switchWallpaper(direction) {
       applyWallpaper();
     }
     
-    showPopup('Wallpaper changed');
+    showPopup(LANG_EN.WALLPAPER_CHANGE);
   }
 }
 
@@ -2615,7 +2609,7 @@ function setupFontSelection() {
             applyFont(selectedFont);
             localStorage.setItem('clockFont', selectedFont);
         }).catch(() => {
-            showPopup('Failed to load Clock Style');
+            showPopup(LANG_EN.CLOCK_STYLE_FAILED);
         });
     });
 }
@@ -2988,7 +2982,7 @@ function createAppIcons() {
                             showPopup('Opening Weather');
                             break;
                         default:
-                            showPopup(`${app.name} app opened`);
+                            showPopup(LANG_EN.APP_OPENED.replace("{app}", app));
                     }
                 } else {
                     createFullscreenEmbed(app.details.url);
@@ -3573,12 +3567,12 @@ document.addEventListener('keydown', (event) => {
 });
 
 window.addEventListener('online', () => {
-    showPopup('You are online');
+    showPopup(LANG_EN.ONLINE);
     updateSmallWeather(); // Refresh weather data
 });
 
 window.addEventListener('offline', () => {
-    showPopup('You are offline');
+    showPopup(LANG_EN.OFFLINE);
 });
 
 // Call applyWallpaper on page load
@@ -3813,6 +3807,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+window.addEventListener('load', () => {
+    showPopup(LANG_EN.LOAD_SUCCESS);
+    promptToInstallPWA();
+});
+
 setInterval(ensureVideoLoaded, 1000);
 
 function preventLeaving() {
@@ -3832,7 +3831,6 @@ function preventLeaving() {
     // Call initialization
     initializeCustomization();
     setupWeatherToggle()
-    promptToInstallPWA();
     updateDisplay();
     initAppDraw();
     updateWeatherVisibility();
