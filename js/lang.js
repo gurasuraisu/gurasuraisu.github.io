@@ -40,7 +40,9 @@ const LANG_EN = {
     WALLPAPER_SAVE_FAIL: "Failed to save wallpaper",
     WALLPAPER_HISTORY_FAIL: "Failed to save wallpaper history",
     LOAD_SUCCESS: "Gurasuraisu loaded successfully",
-    NOT_FULLSCREEN: "Not fullscreen"
+    NOT_FULLSCREEN: "Not fullscreen",
+    CHECK_WORDS: ['updated', 'complete', 'done', 'success', 'completed', 'ready', 'successfully', 'accepted', 'accept', 'yes'],
+    CLOSE_WORDS: ['failed', 'canceled', 'error', 'failure', 'fail', 'cancel', 'rejected', 'reject', 'not', 'no']
 };
 
 const LANG_JP = {
@@ -85,5 +87,7 @@ const LANG_JP = {
     WALLPAPER_SAVE_FAIL: "壁紙の保存に失敗しました",
     WALLPAPER_HISTORY_FAIL: "壁紙履歴の保存に失敗しました",
     LOAD_SUCCESS: "ぐらするらいす読み込み成功",
-    NOT_FULLSCREEN: "全画面ではありません"
+    NOT_FULLSCREEN: "全画面ではありません",
+    CHECK_WORDS: ['更新', '完了', '成功', '準備完了', '受け入れ', 'はい'],
+    CLOSE_WORDS: ['失敗', 'キャンセル', 'エラー', '故障', '拒否', '違う', 'いいえ']
 };
