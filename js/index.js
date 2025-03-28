@@ -554,15 +554,22 @@ async function updateSmallWeather() {
         const weatherData = await fetchLocationAndWeather();
         if (!weatherData) throw new Error('Weather data not available');
 
-        const temperatureElement = document.getElementById('temperature');
-        const weatherIconElement = document.getElementById('weather-icon');
-        const weatherInfo = weatherConditions[languageCode][weatherData.current.weathercode] || { description: 'Unknown', icon: () => '❓' };
+        // Ensure weatherData and its properties exist before accessing them
+        if (weatherData && weatherData.current && weatherData.current.weathercode !== undefined) {
+            const temperatureElement = document.getElementById('temperature');
+            const weatherIconElement = document.getElementById('weather-icon');
+            const weatherInfo = weatherConditions[languageCode][weatherData.current.weathercode] || { description: 'Unknown', icon: () => '❓' };
 
-        document.getElementById('weather').style.display = showWeather ? 'block' : 'none';
-        temperatureElement.textContent = `${Math.round(weatherData.current.temperature)}°`;
-        weatherIconElement.className = 'material-symbols-rounded';
-        weatherIconElement.textContent = weatherInfo.icon(true);
-        weatherIconElement.dataset.weatherCode = weatherData.current.weathercode;
+            document.getElementById('weather').style.display = showWeather ? 'block' : 'none';
+            temperatureElement.textContent = `${Math.round(weatherData.current.temperature)}°`;
+            weatherIconElement.className = 'material-symbols-rounded';
+            weatherIconElement.textContent = weatherInfo.icon(true);
+            weatherIconElement.dataset.weatherCode = weatherData.current.weathercode;
+        } else {
+            console.warn('Weather data or weather code is missing. Cannot update small weather widget.');
+            document.getElementById('weather').style.display = 'none';
+            showPopup(currentLanguage.FAIL_WEATHER);
+        }
     } catch (error) {
         console.error('Error updating small weather widget:', error);
         document.getElementById('weather').style.display = 'none';
