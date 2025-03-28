@@ -228,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to update the document title
 function updateTitle() {
+    const languageCode = localStorage.getItem('selectedLanguage') || 'en';
     if (timeLeft > 0 && timerId) {
         document.title = `${formatTime(timeLeft)} ⏱️`;
     } else {
@@ -240,24 +241,19 @@ function updateTitle() {
             `${hours}:${minutes}:${seconds}` : 
             `${hours}:${minutes}`;
             
-        // Check if weather is enabled
         const showWeather = localStorage.getItem('showWeather') !== 'false';
-        
         let weatherString = '';
         if (showWeather) {
             const temperatureElement = document.getElementById('temperature');
             const weatherIconElement = document.getElementById('weather-icon');
-            
             if (temperatureElement && weatherIconElement && weatherIconElement.dataset.weatherCode) {
                 const temperature = temperatureElement.textContent.replace('°', '');
                 const weatherCode = parseInt(weatherIconElement.dataset.weatherCode);
-                
-                if (weatherConditionsForTitle[weatherCode]) {
-                    weatherString = ` | ${temperature}° ${weatherConditionsForTitle[weatherCode].icon}`;
+                if (weatherConditionsForTitle[languageCode][weatherCode]) {
+                    weatherString = ` | ${temperature}° ${weatherConditionsForTitle[languageCode][weatherCode].icon}`;
                 }
             }
         }
-
         document.title = `${timeString}${weatherString}`;
     }
 }
@@ -277,141 +273,132 @@ function isDaytimeForHour(timeString) {
 setInterval(updateTitle, 1000);
 
 // Title weather conditions using emojis
-        const weatherConditionsForTitle = {
-            0: { description: 'Clear Sky', icon: '☀️' },
-            1: { description: 'Mainly Clear', icon: '🌤️' },
-            2: { description: 'Partly Cloudy', icon: '⛅' },
-            3: { description: 'Overcast', icon: '☁️' },
-            45: { description: 'Fog', icon: '🌫️' },
-            48: { description: 'Depositing Rime Fog', icon: '🌫️' },
-            51: { description: 'Light Drizzle', icon: '🌦️' },
-            53: { description: 'Moderate Drizzle', icon: '🌦️' },
-            55: { description: 'Dense Drizzle', icon: '🌧️' },
-            56: { description: 'Light Freezing Drizzle', icon: '🌧️' },
-            57: { description: 'Dense Freezing Drizzle', icon: '🌧️' },
-            61: { description: 'Slight Rain', icon: '🌧️' },
-            63: { description: 'Moderate Rain', icon: '🌧️' },
-            65: { description: 'Heavy Rain', icon: '🌧️' },
-            66: { description: 'Light Freezing Rain', icon: '🌧️' },
-            67: { description: 'Heavy Freezing Rain', icon: '🌧️' },
-            71: { description: 'Slight Snow', icon: '🌨️' },
-            73: { description: 'Moderate Snow', icon: '❄️' },
-            75: { description: 'Heavy Snow', icon: '❄️' },
-            77: { description: 'Snow Grains', icon: '❄️' },
-            80: { description: 'Slight Showers', icon: '🌦️' },
-            81: { description: 'Moderate Showers', icon: '🌧️' },
-            82: { description: 'Violent Showers', icon: '⛈️' },
-            85: { description: 'Slight Snow Showers', icon: '🌨️' },
-            86: { description: 'Heavy Snow Showers', icon: '❄️' },
-            95: { description: 'Thunderstorm', icon: '⛈️' },
-            96: { description: 'Thunderstorm with Hail', icon: '⛈️' },
-            99: { description: 'Heavy Thunderstorm with Hail', icon: '🌩️' }
-        };
-
-const weatherConditions = {
-    0: { 
-        description: 'Clear Sky', 
-        icon: () => isDaytime() ? 'clear_day' : 'clear_night'
+const weatherConditionsForTitle = {
+    en: {
+        0: { description: 'Clear Sky', icon: '☀️' },
+        1: { description: 'Mainly Clear', icon: '🌤️' },
+        2: { description: 'Partly Cloudy', icon: '⛅' },
+        3: { description: 'Overcast', icon: '☁️' },
+        45: { description: 'Fog', icon: '🌫️' },
+        48: { description: 'Depositing Rime Fog', icon: '🌫️' },
+        51: { description: 'Light Drizzle', icon: '🌦️' },
+        53: { description: 'Moderate Drizzle', icon: '🌦️' },
+        55: { description: 'Dense Drizzle', icon: '🌧️' },
+        56: { description: 'Light Freezing Drizzle', icon: '🌧️' },
+        57: { description: 'Dense Freezing Drizzle', icon: '🌧️' },
+        61: { description: 'Slight Rain', icon: '🌧️' },
+        63: { description: 'Moderate Rain', icon: '🌧️' },
+        65: { description: 'Heavy Rain', icon: '🌧️' },
+        66: { description: 'Light Freezing Rain', icon: '🌧️' },
+        67: { description: 'Heavy Freezing Rain', icon: '🌧️' },
+        71: { description: 'Slight Snow', icon: '🌨️' },
+        73: { description: 'Moderate Snow', icon: '❄️' },
+        75: { description: 'Heavy Snow', icon: '❄️' },
+        77: { description: 'Snow Grains', icon: '❄️' },
+        80: { description: 'Slight Showers', icon: '🌦️' },
+        81: { description: 'Moderate Showers', icon: '🌧️' },
+        82: { description: 'Violent Showers', icon: '⛈️' },
+        85: { description: 'Slight Snow Showers', icon: '🌨️' },
+        86: { description: 'Heavy Snow Showers', icon: '❄️' },
+        95: { description: 'Thunderstorm', icon: '⛈️' },
+        96: { description: 'Thunderstorm with Hail', icon: '⛈️' },
+        99: { description: 'Heavy Thunderstorm with Hail', icon: '🌩️' }
     },
-    1: { 
-        description: 'Mainly Clear', 
-        icon: () => isDaytime() ? 'partly_cloudy_day' : 'partly_cloudy_night'
-    },
-    2: { 
-        description: 'Partly Cloudy', 
-        icon: () => isDaytime() ? 'partly_cloudy_day' : 'partly_cloudy_night'
-    },
-    3: { description: 'Overcast', icon: () => 'cloudy' },
-    45: { description: 'Fog', icon: () => 'foggy' },
-    48: { description: 'Depositing Rime Fog', icon: () => 'foggy' },
-    51: { 
-        description: 'Light Drizzle', 
-        icon: () => isDaytime() ? 'rainy_light' : 'rainy_light'
-    },
-    53: { 
-        description: 'Moderate Drizzle', 
-        icon: () => isDaytime() ? 'rainy' : 'rainy'
-    },
-    55: { 
-        description: 'Dense Drizzle', 
-        icon: () => isDaytime() ? 'rainy' : 'rainy'
-    },
-    56: { 
-        description: 'Light Freezing Drizzle', 
-        icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing'
-    },
-    57: { 
-        description: 'Dense Freezing Drizzle', 
-        icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing'
-    },
-    61: { 
-        description: 'Slight Rain', 
-        icon: () => isDaytime() ? 'rainy_light' : 'rainy_light'
-    },
-    63: { 
-        description: 'Moderate Rain', 
-        icon: () => isDaytime() ? 'rainy' : 'rainy'
-    },
-    65: { 
-        description: 'Heavy Rain', 
-        icon: () => isDaytime() ? 'rainy' : 'rainy'
-    },
-    66: { 
-        description: 'Light Freezing Rain', 
-        icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing'
-    },
-    67: { 
-        description: 'Heavy Freezing Rain', 
-        icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing'
-    },
-    71: { 
-        description: 'Slight Snow', 
-        icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing'
-    },
-    73: { 
-        description: 'Moderate Snow', 
-        icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing'
-    },
-    75: { 
-        description: 'Heavy Snow', 
-        icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing'
-    },
-    77: { 
-        description: 'Snow Grains', 
-        icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing'
-    }, 
-    80: { 
-        description: 'Slight Showers', 
-        icon: () => isDaytime() ? 'rainy_light' : 'rainy_light'
-    },
-    81: { 
-        description: 'Moderate Showers', 
-        icon: () => isDaytime() ? 'rainy' : 'rainy'
-    },
-    82: { 
-        description: 'Violent Showers', 
-        icon: () => isDaytime() ? 'thunderstorm' : 'thunderstorm'
-    },
-    85: { 
-        description: 'Slight Snow Showers', 
-        icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing'
-    },
-    86: { 
-        description: 'Heavy Snow Showers', 
-        icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing'
-    },
-    95: { 
-        description: 'Thunderstorm', 
-        icon: () => isDaytime() ? 'thunderstorm' : 'thunderstorm'
-    },
-    96: { 
-        icon: () => isDaytime() ? 'thunderstorm' : 'thunderstorm'
-    },
-    99: { 
-        description: 'Heavy Thunderstorm with Hail', 
-        icon: () => isDaytime() ? 'thunderstorm' : 'thunderstorm'
+    jp: {
+        0: { description: '晴天', icon: '☀️' },
+        1: { description: '主に晴れ', icon: '🌤️' },
+        2: { description: '一部曇り', icon: '⛅' },
+        3: { description: '曇り', icon: '☁️' },
+        45: { description: '霧', icon: '🌫️' },
+        48: { description: '霧氷の霧', icon: '🌫️' },
+        51: { description: '小雨', icon: '🌦️' },
+        53: { description: '適度な霧雨', icon: '🌦️' },
+        55: { description: '濃い霧雨', icon: '🌧️' },
+        56: { description: '軽い凍結霧雨', icon: '🌧️' },
+        57: { description: '濃い凍結霧雨', icon: '🌧️' },
+        61: { description: '小雨', icon: '🌧️' },
+        63: { description: '適度な雨', icon: '🌧️' },
+        65: { description: '強い雨', icon: '🌧️' },
+        66: { description: '軽い凍結雨', icon: '🌧️' },
+        67: { description: '激しい凍結雨', icon: '🌧️' },
+        71: { description: '小雪', icon: '🌨️' },
+        73: { description: '適度な雪', icon: '❄️' },
+        75: { description: '強い雪', icon: '❄️' },
+        77: { description: '雪粒', icon: '❄️' },
+        80: { description: '小雨のにわか雨', icon: '🌦️' },
+        81: { description: '適度なにわか雨', icon: '🌧️' },
+        82: { description: '激しいにわか雨', icon: '⛈️' },
+        85: { description: '小雪のにわか雪', icon: '🌨️' },
+        86: { description: '強いにわか雪', icon: '❄️' },
+        95: { description: '雷雨', icon: '⛈️' },
+        96: { description: '雹を伴う雷雨', icon: '⛈️' },
+        99: { description: '激しい雹を伴う雷雨', icon: '🌩️' }
     }
 };
+
+const weatherConditions = {
+    en: {
+        0: { description: 'Clear Sky', icon: () => isDaytime() ? 'clear_day' : 'clear_night' },
+        1: { description: 'Mainly Clear', icon: () => isDaytime() ? 'partly_cloudy_day' : 'partly_cloudy_night' },
+        2: { description: 'Partly Cloudy', icon: () => isDaytime() ? 'partly_cloudy_day' : 'partly_cloudy_night' },
+        3: { description: 'Overcast', icon: () => 'cloudy' },
+        45: { description: 'Fog', icon: () => 'foggy' },
+        48: { description: 'Depositing Rime Fog', icon: () => 'foggy' },
+        51: { description: 'Light Drizzle', icon: () => isDaytime() ? 'rainy_light' : 'rainy_light' },
+        53: { description: 'Moderate Drizzle', icon: () => isDaytime() ? 'rainy' : 'rainy' },
+        55: { description: 'Dense Drizzle', icon: () => isDaytime() ? 'rainy' : 'rainy' },
+        56: { description: 'Light Freezing Drizzle', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        57: { description: 'Dense Freezing Drizzle', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        61: { description: 'Slight Rain', icon: () => isDaytime() ? 'rainy_light' : 'rainy_light' },
+        63: { description: 'Moderate Rain', icon: () => isDaytime() ? 'rainy' : 'rainy' },
+        65: { description: 'Heavy Rain', icon: () => isDaytime() ? 'rainy' : 'rainy' },
+        66: { description: 'Light Freezing Rain', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        67: { description: 'Heavy Freezing Rain', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        71: { description: 'Slight Snow', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        73: { description: 'Moderate Snow', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        75: { description: 'Heavy Snow', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        77: { description: 'Snow Grains', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        80: { description: 'Slight Showers', icon: () => isDaytime() ? 'rainy_light' : 'rainy_light' },
+        81: { description: 'Moderate Showers', icon: () => isDaytime() ? 'rainy' : 'rainy' },
+        82: { description: 'Violent Showers', icon: () => 'thunderstorm' },
+        85: { description: 'Slight Snow Showers', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        86: { description: 'Heavy Snow Showers', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        95: { description: 'Thunderstorm', icon: () => 'thunderstorm' },
+        96: { description: 'Thunderstorm with Hail', icon: () => 'thunderstorm' },
+        99: { description: 'Heavy Thunderstorm with Hail', icon: () => 'thunderstorm' }
+    },
+    jp: {
+        0: { description: '晴天', icon: () => isDaytime() ? 'clear_day' : 'clear_night' },
+        1: { description: '主に晴れ', icon: () => isDaytime() ? 'partly_cloudy_day' : 'partly_cloudy_night' },
+        2: { description: '一部曇り', icon: () => isDaytime() ? 'partly_cloudy_day' : 'partly_cloudy_night' },
+        3: { description: '曇り', icon: () => 'cloudy' },
+        45: { description: '霧', icon: () => 'foggy' },
+        48: { description: '霧氷の霧', icon: () => 'foggy' },
+        51: { description: '小雨', icon: () => isDaytime() ? 'rainy_light' : 'rainy_light' },
+        53: { description: '適度な霧雨', icon: () => isDaytime() ? 'rainy' : 'rainy' },
+        55: { description: '濃い霧雨', icon: () => isDaytime() ? 'rainy' : 'rainy' },
+        56: { description: '軽い凍結霧雨', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        57: { description: '濃い凍結霧雨', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        61: { description: '小雨', icon: () => isDaytime() ? 'rainy_light' : 'rainy_light' },
+        63: { description: '適度な雨', icon: () => isDaytime() ? 'rainy' : 'rainy' },
+        65: { description: '強い雨', icon: () => isDaytime() ? 'rainy' : 'rainy' },
+        66: { description: '軽い凍結雨', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        67: { description: '激しい凍結雨', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        71: { description: '小雪', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        73: { description: '適度な雪', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        75: { description: '強い雪', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        77: { description: '雪粒', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        80: { description: '小雨のにわか雨', icon: () => isDaytime() ? 'rainy_light' : 'rainy_light' },
+        81: { description: '適度なにわか雨', icon: () => isDaytime() ? 'rainy' : 'rainy' },
+        82: { description: '激しいにわか雨', icon: () => 'thunderstorm' },
+        85: { description: '小雪のにわか雪', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        86: { description: '強いにわか雪', icon: () => isDaytime() ? 'cloudy_snowing' : 'cloudy_snowing' },
+        95: { description: '雷雨', icon: () => 'thunderstorm' },
+        96: { description: '雹を伴う雷雨', icon: () => 'thunderstorm' },
+        99: { description: '激しい雹を伴う雷雨', icon: () => 'thunderstorm' }
+    }
+};
+
 function updateWeatherVisibility() {
     const weatherWidget = document.getElementById('weather');
     weatherWidget.style.display = showWeather ? 'block' : 'none';
@@ -559,6 +546,7 @@ function getHourString(dateString) {
 }
 
 async function updateSmallWeather() {
+    const languageCode = localStorage.getItem('selectedLanguage') || 'en';
     const showWeather = localStorage.getItem('showWeather') !== 'false';
     if (!showWeather) return;
     
@@ -568,7 +556,7 @@ async function updateSmallWeather() {
 
         const temperatureElement = document.getElementById('temperature');
         const weatherIconElement = document.getElementById('weather-icon');
-        const weatherInfo = weatherConditions[weatherData.current.weathercode] || { description: 'Unknown', icon: () => '❓' };
+        const weatherInfo = weatherConditions[languageCode][weatherData.current.weathercode] || { description: 'Unknown', icon: () => '❓' };
 
         document.getElementById('weather').style.display = showWeather ? 'block' : 'none';
         temperatureElement.textContent = `${Math.round(weatherData.current.temperature)}°`;
@@ -580,11 +568,11 @@ async function updateSmallWeather() {
         document.getElementById('weather').style.display = 'none';
         showPopup(currentLanguage.FAIL_WEATHER);
     }
-
     updateTitle();
 }
 
 async function displayDetailedWeather() {
+    const languageCode = localStorage.getItem('selectedLanguage') || 'en';
     const weatherData = await fetchLocationAndWeather();
     if (!weatherData) {
         document.getElementById('detailedWeather').innerHTML = 'Failed to load weather';
@@ -592,7 +580,7 @@ async function displayDetailedWeather() {
     }
 
     const { city, current, dailyForecast, hourlyForecast } = weatherData;
-    const currentWeather = weatherConditions[current.weathercode] || { description: 'Unknown', icon: () => '❓' };
+    const currentWeather = weatherConditions[languageCode][current.weathercode] || { description: 'Unknown', icon: () => '❓' };
 
     const currentTime = new Date();
     const nextDayMidnight = new Date(currentTime);
