@@ -768,7 +768,7 @@ const progressCircle = document.querySelector('.progress-ring circle.progress');
 const timerContainer = document.querySelector('.timer-container');
 
 // Load the MP3 sound for the alarm
-const alarmSound = new Audio('https://www.gstatic.com/delight/funbox/timer_utilitarian_v2.mp3');
+const alarmSound = new Audio('/assets/sound/timer.mp3');
 
 const radius = progressCircle.r.baseVal.value;
 const circumference = radius * 2 * Math.PI;
