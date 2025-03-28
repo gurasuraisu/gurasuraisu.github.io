@@ -923,7 +923,6 @@ function showPopup(message) {
         while (popup.firstChild) {
             popup.removeChild(popup.firstChild);
         }
-
         // Make the popup background invisible
         popup.style.backgroundColor = 'transparent';
         popup.style.backdropFilter = 'none';
@@ -953,10 +952,13 @@ function showPopup(message) {
         icon.style.lineHeight = '1'; // Helps with vertical alignment
         icon.style.display = 'flex'; // Makes the icon behave better for alignment
         icon.style.alignItems = 'center';
-
-        // Add the text
+    
+        // Add the text - use the current language's fullscreen text or fallback to English
         const buttonText = document.createElement('span');
-        buttonText.textContent = 'Fullscreen';
+        buttonText.textContent = (
+            window.currentLanguage && 
+            window.currentLanguage.FULLSCREEN
+        ) || 'Fullscreen';
         buttonText.style.lineHeight = '1'; // Helps with vertical alignment
         
         fullscreenBtn.appendChild(icon);
