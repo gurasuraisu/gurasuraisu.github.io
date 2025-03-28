@@ -20,6 +20,20 @@ function applyLanguage(language) {
     document.querySelector('.wallpaper-upload .cust-label').childNodes[2].textContent = language.WALLPAPER;
     document.querySelector('#uploadButton').innerText = language.ADD;
     document.querySelector('.font-selection .cust-label').childNodes[2].textContent = language.STYLE;
+
+    // Updating font selection options
+    const fontSelect = document.getElementById('font-select');
+    fontSelect.querySelector('option[value="Inter"]').textContent = language.DEFAULT;
+    fontSelect.querySelector('option[value="Roboto"]').textContent = language.WORK;
+    fontSelect.querySelector('option[value="DynaPuff"]').textContent = language.PUFFY;
+    fontSelect.querySelector('option[value="DM Serif Display"]').textContent = language.CLASSIC;
+    fontSelect.querySelector('option[value="Iansui"]').textContent = language.STROKES;
+    fontSelect.querySelector('option[value="JetBrains Mono"]').textContent = language.MONO;
+    fontSelect.querySelector('option[value="DotGothic16"]').textContent = language.PIXEL;
+    fontSelect.querySelector('option[value="Patrick Hand"]').textContent = language.WRITTEN;
+    fontSelect.querySelector('option[value="Rampart One"]').textContent = language.RAISED;
+    fontSelect.querySelector('option[value="Doto"]').textContent = language.DOT;
+    fontSelect.querySelector('option[value="Nunito"]').textContent = language.ROUND;
     
     // Ensuring only the text node is updated
     const thermostatPopupHeader = document.querySelector('#thermostat-popup .thermostat-popup-header');
