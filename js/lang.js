@@ -156,7 +156,7 @@ const LANG_FR = {
     SILENT: "Silencieux",
     TONE: "Tonalité",
     MINIMAL: "Minimal",
-    DAYLIGHT: "Lumière du jour",
+    DAYLIGHT: "Lumière",
     WEATHER: "Météo",
     GURAPPS: "Applications Gura",
     SECONDS: "Secondes",
