@@ -45,7 +45,18 @@ const LANG_EN = {
     NOT_FULLSCREEN: "Not fullscreen",
     CLOCK_STYLE_FAILED: "Failed to load Clock Style",
     CHECK_WORDS: ['updated', 'complete', 'done', 'success', 'completed', 'ready', 'successfully', 'accepted', 'accept', 'yes'],
-    CLOSE_WORDS: ['failed', 'canceled', 'error', 'failure', 'fail', 'cancel', 'rejected', 'reject', 'not', 'no']
+    CLOSE_WORDS: ['failed', 'canceled', 'error', 'failure', 'fail', 'cancel', 'rejected', 'reject', 'not', 'no'],
+    DEFAULT: "Default",
+    WORK: "Work",
+    PUFFY: "Puffy",
+    CLASSIC: "Classic",
+    STROKES: "Strokes",
+    MONO: "Mono",
+    PIXEL: "Pixel",
+    WRITTEN: "Written",
+    RAISED: "Raised",
+    DOT: "Dot",
+    ROUND: "Round"
 };
 
 const LANG_JP = {
@@ -93,7 +104,18 @@ const LANG_JP = {
     NOT_FULLSCREEN: "全画面ではありません",
     CLOCK_STYLE_FAILED: "クロックスタイルのロードに失敗しました",
     CHECK_WORDS: ['更新', '完了', '成功', '準備完了', '受け入れ', 'はい'],
-    CLOSE_WORDS: ['失敗', 'キャンセル', 'エラー', '故障', '拒否', '違う', 'いいえ']
+    CLOSE_WORDS: ['失敗', 'キャンセル', 'エラー', '故障', '拒否', '違う', 'いいえ'],
+    DEFAULT: "デフォルト",
+    WORK: "仕事",
+    PUFFY: "ふっくら",
+    CLASSIC: "クラシック",
+    STROKES: "ストローク",
+    MONO: "モノ",
+    PIXEL: "ピクセル",
+    WRITTEN: "手書き",
+    RAISED: "隆起",
+    DOT: "ドット",
+    ROUND: "丸い"
 };
 
 const LANG_DE = {
@@ -141,7 +163,18 @@ const LANG_DE = {
     NOT_FULLSCREEN: "Nicht im Vollbildmodus",
     CLOCK_STYLE_FAILED: "Uhrstil konnte nicht geladen werden",
     CHECK_WORDS: ['aktualisiert', 'abgeschlossen', 'fertig', 'erfolg', 'erfolgreich', 'akzeptiert', 'akzeptieren', 'ja'],
-    CLOSE_WORDS: ['fehlgeschlagen', 'abgebrochen', 'fehler', 'fehler', 'abbrechen', 'abgelehnt', 'ablehnen', 'nein']
+    CLOSE_WORDS: ['fehlgeschlagen', 'abgebrochen', 'fehler', 'fehler', 'abbrechen', 'abgelehnt', 'ablehnen', 'nein'],
+    DEFAULT: "Standard",
+    WORK: "Arbeit",
+    PUFFY: "Puffy",
+    CLASSIC: "Klassisch",
+    STROKES: "Striche",
+    MONO: "Mono",
+    PIXEL: "Pixel",
+    WRITTEN: "Geschrieben",
+    RAISED: "Erhoben",
+    DOT: "Punkt",
+    ROUND: "Rund"
 };
 
 const LANG_FR = {
@@ -189,7 +222,18 @@ const LANG_FR = {
     NOT_FULLSCREEN: "Pas en plein écran",
     CLOCK_STYLE_FAILED: "Impossible de charger le style d'horloge",
     CHECK_WORDS: ['mis à jour', 'terminé', 'fait', 'succès', 'complété', 'prêt', 'avec succès', 'accepté', 'accepter', 'oui'],
-    CLOSE_WORDS: ['échoué', 'annulé', 'erreur', 'échec', 'rater', 'annuler', 'rejeté', 'rejeter', 'pas', 'non']
+    CLOSE_WORDS: ['échoué', 'annulé', 'erreur', 'échec', 'rater', 'annuler', 'rejeté', 'rejeter', 'pas', 'non'],
+    DEFAULT: "Par défaut",
+    WORK: "Travail",
+    PUFFY: "Gonflé",
+    CLASSIC: "Classique",
+    STROKES: "Traits",
+    MONO: "Mono",
+    PIXEL: "Pixel",
+    WRITTEN: "Écrit",
+    RAISED: "En relief",
+    DOT: "Point",
+    ROUND: "Rond"
 };
 
 const LANG_ES = {
@@ -237,7 +281,18 @@ const LANG_ES = {
     NOT_FULLSCREEN: "No está en pantalla completa",
     CLOCK_STYLE_FAILED: "No se pudo cargar el estilo del reloj",
     CHECK_WORDS: ['actualizado', 'completo', 'listo', 'éxito', 'exitosamente', 'aceptado', 'aceptar', 'sí'],
-    CLOSE_WORDS: ['fallido', 'cancelado', 'error', 'fracaso', 'cancelar', 'rechazado', 'rechazar', 'no']
+    CLOSE_WORDS: ['fallido', 'cancelado', 'error', 'fracaso', 'cancelar', 'rechazado', 'rechazar', 'no'],
+    DEFAULT: "Predeterminado",
+    WORK: "Trabajo",
+    PUFFY: "Esponjoso",
+    CLASSIC: "Clásico",
+    STROKES: "Trazos",
+    MONO: "Mono",
+    PIXEL: "Píxel",
+    WRITTEN: "Escrito",
+    RAISED: "Elevado",
+    DOT: "Punto",
+    ROUND: "Redondo"
 };
 
 const LANG_KO = {
@@ -285,7 +340,18 @@ const LANG_KO = {
     NOT_FULLSCREEN: "전체 화면이 아닙니다",
     CLOCK_STYLE_FAILED: "시계 스타일 로드에 실패했습니다",
     CHECK_WORDS: ['업데이트됨', '완료됨', '완료', '성공', '성공적으로', '수락됨', '수락', '예'],
-    CLOSE_WORDS: ['실패', '취소됨', '오류', '실패', '취소', '거부됨', '거부', '아니요']
+    CLOSE_WORDS: ['실패', '취소됨', '오류', '실패', '취소', '거부됨', '거부', '아니요'],
+    DEFAULT: "기본",
+    WORK: "작업",
+    PUFFY: "푹신한",
+    CLASSIC: "클래식",
+    STROKES: "획",
+    MONO: "모노",
+    PIXEL: "픽셀",
+    WRITTEN: "필기체",
+    RAISED: "돌출된",
+    DOT: "점",
+    ROUND: "둥근"
 };
 
 const LANG_ZH = {
@@ -333,5 +399,16 @@ const LANG_ZH = {
     NOT_FULLSCREEN: "不是全屏",
     CLOCK_STYLE_FAILED: "无法加载时钟样式",
     CHECK_WORDS: ['已更新', '完成', '完成', '成功', '成功地', '已接受', '接受', '是'],
-    CLOSE_WORDS: ['失败', '已取消', '错误', '失败', '取消', '已拒绝', '拒绝', '不']
+    CLOSE_WORDS: ['失败', '已取消', '错误', '失败', '取消', '已拒绝', '拒绝', '不'],
+    DEFAULT: "默认",
+    WORK: "工作",
+    PUFFY: "蓬松",
+    CLASSIC: "经典",
+    STROKES: "笔画",
+    MONO: "单色",
+    PIXEL: "像素",
+    WRITTEN: "手写",
+    RAISED: "凸起",
+    DOT: "点",
+    ROUND: "圆形"
 };
