@@ -1,4 +1,4 @@
-// lang.js
+// EN, JP, DE, FR, ES, KO & ZH translation variables for Gurasuraisu
 
 const LANG_EN = {
     GREETING: "Gurasuraisu loaded successfully",
