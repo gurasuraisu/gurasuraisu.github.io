@@ -3827,6 +3827,7 @@ document.addEventListener('DOMContentLoaded', function() {
     selectLanguage(storedLanguage);
 
     // Add event listener to language switcher
+    const languageSwitcher = document.getElementById('language-switcher');
     if (languageSwitcher) {
         languageSwitcher.addEventListener('change', function () {
             const selectedLanguage = this.value;
