@@ -42,7 +42,11 @@ function selectLanguage(languageCode) {
     const languageMap = {
         'EN': LANG_EN,
         'JP': LANG_JP,
-        // Add more languages as needed
+        'DE': LANG_DE,
+        'FR': LANG_FR,
+        'ES': LANG_ES,
+        'KO': LANG_KO,
+        'ZH': LANG_ZH
     };
     
     // Default to English if the language code is not found
