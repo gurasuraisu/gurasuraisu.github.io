@@ -66,11 +66,7 @@ function selectLanguage(languageCode) {
 }
 
 function consoleLicense() {
-    const license = `
-Gurasuraisu is made by kirbIndustries, and is licensed under the GNU General Public License, Version 2.0 (GPL-2.0)
-    `;
-
-    console.info(license);
+    console.info(currentLanguage.LICENCE);
 }
 
 consoleLicense()
