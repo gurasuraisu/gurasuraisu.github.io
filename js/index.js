@@ -1,3 +1,5 @@
+let currentLanguage = LANG_EN; // Default to English
+
 function applyLanguage(language) {
     document.getElementById('user-input').placeholder = language.PLACEHOLDER_MESSAGE;
     document.getElementById('send-button').innerText = language.SEND;
@@ -44,13 +46,13 @@ function selectLanguage(languageCode) {
     };
     
     // Default to English if the language code is not found
-    const selectedLanguage = languageMap[languageCode] || LANG_EN;
+    currentLanguage = languageMap[languageCode] || LANG_EN;
     
     // Store the selected language code in localStorage
     localStorage.setItem('selectedLanguage', languageCode);
     
     // Apply the selected language
-    applyLanguage(selectedLanguage);
+    applyLanguage(currentLanguage);
 
     // Update the language switcher dropdown to match the selected language
     const languageSwitcher = document.getElementById('language-switcher');
@@ -70,7 +72,7 @@ Gurasuraisu is made by kirbIndustries, and is licensed under the GNU General Pub
 consoleLicense()
 
 function consoleLoaded() {
-    console.log(LANG_EN.LOAD_SUCCESS);
+    console.log(currentLanguage.LOAD_SUCCESS);
 }
 
 const secondsSwitch = document.getElementById('seconds-switch');
@@ -125,7 +127,7 @@ function checkIfPWA() {
 
 function promptToInstallPWA() {
     if (!localStorage.getItem('pwaPromptShown') && !checkIfPWA()) {
-        showPopup(LANG_EN.INSTALL_PROMPT);
+        showPopup(currentLanguage.INSTALL_PROMPT);
         localStorage.setItem('pwaPromptShown', 'true');
     }
 }
@@ -525,7 +527,7 @@ async function fetchLocationAndWeather() {
             } catch (error) {
                 console.error('Error fetching weather data:', error);
                 if (!navigator.onLine) {
-                    showPopup(LANG_EN.OFFLINE);
+                    showPopup(currentLanguage.OFFLINE);
                 }
                 // Return cached data if available
                 const cachedData = localStorage.getItem('lastWeatherData');
@@ -576,7 +578,7 @@ async function updateSmallWeather() {
     } catch (error) {
         console.error('Error updating small weather widget:', error);
         document.getElementById('weather').style.display = 'none';
-        showPopup(LANG_EN.FAIL_WEATHER);
+        showPopup(currentLanguage.FAIL_WEATHER);
     }
 
     updateTitle();
@@ -1038,7 +1040,7 @@ function goFullscreen() {
 
 function checkFullscreen() {
   if (!isFullScreen()) {
-    showPopup(LANG_EN.NOT_FULLSCREEN);
+    showPopup(currentLanguage.NOT_FULLSCREEN);
   }
 }
 
@@ -2087,7 +2089,7 @@ wallpaperInput.addEventListener('change', async (event) => {
       if (['image/png', 'image/jpeg', 'image/jpg', 'image/webp', 'image/gif', 'video/mp4'].includes(file.type)) {
         saveWallpaper(file);
       } else {
-        showPopup(LANG_EN.WALLPAPER_UPDATE_FAIL);
+        showPopup(currentLanguage.WALLPAPER_UPDATE_FAIL);
       }
     } else {
       let wallpaperEntries = [];
@@ -2129,14 +2131,14 @@ wallpaperInput.addEventListener('change', async (event) => {
         saveRecentWallpapers();
         currentWallpaperPosition = 0;
         applyWallpaper();
-        showPopup(LANG_EN.MULTIPLE_WALLPAPERS_UPDATED);
+        showPopup(currentLanguage.MULTIPLE_WALLPAPERS_UPDATED);
       } else {
-        showPopup(LANG_EN.NO_VALID_WALLPAPERS);
+        showPopup(currentLanguage.NO_VALID_WALLPAPERS);
       }
     }
   } catch (error) {
     console.error('Error handling wallpapers:', error);
-    showPopup(LANG_EN.WALLPAPER_SAVE_FAIL);
+    showPopup(currentLanguage.WALLPAPER_SAVE_FAIL);
   }
 });
 
@@ -2240,7 +2242,7 @@ async function saveWallpaper(file) {
         
       } catch (error) {
         if (error.name === 'QuotaExceededError') {
-          showPopup(LANG_EN.WALLPAPER_UPDATE_FAIL);
+          showPopup(currentLanguage.WALLPAPER_UPDATE_FAIL);
           return;
         }
         throw error;
@@ -2259,10 +2261,10 @@ async function saveWallpaper(file) {
     saveRecentWallpapers();
     currentWallpaperPosition = 0;
     applyWallpaper();
-    showPopup(LANG_EN.WALLPAPER_UPDATED);
+    showPopup(currentLanguage.WALLPAPER_UPDATED);
   } catch (error) {
     console.error('Error saving wallpaper:', error);
-    showPopup(LANG_EN.WALLPAPER_SAVE_FAIL);
+    showPopup(currentLanguage.WALLPAPER_SAVE_FAIL);
   }
 }
 
@@ -2484,7 +2486,7 @@ function saveRecentWallpapers() {
     localStorage.setItem('recentWallpapers', JSON.stringify(recentWallpapers));
   } catch (error) {
     console.error('Error saving recent wallpapers:', error);
-    showPopup(LANG_EN.WALLPAPER_HISTORY_FAIL);
+    showPopup(currentLanguage.WALLPAPER_HISTORY_FAIL);
   }
 }
 
@@ -2523,7 +2525,7 @@ function switchWallpaper(direction) {
       localStorage.setItem('wallpapers', JSON.stringify(wallpapers));
       currentWallpaperIndex = 0;
       applyWallpaper();
-      showPopup(LANG_EN.SLIDESHOW_WALLPAPER);
+      showPopup(currentLanguage.SLIDESHOW_WALLPAPER);
     }
   } else {
     // Apply a single wallpaper
@@ -2540,7 +2542,7 @@ function switchWallpaper(direction) {
       applyWallpaper();
     }
     
-    showPopup(LANG_EN.WALLPAPER_CHANGE);
+    showPopup(currentLanguage.WALLPAPER_CHANGE);
   }
 }
 
@@ -2628,7 +2630,7 @@ function setupFontSelection() {
             applyFont(selectedFont);
             localStorage.setItem('clockFont', selectedFont);
         }).catch(() => {
-            showPopup(LANG_EN.CLOCK_STYLE_FAILED);
+            showPopup(currentLanguage.CLOCK_STYLE_FAILED);
         });
     });
 }
@@ -3001,7 +3003,7 @@ function createAppIcons() {
                             showPopup('Opening Weather');
                             break;
                         default:
-                            showPopup(LANG_EN.APP_OPENED.replace("{app}", app));
+                            showPopup(currentLanguage.APP_OPENED.replace("{app}", app));
                     }
                 } else {
                     createFullscreenEmbed(app.details.url);
@@ -3011,7 +3013,7 @@ function createAppIcons() {
                 appDrawer.style.bottom = '-100%';
                 initialDrawerPosition = -100;
             } catch (error) {
-                showPopup(LANG_EN.APP_OPEN_FAIL.replace("{app}", app));
+                showPopup(currentLanguage.APP_OPEN_FAIL.replace("{app}", app));
                 console.error(`App open error: ${error}`);
             }
         };
@@ -3586,12 +3588,12 @@ document.addEventListener('keydown', (event) => {
 });
 
 window.addEventListener('online', () => {
-    showPopup(LANG_EN.ONLINE);
+    showPopup(currentLanguage.ONLINE);
     updateSmallWeather(); // Refresh weather data
 });
 
 window.addEventListener('offline', () => {
-    showPopup(LANG_EN.OFFLINE);
+    showPopup(currentLanguage.OFFLINE);
 });
 
 // Call applyWallpaper on page load
@@ -3820,6 +3822,10 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener('DOMContentLoaded', function() {
     firstSetup();
     
+    // Retrieve stored language preference
+    const storedLanguage = localStorage.getItem('selectedLanguage') || 'EN';
+    selectLanguage(storedLanguage);
+
     // Add event listener to language switcher
     if (languageSwitcher) {
         languageSwitcher.addEventListener('change', function () {
