@@ -36,6 +36,29 @@ function applyLanguage(language) {
     window.closeWords = language.CLOSE_WORDS;
 }
 
+function selectLanguage(languageCode) {
+    const languageMap = {
+        'EN': LANG_EN,
+        'JP': LANG_JP,
+        // Add more languages as needed
+    };
+    
+    // Default to English if the language code is not found
+    const selectedLanguage = languageMap[languageCode] || LANG_EN;
+    
+    // Store the selected language code in localStorage
+    localStorage.setItem('selectedLanguage', languageCode);
+    
+    // Apply the selected language
+    applyLanguage(selectedLanguage);
+
+    // Update the language switcher dropdown to match the selected language
+    const languageSwitcher = document.getElementById('language-switcher');
+    if (languageSwitcher) {
+        languageSwitcher.value = languageCode;
+    }
+}
+
 function consoleLicense() {
     const license = `
 Gurasuraisu is made by kirbIndustries, and is licensed under the GNU General Public License, Version 2.0 (GPL-2.0)
@@ -1020,25 +1043,21 @@ function checkFullscreen() {
 }
 
 function firstSetup() {
+    // Check if it's the first visit
     const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
+    
+    // Get the selected language, defaulting to 'EN'
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'EN';
-    let language;
-
-    switch (selectedLanguage) {
-        case 'JP':
-            language = LANG_JP;
-            break;
-        // Add more languages as needed...
-        default:
-            language = LANG_EN;
-    }
-
-    applyLanguage(language);
-
+    
+    // Select and apply the language
+    selectLanguage(selectedLanguage);
+    
+    // Show setup screen for first-time users
     if (!hasVisitedBefore) {
-        createSetupScreen(); // Show setup screen for first-time users
+        createSetupScreen();
     }
-
+    
+    // Mark that the user has visited before
     localStorage.setItem('hasVisitedBefore', 'true');
 }
 
@@ -3800,11 +3819,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     firstSetup();
-    document.getElementById('language-switcher').addEventListener('change', function () {
-        const selectedLanguage = this.value;
-        localStorage.setItem('selectedLanguage', selectedLanguage);
-        firstSetup(); // Re-initialize to apply the selected language
-    });
+    
+    // Add event listener to language switcher
+    if (languageSwitcher) {
+        languageSwitcher.addEventListener('change', function () {
+            const selectedLanguage = this.value;
+            selectLanguage(selectedLanguage);
+        });
+    }
 });
 
 window.addEventListener('load', () => {
