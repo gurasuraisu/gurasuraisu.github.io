@@ -47,7 +47,7 @@ Gurasuraisu is made by kirbIndustries, and is licensed under the GNU General Pub
 consoleLicense()
 
 function consoleLoaded() {
-    showPopup(LANG_EN.LOAD_SUCCESS);
+    console.log(LANG_EN.LOAD_SUCCESS);
 }
 
 const secondsSwitch = document.getElementById('seconds-switch');
@@ -2992,7 +2992,7 @@ function createAppIcons() {
                 appDrawer.style.bottom = '-100%';
                 initialDrawerPosition = -100;
             } catch (error) {
-                showPopup(`Failed to open ${app.name}`);
+                showPopup(LANG_EN.APP_OPEN_FAIL.replace("{app}", app));
                 console.error(`App open error: ${error}`);
             }
         };
@@ -3808,7 +3808,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 window.addEventListener('load', () => {
-    showPopup(LANG_EN.LOAD_SUCCESS);
     promptToInstallPWA();
 });
 
