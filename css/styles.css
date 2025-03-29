@@ -1164,7 +1164,7 @@ body.light-theme[style*="background-image"] .info {
     backdrop-filter: blur(20px);
 }
 
-.version-info {
+.version-info, .reset-settings {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1213,7 +1213,7 @@ body.light-theme[style*="background-image"] .info {
     background-color: var(--background-color);
 }
 
-#uploadButton, #versionButton {
+#uploadButton, #versionButton, #resetButton {
     background-color: var(--transparent-color);
     color: var(--text-color);
     font-family: 'Inter', sans-serif;
