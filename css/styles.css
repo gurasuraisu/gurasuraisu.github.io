@@ -814,89 +814,203 @@ body.light-theme[style*="background-image"] .info {
         width: 100%;
         height: 100%;
         z-index: 3;
+        pointer-events: none;
     }
     
     .clouds.few {
-        background-image: 
-            radial-gradient(80px 50px at 20% 20%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0)),
-            radial-gradient(70px 40px at 60% 30%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0)),
-            radial-gradient(90px 60px at 80% 15%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0));
+        background: none;
+    }
+    
+    .clouds.few::before,
+    .clouds.few::after {
+        content: '';
+        position: absolute;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        filter: blur(10px);
+    }
+    
+    .clouds.few::before {
+        width: 100px;
+        height: 60px;
+        left: 20%;
+        top: 15%;
+    }
+    
+    .clouds.few::after {
+        width: 120px;
+        height: 70px;
+        right: 25%;
+        top: 20%;
     }
     
     .clouds.scattered {
-        background-image: 
-            radial-gradient(100px 60px at 15% 10%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)),
-            radial-gradient(120px 80px at 45% 20%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0)),
-            radial-gradient(90px 50px at 75% 15%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0)),
-            radial-gradient(110px 70px at 35% 30%, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0)),
-            radial-gradient(100px 60px at 65% 25%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0));
+        background: none;
+    }
+    
+    .clouds.scattered::before,
+    .clouds.scattered::after {
+        content: '';
+        position: absolute;
+    }
+    
+    .clouds.scattered::before {
+        width: 200px;
+        height: 60px;
+        background: rgba(255, 255, 255, 0.85);
+        border-radius: 50px;
+        left: 10%;
+        top: 15%;
+        filter: blur(8px);
+        box-shadow: 
+            100px -10px 0 rgba(255, 255, 255, 0.8),
+            180px 20px 0 rgba(255, 255, 255, 0.7);
+    }
+    
+    .clouds.scattered::after {
+        width: 160px;
+        height: 40px;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 40px;
+        right: 15%;
+        top: 20%;
+        filter: blur(5px);
+        box-shadow: 
+            -70px 15px 0 rgba(255, 255, 255, 0.75);
     }
     
     .clouds.broken {
-        background-image: 
-            radial-gradient(120px 80px at 10% 10%, rgba(220, 220, 220, 0.9), rgba(220, 220, 220, 0)),
-            radial-gradient(150px 90px at 30% 15%, rgba(210, 210, 210, 0.9), rgba(210, 210, 210, 0)),
-            radial-gradient(130px 70px at 50% 5%, rgba(230, 230, 230, 0.9), rgba(230, 230, 230, 0)),
-            radial-gradient(140px 80px at 70% 15%, rgba(200, 200, 200, 0.9), rgba(200, 200, 200, 0)),
-            radial-gradient(110px 70px at 90% 10%, rgba(220, 220, 220, 0.9), rgba(220, 220, 220, 0)),
-            radial-gradient(160px 90px at 20% 25%, rgba(210, 210, 210, 0.8), rgba(210, 210, 210, 0)),
-            radial-gradient(140px 80px at 40% 30%, rgba(200, 200, 200, 0.9), rgba(200, 200, 200, 0)),
-            radial-gradient(120px 70px at 60% 25%, rgba(220, 220, 220, 0.9), rgba(220, 220, 220, 0)),
-            radial-gradient(150px 85px at 80% 30%, rgba(210, 210, 210, 0.8), rgba(210, 210, 210, 0));
+        background: none;
+    }
+    
+    .clouds.broken::before,
+    .clouds.broken::after {
+        content: '';
+        position: absolute;
+    }
+    
+    .clouds.broken::before {
+        width: 100%;
+        height: 50px;
+        background: rgba(220, 220, 220, 0.9);
+        border-radius: 50px;
+        top: 10%;
+        filter: blur(10px);
+        box-shadow: 
+            0 25px 0 rgba(210, 210, 210, 0.8),
+            0 50px 0 rgba(200, 200, 200, 0.7),
+            0 75px 0 rgba(190, 190, 190, 0.6);
+    }
+    
+    .clouds.broken::after {
+        width: 60%;
+        height: 40px;
+        background: rgba(230, 230, 230, 0.85);
+        border-radius: 40px;
+        left: 20%;
+        top: 30%;
+        filter: blur(8px);
     }
     
     .clouds.overcast {
-        background: linear-gradient(to bottom, 
-            rgba(180, 180, 180, 0.9) 0%, 
-            rgba(180, 180, 180, 0.7) 50%, 
-            rgba(180, 180, 180, 0) 100%);
-        height: 70%;
+        background: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 100%;
+    }
+    
+    .clouds.overcast::before {
+        content: '';
+        position: absolute;
+        width: 120%;
+        height: 200px;
+        background: rgba(180, 180, 180, 0.9);
+        border-radius: 100px;
+        top: -50px;
+        left: -10%;
+        filter: blur(15px);
+        box-shadow: 
+            0 30px 0 rgba(175, 175, 175, 0.85),
+            0 60px 0 rgba(170, 170, 170, 0.8),
+            0 90px 0 rgba(165, 165, 165, 0.75);
     }
     
     .clouds.dark {
-        background: linear-gradient(to bottom, 
-            rgba(100, 100, 110, 0.9) 0%, 
-            rgba(100, 100, 110, 0.7) 50%, 
-            rgba(100, 100, 110, 0) 100%);
-        height: 70%;
+        background: none;
+    }
+    
+    .clouds.dark::before {
+        content: '';
+        position: absolute;
+        width: 120%;
+        height: 200px;
+        background: rgba(100, 100, 110, 0.9);
+        border-radius: 100px;
+        top: -50px;
+        left: -10%;
+        filter: blur(15px);
+        box-shadow: 
+            0 30px 0 rgba(90, 90, 100, 0.85),
+            0 60px 0 rgba(80, 80, 90, 0.8),
+            0 90px 0 rgba(70, 70, 80, 0.75);
     }
     
     .clouds.light {
-        background: linear-gradient(to bottom, 
-            rgba(230, 230, 235, 0.9) 0%, 
-            rgba(230, 230, 235, 0.7) 50%, 
-            rgba(230, 230, 235, 0) 100%);
-        height: 70%;
+        background: none;
+    }
+    
+    .clouds.light::before {
+        content: '';
+        position: absolute;
+        width: 120%;
+        height: 200px;
+        background: rgba(230, 230, 235, 0.9);
+        border-radius: 100px;
+        top: -50px;
+        left: -10%;
+        filter: blur(15px);
+        box-shadow: 
+            0 30px 0 rgba(225, 225, 230, 0.85),
+            0 60px 0 rgba(220, 220, 225, 0.8),
+            0 90px 0 rgba(215, 215, 220, 0.75);
     }
     
     .clouds.thunderstorm {
-        background: linear-gradient(to bottom, 
-            rgba(60, 60, 70, 0.95) 0%, 
-            rgba(60, 60, 70, 0.8) 60%, 
-            rgba(60, 60, 70, 0) 100%);
-        height: 75%;
+        background: none;
     }
     
-    .clouds.night {
-        opacity: 0.8;
+    .clouds.thunderstorm::before {
+        content: '';
+        position: absolute;
+        width: 120%;
+        height: 200px;
+        background: rgba(60, 60, 70, 0.95);
+        border-radius: 100px;
+        top: -50px;
+        left: -10%;
+        filter: blur(15px);
+        box-shadow: 
+            0 30px 0 rgba(55, 55, 65, 0.9),
+            0 60px 0 rgba(50, 50, 60, 0.85),
+            0 90px 0 rgba(45, 45, 55, 0.8);
     }
     
-    .clouds.moonlit {
-        background-image: 
-            radial-gradient(100px 60px at 15% 10%, rgba(220, 220, 230, 0.4), rgba(220, 220, 230, 0)),
-            radial-gradient(120px 80px at 45% 20%, rgba(230, 230, 240, 0.5), rgba(230, 230, 240, 0)),
-            radial-gradient(90px 50px at 75% 15%, rgba(220, 220, 230, 0.4), rgba(220, 220, 230, 0)),
-            radial-gradient(110px 70px at 35% 30%, rgba(210, 210, 220, 0.3), rgba(210, 210, 220, 0)),
-            radial-gradient(100px 60px at 65% 25%, rgba(220, 220, 230, 0.4), rgba(220, 220, 230, 0));
+    .clouds.sunset-lit::before {
+        background: rgba(255, 200, 170, 0.7);
+        box-shadow: 
+            0 30px 0 rgba(255, 180, 150, 0.65),
+            0 60px 0 rgba(255, 160, 130, 0.6),
+            0 90px 0 rgba(255, 140, 110, 0.55);
     }
     
-    .clouds.sunset-lit {
-        background-image: 
-            radial-gradient(100px 60px at 15% 10%, rgba(255, 200, 170, 0.6), rgba(255, 200, 170, 0)),
-            radial-gradient(120px 80px at 45% 20%, rgba(255, 180, 150, 0.7), rgba(255, 180, 150, 0)),
-            radial-gradient(90px 50px at 75% 15%, rgba(255, 200, 170, 0.6), rgba(255, 200, 170, 0)),
-            radial-gradient(110px 70px at 35% 30%, rgba(255, 190, 160, 0.5), rgba(255, 190, 160, 0)),
-            radial-gradient(100px 60px at 65% 25%, rgba(255, 200, 170, 0.6), rgba(255, 200, 170, 0));
+    .clouds.moonlit::before {
+        background: rgba(220, 220, 230, 0.4);
+        box-shadow: 
+            0 30px 0 rgba(210, 210, 220, 0.38),
+            0 60px 0 rgba(200, 200, 210, 0.36),
+            0 90px 0 rgba(190, 190, 200, 0.34);
     }
     
     /* Rain */
@@ -904,57 +1018,69 @@ body.light-theme[style*="background-image"] .info {
         position: absolute;
         width: 100%;
         height: 100%;
-        background: linear-gradient(to bottom, 
-            rgba(200, 200, 200, 0) 0%, 
-            rgba(200, 200, 200, 0.1) 20%, 
-            rgba(200, 200, 200, 0) 100%);
-        animation: rain 0.8s linear infinite;
         z-index: 4;
+        pointer-events: none;
     }
     
-    .rain.light {
-        background-image: repeating-linear-gradient(to bottom,
-            rgba(200, 200, 200, 0) 0px,
-            rgba(200, 200, 200, 0) 5px,
-            rgba(200, 200, 200, 0.1) 5px,
-            rgba(200, 200, 200, 0.1) 7px);
-        animation-duration: 1.2s;
-        opacity: 0.7;
-    }
-    
-    .rain.medium {
-        background-image: repeating-linear-gradient(to bottom,
-            rgba(190, 190, 190, 0) 0px,
-            rgba(190, 190, 190, 0) 3px,
-            rgba(190, 190, 190, 0.15) 3px,
-            rgba(190, 190, 190, 0.15) 6px);
-        animation-duration: 0.8s;
-        opacity: 0.8;
-    }
-    
-    .rain.heavy {
-        background-image: repeating-linear-gradient(to bottom,
-            rgba(180, 180, 180, 0) 0px,
-            rgba(180, 180, 180, 0) 2px,
-            rgba(180, 180, 180, 0.2) 2px,
-            rgba(180, 180, 180, 0.2) 5px);
-        animation-duration: 0.6s;
-        opacity: 0.9;
-    }
-    
-    /* Drizzle */
-    .drizzle {
+    .rain.light::before {
+        content: '';
         position: absolute;
         width: 100%;
         height: 100%;
-        background-image: repeating-linear-gradient(to bottom,
-            rgba(200, 200, 200, 0) 0px,
-            rgba(200, 200, 200, 0) 10px,
-            rgba(200, 200, 200, 0.1) 10px,
-            rgba(200, 200, 200, 0.1) 11px);
-        animation: rain 1.5s linear infinite;
-        opacity: 0.6;
-        z-index: 4;
+        background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(200, 200, 255, 0.2) 100%);
+        animation: vertical-rain 1.2s linear infinite;
+        background-size: 20px 100px;
+        background-repeat: repeat;
+    }
+    
+    .rain.medium::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(190, 190, 255, 0.25) 100%);
+        animation: vertical-rain 0.8s linear infinite;
+        background-size: 30px 80px;
+        background-repeat: repeat;
+    }
+    
+    .rain.heavy::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(180, 180, 255, 0.3) 100%);
+        animation: vertical-rain 0.6s linear infinite;
+        background-size: 40px 60px;
+        background-repeat: repeat;
+    }
+    
+    .drizzle::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(to bottom,
+            transparent 0%,
+            rgba(200, 200, 255, 0.15) 100%);
+        animation: vertical-rain 1.5s linear infinite;
+        background-size: 15px 120px;
+        background-repeat: repeat;
+    }
+    
+    @keyframes vertical-rain {
+        0% {
+            background-position: 0px -100px;
+        }
+        100% {
+            background-position: 0px 0px;
+        }
     }
     
     /* Snow */
@@ -1115,6 +1241,10 @@ body.light-theme[style*="background-image"] .info {
     @keyframes hail {
         0% { background-position: 0 0; }
         100% { background-position: 20px 200px; }
+    }
+
+    #weather-elements-container {
+        border-radius: 30px;
     }
         
         .search-container {
