@@ -1020,6 +1020,7 @@ body.light-theme[style*="background-image"] .info {
         height: 100%;
         z-index: 4;
         pointer-events: none;
+        transform: translateX(-50%);
     }
     
     .rain.light::before {
