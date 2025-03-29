@@ -3836,11 +3836,11 @@ document.addEventListener('DOMContentLoaded', function() {
         const temperatureIcon = document.querySelector('#temp_control_qc .material-symbols-rounded');
         if (temperatureIcon) {
             if (tempValue <= -3) {
-                temperatureIcon.textContent = 'ac_unit'; // Cold
+                temperatureIcon.textContent = 'thermometer_minus'; // Cold
             } else if (tempValue >= 3) {
-                temperatureIcon.textContent = 'wb_sunny'; // Hot
+                temperatureIcon.textContent = 'thermometer_add'; // Hot
             } else {
-                temperatureIcon.textContent = 'thermostat'; // Neutral
+                temperatureIcon.textContent = 'thermostat_auto'; // Neutral
             }
         }
     }
