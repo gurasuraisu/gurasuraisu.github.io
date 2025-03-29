@@ -683,6 +683,7 @@ body.light-theme[style*="background-image"] .info {
       pointer-events: none;
       z-index: 1;
       border-radius: 30px;
+      opacity: 50%;
     }
     
     /* Sun */
