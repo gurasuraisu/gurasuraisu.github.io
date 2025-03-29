@@ -626,102 +626,230 @@ async function displayDetailedWeather() {
 
     const hour = new Date().getHours();
     const isDaytime = hour >= 6 && hour <= 18;
+    
+    // Time-specific gradients for more realism
+    const isMorning = hour >= 6 && hour < 10;
+    const isEvening = hour >= 16 && hour < 20;
+    const isNight = hour < 6 || hour >= 20;
+    const isMidday = hour >= 10 && hour < 16;
 
     // Set gradient colors based on weather code and time of day
     let gradientColors = '';
     let pseudoGradientColors = ''; // Gradient for pseudo-element
 
     if (isDaytime) {
-        switch (current.weathercode) {
-            case 0: // Clear Sky
-                gradientColors = 'linear-gradient(rgb(30, 144, 255), rgb(135, 206, 235))';
-                pseudoGradientColors = 'linear-gradient(rgb(255, 255, 0), rgb(255, 165, 0))'; // Example pseudo gradient
-                break;
-            case 1: // Mainly Clear
-                gradientColors = 'linear-gradient(rgb(70, 130, 180), rgb(135, 206, 235))';
-                pseudoGradientColors = 'linear-gradient(rgb(255, 255, 0), rgb(255, 165, 0))';
-                break;
-            case 2: // Partly Cloudy
-                gradientColors = 'linear-gradient(rgb(100, 149, 237), rgb(176, 196, 222))';
-                pseudoGradientColors = 'linear-gradient(rgb(200, 200, 200), rgb(150, 150, 150))';
-                break;
-            case 3: // Overcast
-                gradientColors = 'linear-gradient(rgb(112, 128, 144), rgb(169, 169, 169))';
-                pseudoGradientColors = 'linear-gradient(rgb(100, 100, 100), rgb(80, 80, 80))';
-                break;
-            case 45: case 48: // Fog
-                gradientColors = 'linear-gradient(rgb(119, 136, 153), rgb(211, 211, 211))';
-                pseudoGradientColors = 'linear-gradient(rgb(150, 150, 150), rgb(120, 120, 120))';
-                break;
-            case 51: case 53: case 55: // Light Drizzle
-            case 56: case 57: // Light Freezing Drizzle
-                gradientColors = 'linear-gradient(rgb(70, 130, 180), rgb(176, 196, 222))';
-                pseudoGradientColors = 'linear-gradient(rgb(100, 100, 150), rgb(150, 150, 200))';
-                break;
-            case 61: case 63: case 65: // Rain
-            case 66: case 67: // Freezing Rain
-            case 80: case 81: case 82: // Showers
-                gradientColors = 'linear-gradient(rgb(70, 130, 180), rgb(119, 136, 153))';
-                pseudoGradientColors = 'linear-gradient(rgb(50, 50, 100), rgb(80, 80, 120))';
-                break;
-            case 71: case 73: case 75: // Snow
-            case 77: // Snow Grains
-            case 85: case 86: // Snow Showers
-                gradientColors = 'linear-gradient(rgb(176, 196, 222), rgb(230, 230, 250))';
-                pseudoGradientColors = 'linear-gradient(rgb(200, 200, 220), rgb(220, 220, 240))';
-                break;
-            case 95: // Thunderstorm
-            case 96: case 99: // Thunderstorm with Hail
-                gradientColors = 'linear-gradient(rgb(47, 79, 79), rgb(112, 128, 144))';
-                pseudoGradientColors = 'linear-gradient(rgb(30, 30, 30), rgb(50, 50, 50))';
-                break;
-            default:
-                gradientColors = 'linear-gradient(rgb(70, 130, 180), rgb(135, 206, 235))';
-                pseudoGradientColors = 'linear-gradient(rgb(255, 255, 0), rgb(255, 165, 0))';
-                break;
+        if (isMorning) {
+            // Morning gradients - sunrise colors
+            switch (current.weathercode) {
+                case 0: // Clear Sky - Sunrise
+                    gradientColors = 'linear-gradient(rgb(135, 206, 235), rgb(255, 183, 107))';
+                    pseudoGradientColors = 'linear-gradient(rgb(255, 128, 0), rgb(255, 215, 0))';
+                    break;
+                case 1: // Mainly Clear - Soft morning blue with hints of gold
+                    gradientColors = 'linear-gradient(rgb(100, 181, 246), rgb(255, 213, 167))';
+                    pseudoGradientColors = 'linear-gradient(rgb(255, 160, 0), rgb(255, 235, 59))';
+                    break;
+                case 2: // Partly Cloudy - Muted sunrise
+                    gradientColors = 'linear-gradient(rgb(129, 195, 236), rgb(219, 217, 198))';
+                    pseudoGradientColors = 'linear-gradient(rgb(244, 177, 131), rgb(255, 241, 193))';
+                    break;
+                case 3: // Overcast - Gray morning light
+                    gradientColors = 'linear-gradient(rgb(176, 190, 197), rgb(207, 216, 220))';
+                    pseudoGradientColors = 'linear-gradient(rgb(158, 158, 158), rgb(189, 189, 189))';
+                    break;
+                case 45: case 48: // Fog - Misty morning
+                    gradientColors = 'linear-gradient(rgb(207, 216, 220), rgb(236, 239, 241))';
+                    pseudoGradientColors = 'linear-gradient(rgb(189, 189, 189), rgb(224, 224, 224))';
+                    break;
+                case 51: case 53: case 55: // Light Drizzle - Gentle morning rain
+                    gradientColors = 'linear-gradient(rgb(129, 178, 214), rgb(188, 197, 204))';
+                    pseudoGradientColors = 'linear-gradient(rgb(100, 143, 189), rgb(149, 179, 205))';
+                    break;
+                case 61: case 63: case 65: // Rain - Morning downpour
+                case 66: case 67: // Freezing Rain
+                case 80: case 81: case 82: // Showers
+                    gradientColors = 'linear-gradient(rgb(96, 146, 178), rgb(161, 183, 195))';
+                    pseudoGradientColors = 'linear-gradient(rgb(69, 93, 122), rgb(110, 148, 176))';
+                    break;
+                case 71: case 73: case 75: // Snow - Gentle morning snowfall
+                case 77: // Snow Grains
+                case 85: case 86: // Snow Showers
+                    gradientColors = 'linear-gradient(rgb(209, 217, 226), rgb(235, 239, 243))';
+                    pseudoGradientColors = 'linear-gradient(rgb(189, 200, 214), rgb(212, 221, 232))';
+                    break;
+                case 95: // Thunderstorm - Stormy sunrise
+                case 96: case 99: // Thunderstorm with Hail
+                    gradientColors = 'linear-gradient(rgb(67, 90, 120), rgb(108, 128, 147))';
+                    pseudoGradientColors = 'linear-gradient(rgb(45, 52, 75), rgb(79, 93, 108))';
+                    break;
+                default:
+                    gradientColors = 'linear-gradient(rgb(135, 206, 235), rgb(255, 183, 107))';
+                    pseudoGradientColors = 'linear-gradient(rgb(255, 128, 0), rgb(255, 215, 0))';
+                    break;
+            }
+        } else if (isMidday) {
+            // Midday gradients - bright, vibrant skies
+            switch (current.weathercode) {
+                case 0: // Clear Sky - Bright blue
+                    gradientColors = 'linear-gradient(rgb(0, 191, 255), rgb(135, 206, 250))';
+                    pseudoGradientColors = 'linear-gradient(rgb(255, 236, 179), rgb(255, 255, 240))';
+                    break;
+                case 1: // Mainly Clear - Brilliant blue with slight haze
+                    gradientColors = 'linear-gradient(rgb(30, 144, 255), rgb(135, 206, 250))';
+                    pseudoGradientColors = 'linear-gradient(rgb(248, 245, 224), rgb(240, 248, 255))';
+                    break;
+                case 2: // Partly Cloudy - Blue with white cloud wisps
+                    gradientColors = 'linear-gradient(rgb(64, 156, 255), rgb(190, 222, 245))';
+                    pseudoGradientColors = 'linear-gradient(rgb(240, 240, 240), rgb(255, 255, 255))';
+                    break;
+                case 3: // Overcast - Light gray sky
+                    gradientColors = 'linear-gradient(rgb(137, 152, 170), rgb(189, 198, 207))';
+                    pseudoGradientColors = 'linear-gradient(rgb(176, 190, 197), rgb(207, 216, 220))';
+                    break;
+                case 45: case 48: // Fog - White haze
+                    gradientColors = 'linear-gradient(rgb(180, 187, 194), rgb(220, 227, 232))';
+                    pseudoGradientColors = 'linear-gradient(rgb(212, 222, 231), rgb(235, 239, 243))';
+                    break;
+                case 51: case 53: case 55: // Light Drizzle - Light rain blue
+                    gradientColors = 'linear-gradient(rgb(86, 156, 214), rgb(157, 192, 219))';
+                    pseudoGradientColors = 'linear-gradient(rgb(188, 222, 242), rgb(214, 230, 242))';
+                    break;
+                case 61: case 63: case 65: // Rain - Deeper rain blue
+                case 66: case 67: // Freezing Rain
+                case 80: case 81: case 82: // Showers
+                    gradientColors = 'linear-gradient(rgb(62, 146, 204), rgb(124, 169, 207))';
+                    pseudoGradientColors = 'linear-gradient(rgb(125, 166, 204), rgb(174, 198, 219))';
+                    break;
+                case 71: case 73: case 75: // Snow - Bright white-blue
+                case 77: // Snow Grains
+                case 85: case 86: // Snow Showers
+                    gradientColors = 'linear-gradient(rgb(185, 219, 237), rgb(225, 240, 247))';
+                    pseudoGradientColors = 'linear-gradient(rgb(230, 240, 245), rgb(245, 252, 255))';
+                    break;
+                case 95: // Thunderstorm - Dark storm blue
+                case 96: case 99: // Thunderstorm with Hail
+                    gradientColors = 'linear-gradient(rgb(47, 79, 103), rgb(86, 105, 124))';
+                    pseudoGradientColors = 'linear-gradient(rgb(37, 50, 65), rgb(58, 76, 94))';
+                    break;
+                default:
+                    gradientColors = 'linear-gradient(rgb(0, 191, 255), rgb(135, 206, 250))';
+                    pseudoGradientColors = 'linear-gradient(rgb(255, 236, 179), rgb(255, 255, 240))';
+                    break;
+            }
+        } else if (isEvening) {
+            // Evening gradients - sunset colors
+            switch (current.weathercode) {
+                case 0: // Clear Sky - Sunset glow
+                    gradientColors = 'linear-gradient(rgb(65, 105, 225), rgb(255, 128, 0))';
+                    pseudoGradientColors = 'linear-gradient(rgb(255, 69, 0), rgb(255, 215, 0))';
+                    break;
+                case 1: // Mainly Clear - Soft sunset
+                    gradientColors = 'linear-gradient(rgb(70, 130, 180), rgb(255, 160, 122))';
+                    pseudoGradientColors = 'linear-gradient(rgb(255, 99, 71), rgb(255, 222, 173))';
+                    break;
+                case 2: // Partly Cloudy - Muted sunset
+                    gradientColors = 'linear-gradient(rgb(100, 149, 237), rgb(240, 128, 128))';
+                    pseudoGradientColors = 'linear-gradient(rgb(233, 150, 122), rgb(255, 239, 213))';
+                    break;
+                case 3: // Overcast - Dulled evening light
+                    gradientColors = 'linear-gradient(rgb(95, 106, 129), rgb(155, 159, 172))';
+                    pseudoGradientColors = 'linear-gradient(rgb(119, 136, 153), rgb(176, 176, 176))';
+                    break;
+                case 45: case 48: // Fog - Evening mist
+                    gradientColors = 'linear-gradient(rgb(143, 155, 179), rgb(190, 195, 209))';
+                    pseudoGradientColors = 'linear-gradient(rgb(169, 181, 204), rgb(211, 213, 222))';
+                    break;
+                case 51: case 53: case 55: // Light Drizzle - Evening shower
+                    gradientColors = 'linear-gradient(rgb(74, 112, 139), rgb(153, 169, 188))';
+                    pseudoGradientColors = 'linear-gradient(rgb(84, 120, 169), rgb(169, 188, 208))';
+                    break;
+                case 61: case 63: case 65: // Rain - Evening downpour
+                case 66: case 67: // Freezing Rain
+                case 80: case 81: case 82: // Showers
+                    gradientColors = 'linear-gradient(rgb(54, 92, 125), rgb(121, 143, 161))';
+                    pseudoGradientColors = 'linear-gradient(rgb(40, 65, 85), rgb(90, 115, 135))';
+                    break;
+                case 71: case 73: case 75: // Snow - Evening snowfall
+                case 77: // Snow Grains
+                case 85: case 86: // Snow Showers
+                    gradientColors = 'linear-gradient(rgb(160, 175, 200), rgb(210, 215, 228))';
+                    pseudoGradientColors = 'linear-gradient(rgb(180, 195, 218), rgb(225, 230, 240))';
+                    break;
+                case 95: // Thunderstorm - Evening storm
+                case 96: case 99: // Thunderstorm with Hail
+                    gradientColors = 'linear-gradient(rgb(45, 62, 80), rgb(75, 92, 110))';
+                    pseudoGradientColors = 'linear-gradient(rgb(25, 35, 55), rgb(50, 65, 80))';
+                    break;
+                default:
+                    gradientColors = 'linear-gradient(rgb(65, 105, 225), rgb(255, 128, 0))';
+                    pseudoGradientColors = 'linear-gradient(rgb(255, 69, 0), rgb(255, 215, 0))';
+                    break;
+            }
         }
     } else {
-        // Nighttime gradients - darker versions
+        // Night gradients - darker, deeper colors
         switch (current.weathercode) {
-            case 0: // Clear Sky
-                gradientColors = 'linear-gradient(rgb(25, 25, 112), rgb(44, 62, 80))';
-                pseudoGradientColors = 'linear-gradient(rgb(10, 10, 30), rgb(20, 20, 40))';
+            case 0: // Clear Night - Deep blue with stars
+                gradientColors = 'linear-gradient(rgb(10, 15, 50), rgb(25, 25, 70))';
+                pseudoGradientColors = 'linear-gradient(rgb(0, 0, 30), rgb(15, 15, 45))';
                 break;
-            case 1: // Mainly Clear
-                gradientColors = 'linear-gradient(rgb(25, 25, 112), rgb(44, 62, 80))';
-                pseudoGradientColors = 'linear-gradient(rgb(10, 10, 30), rgb(20, 20, 40))';
+            case 1: // Mainly Clear - Navy with soft light
+                gradientColors = 'linear-gradient(rgb(15, 20, 55), rgb(30, 30, 75))';
+                pseudoGradientColors = 'linear-gradient(rgb(5, 5, 35), rgb(20, 20, 50))';
                 break;
-            case 2: // Partly Cloudy
-                gradientColors = 'linear-gradient(rgb(26, 35, 126), rgb(38, 50, 56))';
-                pseudoGradientColors = 'linear-gradient(rgb(15, 20, 60), rgb(25, 30, 40))';
+            case 2: // Partly Cloudy - Dark blue with cloud shadows
+                gradientColors = 'linear-gradient(rgb(20, 25, 60), rgb(35, 40, 80))';
+                pseudoGradientColors = 'linear-gradient(rgb(10, 15, 40), rgb(25, 30, 65))';
                 break;
-            case 3: // Overcast
-                gradientColors = 'linear-gradient(rgb(26, 35, 126), rgb(55, 71, 79))';
-                pseudoGradientColors = 'linear-gradient(rgb(20, 30, 60), rgb(30, 40, 50))';
+            case 3: // Overcast - Dark gray night sky
+                gradientColors = 'linear-gradient(rgb(30, 35, 45), rgb(45, 50, 60))';
+                pseudoGradientColors = 'linear-gradient(rgb(20, 25, 35), rgb(35, 40, 50))';
+                break;
+            case 45: case 48: // Fog - Misty night
+                gradientColors = 'linear-gradient(rgb(40, 45, 55), rgb(60, 65, 75))';
+                pseudoGradientColors = 'linear-gradient(rgb(30, 35, 45), rgb(50, 55, 65))';
+                break;
+            case 51: case 53: case 55: // Light Drizzle - Gentle night rain
+                gradientColors = 'linear-gradient(rgb(25, 35, 50), rgb(40, 50, 65))';
+                pseudoGradientColors = 'linear-gradient(rgb(15, 25, 40), rgb(30, 40, 55))';
+                break;
+            case 61: case 63: case 65: // Rain - Night downpour
+            case 66: case 67: // Freezing Rain
+            case 80: case 81: case 82: // Showers
+                gradientColors = 'linear-gradient(rgb(20, 30, 45), rgb(35, 45, 60))';
+                pseudoGradientColors = 'linear-gradient(rgb(10, 20, 35), rgb(25, 35, 50))';
+                break;
+            case 71: case 73: case 75: // Snow - Night snowfall
+            case 77: // Snow Grains
+            case 85: case 86: // Snow Showers
+                gradientColors = 'linear-gradient(rgb(35, 40, 55), rgb(55, 60, 75))';
+                pseudoGradientColors = 'linear-gradient(rgb(25, 30, 45), rgb(45, 50, 65))';
+                break;
+            case 95: // Thunderstorm - Night storm
+            case 96: case 99: // Thunderstorm with Hail
+                gradientColors = 'linear-gradient(rgb(15, 20, 35), rgb(25, 30, 45))';
+                pseudoGradientColors = 'linear-gradient(rgb(5, 10, 25), rgb(15, 20, 35))';
                 break;
             default:
-                gradientColors = 'linear-gradient(rgb(26, 35, 126), rgb(38, 50, 56))';
-                pseudoGradientColors = 'linear-gradient(rgb(15, 20, 60), rgb(25, 30, 40))';
+                gradientColors = 'linear-gradient(rgb(10, 15, 50), rgb(25, 25, 70))';
+                pseudoGradientColors = 'linear-gradient(rgb(0, 0, 30), rgb(15, 15, 45))';
                 break;
         }
     }
 
     const detailedWeatherElement = document.getElementById('detailedWeather');
-    detailedWeatherElement.style.background = gradientColors;
+    
+    // Get the current background for transition
+    const currentBackgroundGradient = window.getComputedStyle(detailedWeatherElement).background;
+    
+    // Add the class first before transitioning
     detailedWeatherElement.className = 'detailed-weather';
-
-    // Create pseudo-element gradient
+    
+    // Transition the gradient using our JS animation
+    transitionGradient(detailedWeatherElement, currentBackgroundGradient, gradientColors, 500);
+    
+    // Add pseudo-element gradient through CSS variable
     detailedWeatherElement.style.setProperty('--pseudo-gradient', pseudoGradientColors);
-    detailedWeatherElement.style.setProperty('--base-gradient', gradientColors);
-    detailedWeatherElement.style.setProperty('--pseudo-gradient', pseudoGradientColors);
-
-    // Add class to trigger transition
-    detailedWeatherElement.classList.add('transitioning');
-
-    // Remove class after transition
-    setTimeout(() => {
-        detailedWeatherElement.classList.remove('transitioning');
-    }, 500); // Match CSS transition duration
 
     document.getElementById('detailedWeather').innerHTML = `
         <p class="location-text">${city}</p>
@@ -765,6 +893,68 @@ async function displayDetailedWeather() {
             }).join('')}
         </div>
     `;
+}
+
+// Helper functions for gradient transitions remain the same
+function transitionGradient(element, startGradient, endGradient, duration = 500) {
+    // Parse gradient strings to extract colors
+    const startColors = startGradient.match(/rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)/g) || 
+                        ['rgb(0, 0, 0)', 'rgb(0, 0, 0)']; // Fallback if no match
+    const endColors = endGradient.match(/rgb\(\s*\d+\s*,\s*\d+\s*,\s*\d+\s*\)/g) || 
+                      ['rgb(0, 0, 0)', 'rgb(0, 0, 0)']; // Fallback if no match
+    
+    // Ensure we have at least two colors to work with
+    if (startColors.length < 2) startColors.push(startColors[0]);
+    if (endColors.length < 2) endColors.push(endColors[0]);
+    
+    const frameCount = duration / 16.667; // ~60fps
+    let frame = 0;
+    
+    const interval = setInterval(() => {
+        if (frame >= frameCount) {
+            clearInterval(interval);
+            element.style.background = endGradient;
+            return;
+        }
+        
+        const progress = frame / frameCount;
+        
+        // Interpolate the first color
+        const startColor1 = parseRGB(startColors[0]);
+        const endColor1 = parseRGB(endColors[0]);
+        const currentColor1 = interpolateColor(startColor1, endColor1, progress);
+        
+        // Interpolate the second color
+        const startColor2 = parseRGB(startColors[startColors.length - 1]);
+        const endColor2 = parseRGB(endColors[endColors.length - 1]);
+        const currentColor2 = interpolateColor(startColor2, endColor2, progress);
+        
+        // Construct the new gradient
+        const currentGradient = `linear-gradient(${currentColor1}, ${currentColor2})`;
+        
+        // Apply it
+        element.style.background = currentGradient;
+        frame++;
+    }, 16.667);
+}
+
+function parseRGB(rgbString) {
+    const values = rgbString.match(/\d+/g);
+    if (!values || values.length < 3) {
+        return { r: 0, g: 0, b: 0 }; // Default to black if parsing fails
+    }
+    return {
+        r: parseInt(values[0]),
+        g: parseInt(values[1]),
+        b: parseInt(values[2])
+    };
+}
+
+function interpolateColor(color1, color2, progress) {
+    const r = Math.round(color1.r + (color2.r - color1.r) * progress);
+    const g = Math.round(color1.g + (color2.g - color1.g) * progress);
+    const b = Math.round(color1.b + (color2.b - color1.b) * progress);
+    return `rgb(${r}, ${g}, ${b})`;
 }
 
 // Helper function to determine if a specific hour is daytime
