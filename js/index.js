@@ -1393,18 +1393,20 @@ function createSetupScreen() {
                 optionElement.appendChild(checkIcon);
         
                 // Handle click events based on option type
-                if (pageData.title === "SETUP_SELECT_LANGUAGE") {
-                    optionElement.addEventListener('click', () => {
-                        // Remove 'selected' class from all language options
-                        page.querySelectorAll('.setup-option').forEach(el => el.classList.remove('selected'));
-    
-                        // Add 'selected' class to the clicked option
-                        optionElement.classList.add('selected');
-    
-                        localStorage.setItem('selectedLanguage', option.value);
-                        selectLanguage(option.value);
-                        updateSetup();
-                    });
+                if (pageData.title === "SETUP_SELECT_LANGUAGE") {
+                    optionElement.addEventListener('click', () => {
+                        // Remove 'selected' class from ALL language options on the page
+                        const allLanguageOptions = page.querySelectorAll('.setup-option');
+                        allLanguageOptions.forEach(el => el.classList.remove('selected'));
+                
+                        // Add 'selected' class to the clicked option
+                        optionElement.classList.add('selected');
+                
+                        localStorage.setItem('selectedLanguage', option.value);
+                        selectLanguage(option.value);
+                        updateSetup();
+                    });
+                }
                 } else if (option.permission) {
                     optionElement.addEventListener('click', async () => {
                         try {
