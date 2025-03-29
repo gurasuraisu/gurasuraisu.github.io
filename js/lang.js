@@ -56,7 +56,8 @@ const LANG_EN = {
     WRITTEN: "Written",
     RAISED: "Raised",
     DOT: "Dot",
-    ROUND: "Round"
+    ROUND: "Round",
+    DETAIL_VERS: "Details"
 };
 
 const LANG_JP = {
@@ -115,7 +116,8 @@ const LANG_JP = {
     WRITTEN: "手書き",
     RAISED: "隆起",
     DOT: "ドット",
-    ROUND: "丸い"
+    ROUND: "丸い",
+    DETAIL_VERS: "詳細"
 };
 
 const LANG_DE = {
@@ -174,7 +176,8 @@ const LANG_DE = {
     WRITTEN: "Geschrieben",
     RAISED: "Erhoben",
     DOT: "Punkt",
-    ROUND: "Rund"
+    ROUND: "Rund",
+    DETAIL_VERS: "Details"
 };
 
 const LANG_FR = {
@@ -233,7 +236,8 @@ const LANG_FR = {
     WRITTEN: "Écrit",
     RAISED: "En relief",
     DOT: "Point",
-    ROUND: "Rond"
+    ROUND: "Rond",
+    DETAIL_VERS: "Détails"
 };
 
 const LANG_ES = {
@@ -292,7 +296,8 @@ const LANG_ES = {
     WRITTEN: "Escrito",
     RAISED: "Elevado",
     DOT: "Punto",
-    ROUND: "Redondo"
+    ROUND: "Redondo",
+    DETAIL_VERS: "Detalles"
 };
 
 const LANG_KO = {
@@ -351,7 +356,8 @@ const LANG_KO = {
     WRITTEN: "필기체",
     RAISED: "돌출된",
     DOT: "점",
-    ROUND: "둥근"
+    ROUND: "둥근",
+    DETAIL_VERS: "세부 정보"
 };
 
 const LANG_ZH = {
@@ -410,5 +416,6 @@ const LANG_ZH = {
     WRITTEN: "手写",
     RAISED: "凸起",
     DOT: "点",
-    ROUND: "圆形"
+    ROUND: "圆形",
+    DETAIL_VERS: "详细信息"
 };
