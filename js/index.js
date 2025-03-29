@@ -1266,7 +1266,7 @@ function createSetupScreen() {
 
     const setupPages = [
         {
-            title: "",
+            title: "SETUP_SELECT_LANGUAGE",
             description: "",
 	    icon: "language",
             options: [
