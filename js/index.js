@@ -631,69 +631,71 @@ async function displayDetailedWeather() {
     if (isDaytime) {
         switch (current.weathercode) {
             case 0: // Clear Sky
-                gradientColors = 'linear-gradient(to bottom, #1e90ff, #87ceeb)';
+                gradientColors = 'linear-gradient(rgb(30, 144, 255), rgb(135, 206, 235))';
                 break;
             case 1: // Mainly Clear
-                gradientColors = 'linear-gradient(to bottom, #4682b4, #87ceeb)';
+                gradientColors = 'linear-gradient(rgb(70, 130, 180), rgb(135, 206, 235))';
                 break;
             case 2: // Partly Cloudy
-                gradientColors = 'linear-gradient(to bottom, #6495ed, #b0c4de)';
+                gradientColors = 'linear-gradient(rgb(100, 149, 237), rgb(176, 196, 222))';
                 break;
             case 3: // Overcast
-                gradientColors = 'linear-gradient(to bottom, #708090, #a9a9a9)';
+                gradientColors = 'linear-gradient(rgb(112, 128, 144), rgb(169, 169, 169))';
                 break;
             case 45: case 48: // Fog
-                gradientColors = 'linear-gradient(to bottom, #778899, #d3d3d3)';
+                gradientColors = 'linear-gradient(rgb(119, 136, 153), rgb(211, 211, 211))';
                 break;
             case 51: case 53: case 55: // Light Drizzle
             case 56: case 57: // Light Freezing Drizzle
-                gradientColors = 'linear-gradient(to bottom, #4682b4, #b0c4de)';
+                gradientColors = 'linear-gradient(rgb(70, 130, 180), rgb(176, 196, 222))';
                 break;
             case 61: case 63: case 65: // Rain
             case 66: case 67: // Freezing Rain
             case 80: case 81: case 82: // Showers
-                gradientColors = 'linear-gradient(to bottom, #4682b4, #778899)';
+                gradientColors = 'linear-gradient(rgb(70, 130, 180), rgb(119, 136, 153))';
                 break;
             case 71: case 73: case 75: // Snow
             case 77: // Snow Grains
             case 85: case 86: // Snow Showers
-                gradientColors = 'linear-gradient(to bottom, #b0c4de, #e6e6fa)';
+                gradientColors = 'linear-gradient(rgb(176, 196, 222), rgb(230, 230, 250))';
                 break;
             case 95: // Thunderstorm
             case 96: case 99: // Thunderstorm with Hail
-                gradientColors = 'linear-gradient(to bottom, #2f4f4f, #708090)';
+                gradientColors = 'linear-gradient(rgb(47, 79, 79), rgb(112, 128, 144))';
                 break;
             default: 
-                gradientColors = 'linear-gradient(to bottom, #4682b4, #87ceeb)';
+                gradientColors = 'linear-gradient(rgb(70, 130, 180), rgb(135, 206, 235))';
                 break;
         }
     } else {
         // Nighttime gradients - darker versions
         switch (current.weathercode) {
             case 0: // Clear Sky
-                gradientColors = 'linear-gradient(to bottom, #191970, #2c3e50)';
+                gradientColors = 'linear-gradient(rgb(25, 25, 112), rgb(44, 62, 80))';
                 break;
             case 1: // Mainly Clear
-                gradientColors = 'linear-gradient(to bottom, #191970, #2c3e50)';
+                gradientColors = 'linear-gradient(rgb(25, 25, 112), rgb(44, 62, 80))';
                 break;
             case 2: // Partly Cloudy
-                gradientColors = 'linear-gradient(to bottom, #1a237e, #263238)';
+                gradientColors = 'linear-gradient(rgb(26, 35, 126), rgb(38, 50, 56))';
                 break;
             case 3: // Overcast
-                gradientColors = 'linear-gradient(to bottom, #1a237e, #37474f)';
+                gradientColors = 'linear-gradient(rgb(26, 35, 126), rgb(55, 71, 79))';
                 break;
             default:
-                gradientColors = 'linear-gradient(to bottom, #1a237e, #263238)';
+                gradientColors = 'linear-gradient(rgb(26, 35, 126), rgb(38, 50, 56))';
                 break;
         }
     }
     
     document.getElementById('detailedWeather').style.background = gradientColors;
+    document.getElementById('detailedWeather').className = 'detailed-weather';
 
     document.getElementById('detailedWeather').innerHTML = `
-        <h2>${current.temperature}°</h2>
         <p class="location-text">${city}</p>
         <span class="weather-icon material-symbols-rounded">${currentWeather.icon(isDaytime)}</span>
+        <h2>${current.temperature}°</h2>
+        
         <p>${currentWeather.description}</p>
         <p class="additional-info">${current.windspeed} km/h</p>
         <div class="hourly-forecast">
