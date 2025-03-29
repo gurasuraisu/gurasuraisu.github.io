@@ -863,6 +863,7 @@ body.light-theme[style*="background-image"] .info {
     background-color: var(--search-background);
     border-radius: 20px;
     backdrop-filter: blur(20px);
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 .brightness-slider-container {
@@ -1162,6 +1163,7 @@ body.light-theme[style*="background-image"] .info {
     padding: 15px 20px;
     background-color: var(--search-background);
     backdrop-filter: blur(20px);
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 .version-info, .reset-settings {
@@ -1173,6 +1175,7 @@ body.light-theme[style*="background-image"] .info {
     background-color: var(--search-background);
     backdrop-filter: blur(20px);
     border-radius: 20px;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 #theme-switch, #seconds-switch, #weather-switch, #minimal-switch, #gurapps-switch, #contrast-switch, #animation-switch {
@@ -1221,6 +1224,7 @@ body.light-theme[style*="background-image"] .info {
     padding: 10px 10px;
     border-radius: 25px;
     cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 #font-select {
@@ -1232,11 +1236,13 @@ body.light-theme[style*="background-image"] .info {
     border-radius: 25px;
     cursor: pointer;
     outline: none;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 #font-select option {
     background-color: var(--background-color);
     color: var(--text-color);
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 #language-switcher {
@@ -1248,11 +1254,13 @@ body.light-theme[style*="background-image"] .info {
     border-radius: 25px;
     cursor: pointer;
     outline: none;
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 #language-switcher option {
     background-color: var(--background-color);
     color: var(--text-color);
+    transition: background-color 0.2s, transform 0.1s;
 }
 
 #font-select option[value="Roboto"] { font-family: 'Roboto', sans-serif; }
