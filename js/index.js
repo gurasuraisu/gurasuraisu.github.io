@@ -1289,13 +1289,13 @@ function createSetupScreen() {
         {
             title: "SETUP_OPEN_PRIVATE",
             description: "SETUP_OPEN_PRIVATE_DESC",
-	    icon: "shield_lock", // Add icon
+	    icon: "verified_user", // Add icon
             options: []
         },
         {
             title: "SETUP_ALLOW_PERMISSIONS",
             description: "",
-	    icon: "lock_open", // Add icon
+	    icon: "enable", // Add icon
             options: [
                 { 
                     name: "SETUP_BASIC_ACCESS",
