@@ -61,19 +61,13 @@ function selectLanguage(languageCode) {
         'ZH': LANG_ZH
     };
 
-    // Default to English if the language code is not found
-    window.currentLanguage = languageMap[languageCode] || LANG_EN;
-
+    currentLanguage = languageMap[languageCode] || LANG_EN;
     console.log('Selected language code:', languageCode);
-    console.log('Current language object:', window.currentLanguage);
+    console.log('Current language object:', currentLanguage);
 
-    // Store the selected language code in localStorage
     localStorage.setItem('selectedLanguage', languageCode);
+    applyLanguage(currentLanguage);
 
-    // Apply the selected language
-    applyLanguage(window.currentLanguage);
-
-    // Update the language switcher dropdown to match the selected language
     const languageSwitcher = document.getElementById('language-switcher');
     if (languageSwitcher) {
         languageSwitcher.value = languageCode;
@@ -1409,13 +1403,14 @@ function showPopup(message) {
 	const buttonText = document.createElement('span');
 	
 	buttonText.textContent = (
-	    window.currentLanguage && 
-	    window.currentLanguage.FULLSCREEN
+	    currentLanguage && 
+	    currentLanguage.FULLSCREEN
 	) || 'Fullscreen';
+	
 	buttonText.style.lineHeight = '1';
-        
-        fullscreenBtn.appendChild(icon);
-        fullscreenBtn.appendChild(buttonText);
+	
+	fullscreenBtn.appendChild(icon);
+	fullscreenBtn.appendChild(buttonText);
         
         fullscreenBtn.addEventListener('click', function() {
             goFullscreen();
