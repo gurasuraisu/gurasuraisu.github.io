@@ -1269,7 +1269,7 @@ function createSetupScreen() {
             title: "SETUP_SELECT_LANGUAGE",
             description: "",
             options: [
-                { name: "English", value: "EN", default: true },
+                { name: "English", value: "EN" },
                 { name: "日本語", value: "JP" },
                 { name: "Deutsch", value: "DE" },
                 { name: "Français", value: "FR" },
@@ -1393,20 +1393,14 @@ function createSetupScreen() {
                 optionElement.appendChild(checkIcon);
         
                 // Handle click events based on option type
-                if (pageData.title === "SETUP_SELECT_LANGUAGE") {
-                    optionElement.addEventListener('click', () => {
-                        // Remove 'selected' class from ALL language options on the page
-                        const allLanguageOptions = page.querySelectorAll('.setup-option');
-                        allLanguageOptions.forEach(el => el.classList.remove('selected'));
-                
-                        // Add 'selected' class to the clicked option
-                        optionElement.classList.add('selected');
-                
-                        localStorage.setItem('selectedLanguage', option.value);
-                        selectLanguage(option.value);
-                        updateSetup();
-                    });
-                }
+                if (pageData.title === "SETUP_SELECT_LANGUAGE") {
+                    optionElement.addEventListener('click', () => {
+                        page.querySelectorAll('.setup-option').forEach(el => el.classList.remove('selected'));
+                        optionElement.classList.add('selected');
+                        localStorage.setItem('selectedLanguage', option.value);
+                        selectLanguage(option.value);
+                        updateSetup();
+                    });
                 } else if (option.permission) {
                     optionElement.addEventListener('click', async () => {
                         try {
@@ -1534,8 +1528,6 @@ function createSetupScreen() {
 
     document.body.appendChild(setupContainer);
     updateSetup();
-
-    return page;
 }
 
 const searchInput = document.getElementById('search-input');
