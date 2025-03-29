@@ -547,6 +547,7 @@ body.light-theme[style*="background-image"] .info {
             color: #f9f9f9;
             max-width: 800px;
             transition: background 0.5s;
+            will-change: background; 
             user-select: none;
             font-variant-numeric: tabular-nums;
         }
