@@ -1040,12 +1040,14 @@ function showPopup(message) {
         icon.style.alignItems = 'center';
     
         // Add the text - use the current language's fullscreen text or fallback to English
-        const buttonText = document.createElement('span');
-        buttonText.textContent = (
-            window.currentLanguage && 
-            window.currentLanguage.FULLSCREEN
-        ) || 'Fullscreen';
-        buttonText.style.lineHeight = '1'; // Helps with vertical alignment
+	const buttonText = document.createElement('span');
+	console.log("window.currentLanguage.FULLSCREEN:", window.currentLanguage && window.currentLanguage.FULLSCREEN); // Add this line
+	
+	buttonText.textContent = (
+	    window.currentLanguage && 
+	    window.currentLanguage.FULLSCREEN
+	) || 'Fullscreen';
+	buttonText.style.lineHeight = '1';
         
         fullscreenBtn.appendChild(icon);
         fullscreenBtn.appendChild(buttonText);
