@@ -1266,8 +1266,9 @@ function createSetupScreen() {
 
     const setupPages = [
         {
-            title: "SETUP_SELECT_LANGUAGE",
+            title: "",
             description: "",
+	    icon: "language",
             options: [
 	        { name: "SETUP_SELECT_LANGUAGE", default: true },
                 { name: "English", value: "EN" },
@@ -1282,16 +1283,19 @@ function createSetupScreen() {
         {
             title: "SETUP_HI_THERE",
             description: "",
+	    icon: "waving_hand",
             options: []
         },
         {
             title: "SETUP_OPEN_PRIVATE",
             description: "SETUP_OPEN_PRIVATE_DESC",
+	    icon: "shield_lock", // Add icon
             options: []
         },
         {
             title: "SETUP_ALLOW_PERMISSIONS",
             description: "",
+	    icon: "lock_open", // Add icon
             options: [
                 { 
                     name: "SETUP_BASIC_ACCESS",
@@ -1313,6 +1317,7 @@ function createSetupScreen() {
         {
             title: "SETUP_CANNIBALIZE",
             description: "",
+	    icon: "palette", // Add icon
             options: [
                 { name: "SETUP_LIGHT", value: "light" },
                 { name: "SETUP_DARK", value: "dark", default: true }
@@ -1321,6 +1326,7 @@ function createSetupScreen() {
         {
             title: "SETUP_CLOCK_FORMAT",
             description: "",
+	    icon: "schedule", // Add icon
             options: [
                 { name: "SETUP_SHOW_SECONDS", value: true, default: true },
                 { name: "SETUP_HIDE_SECONDS", value: false }
@@ -1329,6 +1335,7 @@ function createSetupScreen() {
         {
             title: "SETUP_SHOW_WEATHER",
             description: "",
+	    icon: "partly_cloudy_day", // Add icon
             options: [
                 { name: "SETUP_SHOW_WEATHER_TRUE", value: true, default: true },
                 { name: "SETUP_SHOW_WEATHER_FALSE", value: false }
@@ -1337,11 +1344,13 @@ function createSetupScreen() {
         {
             title: "SETUP_GURAPPS_USAGE",
             description: "SETUP_GURAPPS_USAGE_DESC",
+	    icon: "grid_view", // Add icon
             options: []
         },
         {
             title: "SETUP_CONFIGURE_OPTIONS",
             description: "SETUP_CONFIGURE_OPTIONS_DESC",
+	    icon: "page_info", // Add icon
             options: []
         },
     ];
@@ -1352,11 +1361,23 @@ function createSetupScreen() {
         const page = document.createElement('div');
         page.className = 'setup-page';
         
-        // Add title
+        // Add title with icon
+        const titleContainer = document.createElement('div'); // Container for icon and title
+        titleContainer.style.display = 'flex';
+        titleContainer.style.alignItems = 'center';
+    
+        const icon = document.createElement('span');
+        icon.className = 'material-symbols-rounded';
+        icon.textContent = pageData.icon;
+        icon.style.marginRight = '8px'; // Add some spacing
+
         const title = document.createElement('h1');
         title.className = 'setup-title';
         title.textContent = currentLanguage[pageData.title];
-        page.appendChild(title);
+
+        titleContainer.appendChild(icon);
+        titleContainer.appendChild(title);
+        page.appendChild(titleContainer);
         
         // Add description
         const description = document.createElement('p');
