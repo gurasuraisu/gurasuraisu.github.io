@@ -1395,8 +1395,12 @@ function createSetupScreen() {
                 // Handle click events based on option type
                 if (pageData.title === "SETUP_SELECT_LANGUAGE") {
                     optionElement.addEventListener('click', () => {
+                        // Remove 'selected' class from all language options
                         page.querySelectorAll('.setup-option').forEach(el => el.classList.remove('selected'));
+    
+                        // Add 'selected' class to the clicked option
                         optionElement.classList.add('selected');
+    
                         localStorage.setItem('selectedLanguage', option.value);
                         selectLanguage(option.value);
                         updateSetup();
@@ -1528,6 +1532,8 @@ function createSetupScreen() {
 
     document.body.appendChild(setupContainer);
     updateSetup();
+
+    return page;
 }
 
 const searchInput = document.getElementById('search-input');
