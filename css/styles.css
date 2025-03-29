@@ -479,6 +479,7 @@ body.light-theme[style*="background-image"] .info {
         #weatherModal .detailed-weather {
             background-color: rgb(51, 51, 51);
             user-select: none;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
         .close {
@@ -553,13 +554,13 @@ body.light-theme[style*="background-image"] .info {
         .detailed-weather .weather-icon {
             font-size: 5rem;
             display: block;
-            margin: 0 auto 10px;
+            margin: 30px 0 20px;
             user-select: none;
         }
 
         .detailed-weather h2 {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 3.5rem;
+            margin: 20px 0 20px;
             user-select: none;
             color: #f9f9f9;
         }
