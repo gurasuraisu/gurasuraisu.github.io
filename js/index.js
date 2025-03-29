@@ -3098,10 +3098,10 @@ function createAppIcons() {
                 if (app.details.url.startsWith('#')) {
                     switch (app.details.url) {
                         case '#settings':
-                            showPopup('Opening Settings');
+                            showPopup(currentLanguage.OPEN_SETTINGS);
                             break;
                         case '#weather':
-                            showPopup('Opening Weather');
+                            showPopup(currentLanguage.OPEN_WEATHER);
                             break;
                         default:
                             showPopup(currentLanguage.APP_OPENED.replace("{app}", app));
