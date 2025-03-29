@@ -1266,68 +1266,81 @@ function createSetupScreen() {
 
     const setupPages = [
         {
-            title: "Hi there",
+            title: "SETUP_SELECT_LANGUAGE",
+            description: "",
+            options: [
+                { name: "English", value: "EN", default: true },
+                { name: "日本語", value: "JP" },
+                { name: "Deutsch", value: "DE" },
+                { name: "Français", value: "FR" },
+                { name: "Español", value: "ES" },
+                { name: "한국어", value: "KO" },
+                { name: "中文", value: "ZH" }
+            ]
+        },
+        {
+            title: "SETUP_HI_THERE",
             description: "",
             options: []
         },
         {
-            title: "Open & Private",
-            description: "Your data stays on device at all times. No user data is transferred to any of our services.",
+            title: "SETUP_OPEN_PRIVATE",
+            description: "SETUP_OPEN_PRIVATE_DESC",
             options: []
         },
         {
-            title: "Allow Permissions",
+            title: "SETUP_ALLOW_PERMISSIONS",
             description: "",
             options: [
                 { 
-                    name: "Basic access",
-                    description: "Enables Gurasuraisu to work properly",
+                    name: "SETUP_BASIC_ACCESS",
+                    description: "SETUP_BASIC_ACCESS_DESC",
                     default: true
                 },
                 { 
-                    name: "Location Access",
-                    description: "Enables Weather and personalized results",
+                    name: "SETUP_LOCATION_ACCESS",
+                    description: "SETUP_LOCATION_ACCESS_DESC",
                     permission: "geolocation"
                 },
                 { 
-                    name: "Notifications",
-                    description: "Enables updates and timer alerts",
+                    name: "SETUP_NOTIFICATIONS",
+                    description: "SETUP_NOTIFICATIONS_DESC",
                     permission: "notifications"
                 }
             ]
         },
         {
-            title: "Cannibalize your Gurasuraisu",
+            title: "SETUP_CANNIBALIZE",
             description: "",
             options: [
-                { name: "Light", value: "light" },
-                { name: "Dark", value: "dark", default: true }
+                { name: "SETUP_LIGHT", value: "light" },
+                { name: "SETUP_DARK", value: "dark", default: true }
             ]
         },
         {
-            title: "Clock Format",
+            title: "SETUP_CLOCK_FORMAT",
             description: "",
             options: [
-                { name: "Show Seconds", value: true, default: true },
-                { name: "Hide Seconds", value: false }
+                { name: "SETUP_SHOW_SECONDS", value: true, default: true },
+                { name: "SETUP_HIDE_SECONDS", value: false }
             ]
         },
         {
-            title: "Show or Hide Weather",
+            title: "SETUP_SHOW_WEATHER",
             description: "",
             options: [
-                { name: "Show Weather", value: true, default: true },
-                { name: "Hide Weather", value: false }
+                { name: "SETUP_SHOW_WEATHER_TRUE", value: true, default: true },
+                { name: "SETUP_SHOW_WEATHER_FALSE", value: false }
             ]
         },
         {
-            title: "Gurapps Usage",
-            description: "To use Gurapps, swipe up from the bottom pill and choose an Gurapp to launch.",
+            title: "SETUP_GURAPPS_USAGE",
+            description: "SETUP_GURAPPS_USAGE_DESC",
             options: []
         },
         {
-            title: "Configure more Options in Controls",
-            description: "Press on Controls on the top right or access Controls in app by pressing on the clock.",
+            title: "SETUP_CONFIGURE_OPTIONS",
+            description: "SETUP_CONFIGURE_OPTIONS_DESC",
             options: []
         },
     ];
@@ -1337,50 +1350,58 @@ function createSetupScreen() {
     function createPage(pageData) {
         const page = document.createElement('div');
         page.className = 'setup-page';
-    
+        
         // Add title
         const title = document.createElement('h1');
         title.className = 'setup-title';
-        title.textContent = pageData.title;
+        title.textContent = currentLanguage[pageData.title];
         page.appendChild(title);
-    
+        
         // Add description
         const description = document.createElement('p');
         description.className = 'setup-description';
-        description.textContent = pageData.description;
+        description.textContent = currentLanguage[pageData.description] || "";
         page.appendChild(description);
-    
+        
         // Add options
         if (pageData.options.length > 0) {
             pageData.options.forEach(option => {
                 const optionElement = document.createElement('div');
                 optionElement.className = 'setup-option';
                 if (option.default) optionElement.classList.add('selected');
-    
+        
                 const optionContent = document.createElement('div');
                 optionContent.className = 'option-content';
-    
+        
                 const optionText = document.createElement('span');
                 optionText.className = 'option-title';
-                optionText.textContent = option.name;
-    
+                optionText.textContent = currentLanguage[option.name] || option.name;
+        
                 if (option.description) {
                     const optionDesc = document.createElement('span');
                     optionDesc.className = 'option-description';
-                    optionDesc.textContent = option.description;
+                    optionDesc.textContent = currentLanguage[option.description] || option.description;
                     optionContent.appendChild(optionDesc);
                 }
-    
+        
                 optionContent.insertBefore(optionText, optionContent.firstChild);
                 optionElement.appendChild(optionContent);
-    
+        
                 const checkIcon = document.createElement('span');
                 checkIcon.className = 'material-symbols-rounded';
                 checkIcon.textContent = 'check_circle';
                 optionElement.appendChild(checkIcon);
-    
+        
                 // Handle click events based on option type
-                if (option.permission) {
+                if (pageData.title === "SETUP_SELECT_LANGUAGE") {
+                    optionElement.addEventListener('click', () => {
+                        page.querySelectorAll('.setup-option').forEach(el => el.classList.remove('selected'));
+                        optionElement.classList.add('selected');
+                        localStorage.setItem('selectedLanguage', option.value);
+                        selectLanguage(option.value);
+                        updateSetup();
+                    });
+                } else if (option.permission) {
                     optionElement.addEventListener('click', async () => {
                         try {
                             let permissionGranted = false;
@@ -1410,19 +1431,19 @@ function createSetupScreen() {
                         // Deselect all options
                         page.querySelectorAll('.setup-option').forEach(el => el.classList.remove('selected'));
                         optionElement.classList.add('selected');
-    
+        
                         // Save the selection
                         switch (pageData.title) {
-                            case "Cannibalize your Gurasuraisu":
+                            case "SETUP_CANNIBALIZE":
                                 localStorage.setItem('theme', option.value);
                                 document.body.classList.toggle('light-theme', option.value === 'light');
                                 break;
-                            case "Clock Format":
+                            case "SETUP_CLOCK_FORMAT":
                                 localStorage.setItem('showSeconds', option.value);
                                 showSeconds = option.value;
                                 updateClockAndDate();
                                 break;
-                            case "Show or Hide Weather":
+                            case "SETUP_SHOW_WEATHER":
                                 localStorage.setItem('showWeather', option.value);
                                 showWeather = option.value;
                                 document.getElementById('weather').style.display = option.value ? 'block' : 'none';
@@ -1431,23 +1452,23 @@ function createSetupScreen() {
                         }
                     });
                 }
-    
+        
                 page.appendChild(optionElement);
             });
-    
+        
             // Ensure a default option is selected if none are selected
             if (!page.querySelector('.setup-option.selected')) {
                 page.querySelector('.setup-option').classList.add('selected');
             }
         }
-    
+        
         // Add navigation buttons
         const buttons = document.createElement('div');
         buttons.className = 'setup-buttons';
-    
+        
         const nextButton = document.createElement('button');
         nextButton.className = 'setup-button primary';
-        nextButton.textContent = currentPage === setupPages.length - 1 ? 'Get Started' : 'Continue';
+        nextButton.textContent = currentPage === setupPages.length - 1 ? currentLanguage.SETUP_GET_STARTED : currentLanguage.SETUP_CONTINUE;
         nextButton.addEventListener('click', () => {
             if (currentPage === setupPages.length - 1) {
                 // Complete setup
@@ -1463,7 +1484,7 @@ function createSetupScreen() {
             }
         });
         buttons.appendChild(nextButton);
-    
+        
         page.appendChild(buttons);
         return page;
     }
