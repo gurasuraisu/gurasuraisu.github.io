@@ -1,6 +1,7 @@
 let currentLanguage = LANG_EN; // Default to English
 
 function applyLanguage(language) {
+    console.log('Applying language:', language);
     document.getElementById('user-input').placeholder = language.PLACEHOLDER_MESSAGE;
     document.getElementById('send-button').innerText = language.SEND;
     document.getElementById('voice-button').innerText = language.VOICE;
@@ -10,7 +11,7 @@ function applyLanguage(language) {
     document.querySelector('#temp_control_qc .qc-label').innerText = language.TONE;
     document.querySelector('#minimal_mode_qc .qc-label').innerText = language.MINIMAL;
     document.querySelector('#light_mode_qc .qc-label').innerText = language.DAYLIGHT;
-    
+
     // Updating text content without removing icons
     document.querySelector('.weather-settings .cust-label').childNodes[2].textContent = language.WEATHER;
     document.querySelector('.gurapps-optional .cust-label').childNodes[2].textContent = language.GURAPPS;
@@ -23,8 +24,7 @@ function applyLanguage(language) {
     document.getElementById('language-label').textContent = language.LANGPICK;
     document.querySelector('.version-info button#versionButton').textContent = language.DETAIL_VERS;
     document.getElementById('reset-label').textContent = language.RESET;
-    document.querySelector('.reset-settings button#resetButton').textContent = language.RESET_BTN;
-	
+
     // Updating font selection options
     const fontSelect = document.getElementById('font-select');
     fontSelect.querySelector('option[value="Inter"]').textContent = language.DEFAULT;
@@ -38,7 +38,7 @@ function applyLanguage(language) {
     fontSelect.querySelector('option[value="Rampart One"]').textContent = language.RAISED;
     fontSelect.querySelector('option[value="Doto"]').textContent = language.DOT;
     fontSelect.querySelector('option[value="Nunito"]').textContent = language.ROUND;
-    
+
     // Ensuring only the text node is updated
     const thermostatPopupHeader = document.querySelector('#thermostat-popup .thermostat-popup-header');
     if (thermostatPopupHeader && thermostatPopupHeader.childNodes.length > 2) {
@@ -62,13 +62,16 @@ function selectLanguage(languageCode) {
     };
 
     // Default to English if the language code is not found
-    window.currentLanguage = languageMap[languageCode] || LANG_EN; 
+    window.currentLanguage = languageMap[languageCode] || LANG_EN;
+
+    console.log('Selected language code:', languageCode);
+    console.log('Current language object:', window.currentLanguage);
 
     // Store the selected language code in localStorage
     localStorage.setItem('selectedLanguage', languageCode);
 
     // Apply the selected language
-    applyLanguage(window.currentLanguage); 
+    applyLanguage(window.currentLanguage);
 
     // Update the language switcher dropdown to match the selected language
     const languageSwitcher = document.getElementById('language-switcher');
@@ -424,6 +427,7 @@ const weatherConditions = {
         icon: () => isDaytime() ? 'thunderstorm' : 'thunderstorm'
     }
 };
+
 function updateWeatherVisibility() {
     const weatherWidget = document.getElementById('weather');
     weatherWidget.style.display = showWeather ? 'block' : 'none';
@@ -1498,18 +1502,19 @@ function checkFullscreen() {
 function firstSetup() {
     // Check if it's the first visit
     const hasVisitedBefore = localStorage.getItem('hasVisitedBefore');
-    
+
     // Get the selected language, defaulting to 'EN'
     const selectedLanguage = localStorage.getItem('selectedLanguage') || 'EN';
-    
+    console.log('First setup: selected language:', selectedLanguage);
+
     // Select and apply the language
     selectLanguage(selectedLanguage);
-    
+
     // Show setup screen for first-time users
     if (!hasVisitedBefore) {
         createSetupScreen();
     }
-    
+
     // Mark that the user has visited before
     localStorage.setItem('hasVisitedBefore', 'true');
 }
@@ -4314,13 +4319,10 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Perform the initial setup
     firstSetup();
-    
-    // Retrieve stored language preference
-    const storedLanguage = localStorage.getItem('selectedLanguage') || 'EN';
-    selectLanguage(storedLanguage);
 
-    // Add event listener to language switcher
+    // Add event listener to the language switcher
     const languageSwitcher = document.getElementById('language-switcher');
     if (languageSwitcher) {
         languageSwitcher.addEventListener('change', function () {
