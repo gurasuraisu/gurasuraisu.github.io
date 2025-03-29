@@ -1004,7 +1004,7 @@ function showPopup(message) {
     popup.appendChild(document.createTextNode(message));
     
     // Check if the message is about fullscreen and add a button if it is
-    if (message === 'NOT_FULLSCREEN') {
+    if (message === currentLanguage.NOT_FULLSCREEN) {
         // Clear existing text content since we only want to show the button
         while (popup.firstChild) {
             popup.removeChild(popup.firstChild);
