@@ -1395,8 +1395,6 @@ function createSetupScreen() {
                 // Handle click events based on option type
                 if (pageData.title === "SETUP_SELECT_LANGUAGE") {
                     optionElement.addEventListener('click', () => {
-                        page.querySelectorAll('.setup-option').forEach(el => el.classList.remove('selected'));
-                        optionElement.classList.add('selected');
                         localStorage.setItem('selectedLanguage', option.value);
                         selectLanguage(option.value);
                         updateSetup();
