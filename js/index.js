@@ -1269,6 +1269,7 @@ function createSetupScreen() {
             title: "SETUP_SELECT_LANGUAGE",
             description: "",
             options: [
+	        { name: "SETUP_SELECT_LANGUAGE", default: true },
                 { name: "English", value: "EN" },
                 { name: "日本語", value: "JP" },
                 { name: "Deutsch", value: "DE" },
