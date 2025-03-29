@@ -60,15 +60,15 @@ function selectLanguage(languageCode) {
         'KO': LANG_KO,
         'ZH': LANG_ZH
     };
-    
+
     // Default to English if the language code is not found
-    currentLanguage = languageMap[languageCode] || LANG_EN;
-    
+    window.currentLanguage = languageMap[languageCode] || LANG_EN; 
+
     // Store the selected language code in localStorage
     localStorage.setItem('selectedLanguage', languageCode);
-    
+
     // Apply the selected language
-    applyLanguage(currentLanguage);
+    applyLanguage(window.currentLanguage); 
 
     // Update the language switcher dropdown to match the selected language
     const languageSwitcher = document.getElementById('language-switcher');
@@ -1041,7 +1041,6 @@ function showPopup(message) {
     
         // Add the text - use the current language's fullscreen text or fallback to English
 	const buttonText = document.createElement('span');
-	console.log("window.currentLanguage.FULLSCREEN:", window.currentLanguage && window.currentLanguage.FULLSCREEN); // Add this line
 	
 	buttonText.textContent = (
 	    window.currentLanguage && 
