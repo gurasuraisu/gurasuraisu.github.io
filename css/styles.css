@@ -567,6 +567,17 @@ body.light-theme[style*="background-image"] .info {
             opacity: 1; /* Make the pseudo-element visible during transition */
         }
 
+        .detailed-weather .location-text,
+        .detailed-weather h2,
+        .detailed-weather p,
+        .detailed-weather .weather-icon,
+        .detailed-weather .additional-info,
+        .detailed-weather .hourly-forecast,
+        .detailed-weather .forecast-container {
+            position: relative;
+            z-index: 10; /* Higher z-index than weather elements */
+        }
+
         .detailed-weather .weather-icon {
             font-size: 5rem;
             display: block;
