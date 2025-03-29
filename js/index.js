@@ -20,7 +20,7 @@ function applyLanguage(language) {
     document.querySelector('.wallpaper-upload .cust-label').childNodes[2].textContent = language.WALLPAPER;
     document.querySelector('#uploadButton').innerText = language.ADD;
     document.querySelector('.font-selection .cust-label').childNodes[2].textContent = language.STYLE;
-    document.querySelector('.lang-selection .cust-label').childNodes[2].textContent = language.LANGPICK;
+    document.getElementById('language-label').textContent = language.LANGPICK;
     document.querySelector('.version-info button#versionButton').textContent = language.DETAIL_VERS;
 	
     // Updating font selection options
