@@ -2082,7 +2082,7 @@ body.light-theme[style*="background-image"] .info {
 
         .dock {
             position: fixed;
-            bottom: -100px;
+            bottom: -95px;
             transform: translateX(-50%);
             background: var(--search-background);
             backdrop-filter: blur(50px);
