@@ -43,12 +43,6 @@ function applyLanguage(language) {
         thermostatPopupHeader.childNodes[2].textContent = language.ADJUST;
     }
 
-    // Update the language selection label
-    const languageSwitcherLabel = document.querySelector('label[for="language-switcher"] .cust-label');
-    if (languageSwitcherLabel && languageSwitcherLabel.childNodes.length > 1) {
-        languageSwitcherLabel.childNodes[1].textContent = language.LANGPICK;
-    }
-
     // Update checkWords and closeWords
     window.checkWords = language.CHECK_WORDS;
     window.closeWords = language.CLOSE_WORDS;
