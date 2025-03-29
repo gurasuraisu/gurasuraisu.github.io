@@ -674,6 +674,7 @@ body.light-theme[style*="background-image"] .info {
       overflow: hidden;
       pointer-events: none;
       z-index: 1;
+      border-radius: 30px;
     }
     
     /* Sun */
@@ -1242,10 +1243,6 @@ body.light-theme[style*="background-image"] .info {
     @keyframes hail {
         0% { background-position: 0 0; }
         100% { background-position: 20px 200px; }
-    }
-
-    #weather-elements-container {
-        border-radius: 30px;
     }
         
         .search-container {
