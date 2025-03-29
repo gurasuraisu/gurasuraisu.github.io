@@ -1919,11 +1919,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!temperatureIcon) return;
         
         if (parseInt(value) <= 15) {
-            temperatureIcon.textContent = 'ac_unit'; // Cold
+            temperatureIcon.textContent = 'thermometer_minus'; // Cold
         } else if (parseInt(value) <= 25) {
-            temperatureIcon.textContent = 'thermostat'; // Normal
+            temperatureIcon.textContent = 'thermostat_auto'; // Normal
         } else {
-            temperatureIcon.textContent = 'wb_sunny'; // Hot
+            temperatureIcon.textContent = 'thermometer_add'; // Hot
         }
     }
     
