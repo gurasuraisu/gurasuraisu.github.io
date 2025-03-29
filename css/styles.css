@@ -168,14 +168,11 @@ body.light-theme[style*="background-image"] .info {
  
 /* When animations are disabled */
 .reduce-animations * {
-    /* Override animations but preserve layout */
-    animation-duration: 0s !important;
-    animation-delay: 0s !important;
-    
-    /* Replace all transitions with only opacity transition */
+    /* Disable all animations */
+    animation: none !important;
+
+    /* Disable all transitions except opacity */
     transition: opacity 0.3s ease !important;
-    
-    /* Preserve transforms that might be needed for layout */
     transition-property: opacity !important;
 }
 
