@@ -24,6 +24,7 @@ function applyLanguage(language) {
     document.getElementById('language-label').textContent = language.LANGPICK;
     document.querySelector('.version-info button#versionButton').textContent = language.DETAIL_VERS;
     document.getElementById('reset-label').textContent = language.RESET;
+    document.querySelector('.reset-settings button#resetButton').textContent = language.RESET_BTN;
 
     // Updating font selection options
     const fontSelect = document.getElementById('font-select');
