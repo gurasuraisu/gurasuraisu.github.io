@@ -3937,6 +3937,46 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+document.addEventListener('DOMContentLoaded', function() {
+    // Get reference to the reset button
+    const resetButton = document.getElementById('resetButton');
+    
+    // Add click event listener to the reset button
+    resetButton.addEventListener('click', function() {
+        // Show confirmation popup
+        const confirmReset = confirm("Are you sure you want to clear all data? This action cannot be undone.");
+        
+        // If user confirms, clear all data
+        if (confirmReset) {
+            // Clear local storage
+            localStorage.clear();
+            
+            // Clear session storage
+            sessionStorage.clear();
+            
+            // Clear cookies (optional)
+            clearCookies();
+            
+            // Notify user that data has been cleared
+            alert("All data has been successfully cleared.");
+            
+            window.location.reload();
+        }
+    });
+    
+    // Helper function to clear cookies
+    function clearCookies() {
+        const cookies = document.cookie.split(";");
+        
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i];
+            const eqPos = cookie.indexOf("=");
+            const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+        }
+    }
+});
+
 window.addEventListener('load', () => {
     promptToInstallPWA();
 });
