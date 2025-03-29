@@ -1364,12 +1364,14 @@ function createSetupScreen() {
         // Add title with icon
         const titleContainer = document.createElement('div'); // Container for icon and title
         titleContainer.style.display = 'flex';
-        titleContainer.style.alignItems = 'center';
-    
+        titleContainer.style.flexDirection = 'column'; // Stack icon and title vertically
+        titleContainer.style.alignItems = 'center'; // Center horizontally
+
         const icon = document.createElement('span');
         icon.className = 'material-symbols-rounded';
         icon.textContent = pageData.icon;
-        icon.style.marginRight = '8px'; // Add some spacing
+        icon.style.fontSize = '48px'; // Set icon size to 48px
+        icon.style.marginBottom = '8px'; // Add some spacing between icon and title
 
         const title = document.createElement('h1');
         title.className = 'setup-title';
