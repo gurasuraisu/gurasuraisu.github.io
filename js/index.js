@@ -1958,7 +1958,6 @@ const appLinks = {
     "Wordy": "https://gurasuraisu.github.io/wordy",
     "Music": "https://gurasuraisu.github.io/music",
     "Stickies": "https://gurasuraisu.github.io/stickies",
-    "SketchPad": "https://gurasuraisu.github.io/sketchpad",
     "Fantaskical": "https://gurasuraisu.github.io/fantaskical",
     "Clapper": "https://gurasuraisu.github.io/clapper",
 };
