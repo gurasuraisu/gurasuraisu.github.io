@@ -3174,16 +3174,6 @@ function initializeCustomization() {
             icon: "notes.png"
         },
 
-        "Moments": {
-            url: "https://gurasuraisu.github.io/moments",
-            icon: "photos.png"
-        },
-
-        "SketchPad": {
-            url: "https://gurasuraisu.github.io/sketchpad",
-            icon: "sketch.png"
-        },
-
         "Fantaskical": {
             url: "https://gurasuraisu.github.io/fantaskical",
             icon: "tasks.png"
