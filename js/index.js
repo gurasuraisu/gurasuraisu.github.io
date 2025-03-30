@@ -2200,10 +2200,23 @@ document.addEventListener('DOMContentLoaded', function() {
     lightModeControl.addEventListener('click', function() {
         lightModeSwitch.checked = !lightModeSwitch.checked;
         this.classList.toggle('active');
-        
+    
         const newTheme = lightModeSwitch.checked ? 'light' : 'dark';
+    
+        // Update localStorage
         localStorage.setItem('theme', newTheme);
+    
+        // Update current document
         document.body.classList.toggle('light-theme', newTheme === 'light');
+    
+        // Notify other components via postMessage
+        window.postMessage(
+            { 
+                type: 'themeUpdate', 
+                theme: newTheme 
+            }, 
+            window.location.origin
+        );
     });
     
     // Event listener for minimal mode control
