@@ -3603,8 +3603,10 @@ function setupDrawerInteractions() {
         velocities = [];
         appDrawer.style.transition = 'none';
         
-        // Disable pointer events on everything except appDrawer and drawerHandle
+        // Store original pointer-events for elements and disable them
         document.querySelectorAll('body > *:not(#app-drawer):not(.drawer-handle)').forEach(el => {
+            // Store original pointer-events value
+            el.dataset.originalPointerEvents = getComputedStyle(el).pointerEvents;
             el.style.pointerEvents = 'none';
         });
         
@@ -3688,9 +3690,14 @@ function setupDrawerInteractions() {
     function endDrag() {
         if (!isDragging) return;
         
-        // Re-enable pointer events on all elements
-        document.querySelectorAll('body > *').forEach(el => {
-            el.style.pointerEvents = 'auto';
+        // Restore original pointer-events values
+        document.querySelectorAll('body > *:not(#app-drawer):not(.drawer-handle)').forEach(el => {
+            if (el.dataset.originalPointerEvents) {
+                el.style.pointerEvents = el.dataset.originalPointerEvents;
+                delete el.dataset.originalPointerEvents;
+            } else {
+                el.style.pointerEvents = 'auto';
+            }
         });
     
         const deltaY = startY - currentY;
