@@ -3641,10 +3641,37 @@ function setupDrawerInteractions() {
         dragStartTime = Date.now();
         velocities = [];
         appDrawer.style.transition = 'none';
+        
+        // Add this line to ensure consistent z-index during dragging
+        appDrawer.style.zIndex = '1002'; // Higher than other components
+        
+        // Force drawer to be in the foreground visually
+        drawerHandle.style.pointerEvents = 'auto';
+        
+        // Create an invisible overlay to capture all drag events
+        const dragOverlay = document.createElement('div');
+        dragOverlay.id = 'drag-event-capture';
+        dragOverlay.style.position = 'fixed';
+        dragOverlay.style.top = '0';
+        dragOverlay.style.left = '0';
+        dragOverlay.style.width = '100%';
+        dragOverlay.style.height = '100%';
+        dragOverlay.style.zIndex = '1005'; // Higher than everything
+        dragOverlay.style.background = 'transparent';
+        dragOverlay.style.pointerEvents = 'none'; // Start with no pointer interaction
+        document.body.appendChild(dragOverlay);
+        
+        // Store reference to remove later
+        window.activeDragOverlay = dragOverlay;
     }
-
+	
     function moveDrawer(yPosition) {
         if (!isDragging) return;
+
+        // Make sure our drag overlay captures all events during drag
+        if (window.activeDragOverlay) {
+            window.activeDragOverlay.style.pointerEvents = 'auto';
+        }
         
         // Calculate and store velocity data
         const now = Date.now();
@@ -3830,9 +3857,18 @@ function setupDrawerInteractions() {
     
         isDragging = false;
     
+        if (window.activeDragOverlay) {
+            document.body.removeChild(window.activeDragOverlay);
+            window.activeDragOverlay = null;
+        }
+        
+        // Reset z-index and pointer events
+        appDrawer.style.zIndex = '';
+        drawerHandle.style.pointerEvents = '';
+        
         setTimeout(() => {
             isDrawerInMotion = false;
-        }, 300); // 300ms matches the transition duration in the CSS
+        }, 300);
     }
 
     // Add initial swipe detection in app
