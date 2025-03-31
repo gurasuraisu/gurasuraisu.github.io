@@ -474,7 +474,8 @@ body.light-theme[style*="background-image"] .info {
         }
 
         #weatherModal .detailed-weather {
-            background-color: rgb(51, 51, 51);
+            background-color: var(--modal-background);
+            backdrop-filter: blur(50px);
             user-select: none;
             text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
         }
@@ -2154,8 +2155,9 @@ body.light-theme[style*="background-image"] .info {
             width: 100%;
             height: 100%;
             z-index: 1000;
-            background: var(--background-color);
-            transition: transform 0.3s ease, opacity 0.3s ease;
+            background: var(--modal-background);
+            overflow: hidden; /* Add this to ensure border-radius works properly */
+            transition: transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease;
         }
         
         .fullscreen-embed iframe {
