@@ -3259,7 +3259,6 @@ function createFullscreenEmbed(url) {
         embedContainer.style.transform = 'scale(0.8)';
         embedContainer.style.opacity = '0';
         embedContainer.style.display = 'block';
-        embedContainer.style.borderRadius = '25px'; // Start with rounded corners
         
         // IMPORTANT FIX: Restore proper z-index and pointer events
         embedContainer.style.pointerEvents = 'auto';
@@ -3269,13 +3268,12 @@ function createFullscreenEmbed(url) {
         void embedContainer.offsetWidth;
         
         // Add animation
-        embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
+        embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
         
         // Trigger the animation
         setTimeout(() => {
             embedContainer.style.transform = 'scale(1)';
             embedContainer.style.opacity = '1';
-            embedContainer.style.borderRadius = '0px'; // Change to no corners when fully open
         }, 10);
         
         // Hide all elements as when creating a new embed
@@ -3310,17 +3308,15 @@ function createFullscreenEmbed(url) {
     // Create a container for the iframe
     const embedContainer = document.createElement('div');
     embedContainer.className = 'fullscreen-embed';
-    
-    // Set initial styles without transition first
-    embedContainer.style.transition = 'none';
+    // Start with scaled down and transparent for animation
     embedContainer.style.transform = 'scale(0.8)'; 
     embedContainer.style.opacity = '0';
-    embedContainer.style.borderRadius = '25px';
     embedContainer.style.display = 'block';
-    embedContainer.style.pointerEvents = 'auto';
-    embedContainer.style.zIndex = '1001';
+    embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
     
-    // Add iframe to container
+    // IMPORTANT FIX: Set proper z-index and pointer events
+    embedContainer.style.pointerEvents = 'auto';
+    embedContainer.style.zIndex = '1001'; // Higher than interaction-blocker (999)
     embedContainer.appendChild(iframe);
     
     // Store the URL as a data attribute
@@ -3362,20 +3358,13 @@ function createFullscreenEmbed(url) {
         el.style.display = 'none';
     });
     
-    // Append the container to the DOM first
+    // Append the container
     document.body.appendChild(embedContainer);
-    
-    // Force a reflow to ensure initial styles are applied
-    void embedContainer.offsetWidth;
-    
-    // Now set the transition and start the animation
-    embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
     
     // Trigger the animation after a short delay
     setTimeout(() => {
         embedContainer.style.transform = 'scale(1)';
         embedContainer.style.opacity = '1';
-        embedContainer.style.borderRadius = '0px'; // Change to no corners when fully open
     }, 10);
     
     // Show the swipe overlay when opening an app
@@ -3400,35 +3389,29 @@ function minimizeFullscreenEmbed() {
     if (embedContainer) {
         // Get the URL before hiding it
         const url = embedContainer.dataset.embedUrl;
-        
         if (url) {
-            // Add border radius but keep existing animation
-            embedContainer.style.borderRadius = '25px'; // Add rounded corners when minimizing
-            
             // Store the embed in our minimized embeds object
             minimizedEmbeds[url] = embedContainer;
             
             // After animation completes, actually hide it completely
-            setTimeout(() => {
-                embedContainer.style.display = 'none';
-                
-                // Use a different z-index approach when minimized
-                embedContainer.style.pointerEvents = 'none';
-                embedContainer.style.zIndex = '0';
-                
-                // Restore previously hidden elements
-                document.querySelectorAll('body > *').forEach(el => {
-                    if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
-                        if (el.id === 'customizeModal') {
-                            el.style.display = 'none'; // Explicitly set customizeModal to none
-                        } else {
-                            el.style.display = '';
-                        }
-                    }
-                });
-            }, 300); // Match the animation duration
+            embedContainer.style.display = 'none';
+            
+            // Use a different z-index approach when minimized
+            embedContainer.style.pointerEvents = 'none';
+            embedContainer.style.zIndex = '0';
         }
     }
+    
+    // Restore previously hidden elements
+    document.querySelectorAll('body > *').forEach(el => {
+        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
+            if (el.id === 'customizeModal') {
+                el.style.display = 'none'; // Explicitly set customizeModal to none
+            } else {
+                el.style.display = '';
+            }
+        }
+    });
     
     // Hide all fullscreen embeds that are not being displayed
     document.querySelectorAll('.fullscreen-embed:not([style*="display: block"])').forEach(embed => {
