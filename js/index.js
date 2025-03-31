@@ -3258,6 +3258,7 @@ function createFullscreenEmbed(url) {
         embedContainer.style.transition = 'none';
         embedContainer.style.transform = 'scale(0.8)';
         embedContainer.style.opacity = '0';
+        embedContainer.style.borderRadius = '25px';
         embedContainer.style.display = 'block';
         
         // IMPORTANT FIX: Restore proper z-index and pointer events
@@ -3267,13 +3268,14 @@ function createFullscreenEmbed(url) {
         // Force reflow to apply the immediate style changes
         void embedContainer.offsetWidth;
         
-        // Add animation
-        embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        // Add animation for all properties including border radius
+        embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
         
         // Trigger the animation
         setTimeout(() => {
             embedContainer.style.transform = 'scale(1)';
             embedContainer.style.opacity = '1';
+            embedContainer.style.borderRadius = '0px'; // Remove border radius when fully opened
         }, 10);
         
         // Hide all elements as when creating a new embed
@@ -3308,11 +3310,12 @@ function createFullscreenEmbed(url) {
     // Create a container for the iframe
     const embedContainer = document.createElement('div');
     embedContainer.className = 'fullscreen-embed';
-    // Start with scaled down and transparent for animation
+    // Start with scaled down, transparent, and rounded corners for animation
     embedContainer.style.transform = 'scale(0.8)'; 
     embedContainer.style.opacity = '0';
+    embedContainer.style.borderRadius = '25px';
     embedContainer.style.display = 'block';
-    embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+    embedContainer.style.overflow = 'hidden'; // To ensure border radius works with iframe
     
     // IMPORTANT FIX: Set proper z-index and pointer events
     embedContainer.style.pointerEvents = 'auto';
@@ -3361,10 +3364,17 @@ function createFullscreenEmbed(url) {
     // Append the container
     document.body.appendChild(embedContainer);
     
+    // Force a reflow to ensure animation works on first load
+    void embedContainer.offsetWidth;
+    
+    // Add transition after appending to DOM (fixes cold start animation)
+    embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
+    
     // Trigger the animation after a short delay
     setTimeout(() => {
         embedContainer.style.transform = 'scale(1)';
         embedContainer.style.opacity = '1';
+        embedContainer.style.borderRadius = '0px'; // Remove border radius when fully opened
     }, 10);
     
     // Show the swipe overlay when opening an app
@@ -3638,9 +3648,13 @@ function setupDrawerInteractions() {
         
         if (openEmbed && movementPercentage > 25) {
             // Add transition class for smooth animation
-            openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
             openEmbed.style.transform = `scale(${1 - (movementPercentage - 25) / 100})`;
             openEmbed.style.opacity = 1 - ((movementPercentage - 25) / 75);
+            
+            // Add dynamic border radius during drag
+            const borderRadius = Math.min(25, (movementPercentage - 25) * 0.5);
+            openEmbed.style.borderRadius = `${borderRadius}px`;
             
             // Make app drawer transparent when in an app
             appDrawer.style.opacity = '0';
@@ -3705,9 +3719,10 @@ function setupDrawerInteractions() {
         
         if (openEmbed && (movementPercentage > 50 || isFlickUp)) {
             // Close embed with animation
-            openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
             openEmbed.style.transform = 'scale(0.8)';
             openEmbed.style.opacity = '0';
+            openEmbed.style.borderRadius = '25px'; // Fully rounded when minimized
             
             setTimeout(() => {
                 minimizeFullscreenEmbed();
@@ -3729,6 +3744,7 @@ function setupDrawerInteractions() {
             // Reset embed if swipe wasn't enough
             openEmbed.style.transform = 'scale(1)';
             openEmbed.style.opacity = '1';
+            openEmbed.style.borderRadius = '0px'; // Reset to no border radius
             
             // Keep app drawer transparent when in an app
             appDrawer.style.opacity = '0';
