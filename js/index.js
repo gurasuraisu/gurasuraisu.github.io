@@ -3281,18 +3281,11 @@ function createFullscreenEmbed(url) {
             embedContainer.style.borderRadius = '0px'; // Remove border radius when fully opened
         }, 10);
         
-        // Hide some elements
-        document.querySelectorAll('body > div.container, .dock').forEach(el => {
-            // Add transition before changing properties
-            el.style.transition = 'opacity 0.3s ease';
-            
-            // Start fade out
-            el.style.opacity = '0';
-        
-            // After transition completes, actually hide the element
-            setTimeout(() => {
+        // Hide all elements as when creating a new embed
+        document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
+            if (!el.matches('.fullscreen-embed')) {
                 el.style.display = 'none';
-            }, 300); // Match the transition duration (0.3s = 300ms)
+            }
         });
         
         // Show the swipe overlay when restoring an app
@@ -3425,21 +3418,14 @@ function minimizeFullscreenEmbed() {
     }
     
     // Restore previously hidden elements
-    document.querySelectorAll('body > div.container, .dock').forEach(el => {
-        // Prepare for transition
-        el.style.opacity = '0';
-        el.style.display = ''; // Ensure element is visible but fully transparent
-    
-        // Force reflow to ensure the opacity change registers
-        void el.offsetWidth;
-    
-        // Add transition
-        el.style.transition = 'opacity 0.3s ease';
-    
-        // Trigger fade in
-        setTimeout(() => {
-            el.style.opacity = '1';
-        }, 10);
+    document.querySelectorAll('body > *').forEach(el => {
+        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
+            if (el.id === 'customizeModal') {
+                el.style.display = 'none'; // Explicitly set customizeModal to none
+            } else {
+                el.style.display = '';
+            }
+        }
     });
     
     // Hide all fullscreen embeds that are not being displayed
