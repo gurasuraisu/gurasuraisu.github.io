@@ -3482,7 +3482,6 @@ function populateDock() {
 
     const appDrawer = document.getElementById('app-drawer');
     const appGrid = document.getElementById('app-grid');
-    const appDrawerToggle = document.getElementById('app-drawer-toggle');
 
 // Function to create app icons
 function createAppIcons() {
@@ -3937,7 +3936,6 @@ function setupDrawerInteractions() {
     document.addEventListener('click', (e) => {
         if (appDrawer.classList.contains('open') &&
             !appDrawer.contains(e.target) &&
-            !appDrawerToggle.contains(e.target)) {
             appDrawer.style.transition = 'bottom 0.3s ease';
             appDrawer.style.bottom = '-100%';
             appDrawer.classList.remove('open');
