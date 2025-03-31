@@ -3624,17 +3624,6 @@ function setupDrawerInteractions() {
         dragStartTime = Date.now();
         velocities = [];
         appDrawer.style.transition = 'none';
-    
-        // Apply blur to everything except the specified elements
-        document.querySelectorAll('body *').forEach(el => {
-            if (!el.matches('.drawer-handle, .app-drawer, .fullscreen-embed, .brightness-overlay, .temperature-overlay')) {
-                el.style.filter = 'blur(10px)'; // Adjust blur strength as needed
-            }
-        });
-    
-        // Hide persistent clock
-        const persistentClock = document.querySelector('.persistent-clock');
-        if (persistentClock) persistentClock.style.display = 'none';
     }
 
     function moveDrawer(yPosition) {
@@ -3711,15 +3700,6 @@ function setupDrawerInteractions() {
 
     function endDrag() {
         if (!isDragging) return;
-    
-        // Remove blur effect
-        document.querySelectorAll('body *').forEach(el => {
-            el.style.filter = ''; // Reset filter
-        });
-    
-        // Show persistent clock again
-        const persistentClock = document.querySelector('.persistent-clock');
-        if (persistentClock) persistentClock.style.display = '';
     
         const deltaY = startY - currentY;
         const deltaTime = Date.now() - dragStartTime;
