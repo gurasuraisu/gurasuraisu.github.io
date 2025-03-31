@@ -3361,20 +3361,11 @@ function createFullscreenEmbed(url) {
         // Don't remove the container or close the embed
     });
     
-    // Hide some elements
-    document.querySelectorAll('body > div.container').forEach(el => {
-        // Add transition before changing properties
-        el.style.transition = 'opacity 0.3s ease';
-        
-        // Start fade out
-        el.style.opacity = '0';
-        
-        // After transition completes, actually hide the element
-        setTimeout(() => {
-            el.style.display = 'none';
-        }, 300); // Match the transition duration (0.3s = 300ms)
+    // Hide all elements
+    document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
+        el.style.display = 'none';
     });
-        
+    
     // Append the container to the DOM
     document.body.appendChild(embedContainer);
     
@@ -3427,21 +3418,14 @@ function minimizeFullscreenEmbed() {
     }
     
     // Restore previously hidden elements
-    document.querySelectorAll('body > div.container').forEach(el => {
-        // Prepare for transition
-        el.style.opacity = '0';
-        el.style.display = ''; // Show but invisible
-        
-        // Force reflow
-        void el.offsetWidth;
-        
-        // Add transition
-        el.style.transition = 'opacity 0.3s ease';
-        
-        // Trigger fade in
-        setTimeout(() => {
-            el.style.opacity = '1';
-        }, 10);
+    document.querySelectorAll('body > *').forEach(el => {
+        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
+            if (el.id === 'customizeModal') {
+                el.style.display = 'none'; // Explicitly set customizeModal to none
+            } else {
+                el.style.display = '';
+            }
+        }
     });
     
     // Hide all fullscreen embeds that are not being displayed
@@ -3641,37 +3625,10 @@ function setupDrawerInteractions() {
         dragStartTime = Date.now();
         velocities = [];
         appDrawer.style.transition = 'none';
-        
-        // Add this line to ensure consistent z-index during dragging
-        appDrawer.style.zIndex = '1002'; // Higher than other components
-        
-        // Force drawer to be in the foreground visually
-        drawerHandle.style.pointerEvents = 'auto';
-        
-        // Create an invisible overlay to capture all drag events
-        const dragOverlay = document.createElement('div');
-        dragOverlay.id = 'drag-event-capture';
-        dragOverlay.style.position = 'fixed';
-        dragOverlay.style.top = '0';
-        dragOverlay.style.left = '0';
-        dragOverlay.style.width = '100%';
-        dragOverlay.style.height = '100%';
-        dragOverlay.style.zIndex = '1005'; // Higher than everything
-        dragOverlay.style.background = 'transparent';
-        dragOverlay.style.pointerEvents = 'none'; // Start with no pointer interaction
-        document.body.appendChild(dragOverlay);
-        
-        // Store reference to remove later
-        window.activeDragOverlay = dragOverlay;
     }
-	
+
     function moveDrawer(yPosition) {
         if (!isDragging) return;
-
-        // Make sure our drag overlay captures all events during drag
-        if (window.activeDragOverlay) {
-            window.activeDragOverlay.style.pointerEvents = 'auto';
-        }
         
         // Calculate and store velocity data
         const now = Date.now();
@@ -3857,18 +3814,9 @@ function setupDrawerInteractions() {
     
         isDragging = false;
     
-        if (window.activeDragOverlay) {
-            document.body.removeChild(window.activeDragOverlay);
-            window.activeDragOverlay = null;
-        }
-        
-        // Reset z-index and pointer events
-        appDrawer.style.zIndex = '';
-        drawerHandle.style.pointerEvents = '';
-        
         setTimeout(() => {
             isDrawerInMotion = false;
-        }, 300);
+        }, 300); // 300ms matches the transition duration in the CSS
     }
 
     // Add initial swipe detection in app
