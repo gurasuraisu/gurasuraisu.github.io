@@ -3254,11 +3254,14 @@ function createFullscreenEmbed(url) {
         // Restore the minimized embed
         const embedContainer = minimizedEmbeds[url];
         
-        // Reset the animation properties first
+        // First, remove any existing transitions
         embedContainer.style.transition = 'none';
+        
+        // Set initial state with rounded corners
         embedContainer.style.transform = 'scale(0.8)';
         embedContainer.style.opacity = '0';
         embedContainer.style.borderRadius = '25px';
+        embedContainer.style.overflow = 'hidden'; // Ensure border radius works
         embedContainer.style.display = 'block';
         
         // IMPORTANT FIX: Restore proper z-index and pointer events
@@ -3268,7 +3271,7 @@ function createFullscreenEmbed(url) {
         // Force reflow to apply the immediate style changes
         void embedContainer.offsetWidth;
         
-        // Add animation for all properties including border radius
+        // Add transition for all properties
         embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
         
         // Trigger the animation
@@ -3310,12 +3313,14 @@ function createFullscreenEmbed(url) {
     // Create a container for the iframe
     const embedContainer = document.createElement('div');
     embedContainer.className = 'fullscreen-embed';
-    // Start with scaled down, transparent, and rounded corners for animation
+    
+    // Set initial styles BEFORE adding to DOM
+    // No transitions yet - just set initial values
     embedContainer.style.transform = 'scale(0.8)'; 
     embedContainer.style.opacity = '0';
     embedContainer.style.borderRadius = '25px';
+    embedContainer.style.overflow = 'hidden'; // Ensure border radius works with iframe
     embedContainer.style.display = 'block';
-    embedContainer.style.overflow = 'hidden'; // To ensure border radius works with iframe
     
     // IMPORTANT FIX: Set proper z-index and pointer events
     embedContainer.style.pointerEvents = 'auto';
@@ -3361,16 +3366,16 @@ function createFullscreenEmbed(url) {
         el.style.display = 'none';
     });
     
-    // Append the container
+    // Append the container to the DOM
     document.body.appendChild(embedContainer);
     
-    // Force a reflow to ensure animation works on first load
+    // Force reflow to ensure the initial styles are applied
     void embedContainer.offsetWidth;
     
-    // Add transition after appending to DOM (fixes cold start animation)
+    // Now add the transition AFTER the element is in the DOM with initial styles applied
     embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
     
-    // Trigger the animation after a short delay
+    // Trigger the animation in the next event loop
     setTimeout(() => {
         embedContainer.style.transform = 'scale(1)';
         embedContainer.style.opacity = '1';
@@ -3717,7 +3722,7 @@ function setupDrawerInteractions() {
         // Handle flick gesture to close app
         const isFlickUp = avgVelocity > flickVelocityThreshold;
         
-        if (openEmbed && (movementPercentage > 50 || isFlickUp)) {
+        if (openEmbed && (movementPercentage > 10 || isFlickUp)) {
             // Close embed with animation
             openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
             openEmbed.style.transform = 'scale(0.8)';
