@@ -3538,137 +3538,443 @@ function saveUsageData() {
     localStorage.setItem('appUsage', JSON.stringify(appUsage));
 }
 
-function createFullscreenEmbed(url) {
-    // Check if we have this URL minimized already
-    if (minimizedEmbeds[url]) {
-        // Restore the minimized embed
-        const embedContainer = minimizedEmbeds[url];
+function setupDrawerInteractions() {
+    let startY = 0;
+    let currentY = 0;
+    let initialDrawerPosition = -100;
+    let isDragging = false;
+    let isDrawerInMotion = false;
+    let dragStartTime = 0;
+    let lastY = 0;
+    let velocities = [];
+    const flickVelocityThreshold = 0.4;
+    const dockThreshold = -25; // Threshold for dock appearance
+    const openThreshold = -50;
+    const drawerPill = document.querySelector('.drawer-pill');
+    const drawerHandle = document.querySelector('.drawer-handle');
+    
+    // Create dock element
+    const dock = document.createElement('div');
+    dock.id = 'dock';
+    dock.className = 'dock';
+    document.body.appendChild(dock);
+    
+    // Create interaction blocker overlay
+    const interactionBlocker = document.createElement('div');
+    interactionBlocker.id = 'interaction-blocker';
+    interactionBlocker.style.position = 'fixed';
+    interactionBlocker.style.top = '0';
+    interactionBlocker.style.left = '0';
+    interactionBlocker.style.width = '100%';
+    interactionBlocker.style.height = '100%';
+    interactionBlocker.style.zIndex = '999'; // Below the drawer but above other content
+    interactionBlocker.style.display = 'none';
+    interactionBlocker.style.background = 'transparent';
+    document.body.appendChild(interactionBlocker);
+    
+    populateDock();
+    
+    // Create transparent overlay for app swipe detection
+    const swipeOverlay = document.createElement('div');
+    swipeOverlay.id = 'swipe-overlay';
+    swipeOverlay.style.position = 'fixed';
+    swipeOverlay.style.bottom = '0';
+    swipeOverlay.style.left = '0';
+    swipeOverlay.style.width = '100%';
+    swipeOverlay.style.height = '15%'; // Bottom 15% of screen for swipe detection
+    swipeOverlay.style.zIndex = '1000';
+    swipeOverlay.style.display = 'none';
+    swipeOverlay.style.pointerEvents = 'none'; // Start with no interaction
+    document.body.appendChild(swipeOverlay);
+
+    function startDrag(yPosition) {
+        startY = yPosition;
+        lastY = yPosition;
+        currentY = yPosition;
+        isDragging = true;
+        isDrawerInMotion = true;
+        dragStartTime = Date.now();
+        velocities = [];
+        appDrawer.style.transition = 'none';
+    }
+
+    function moveDrawer(yPosition) {
+        if (!isDragging) return;
         
-        // Reset the animation properties first
-        embedContainer.style.transition = 'none';
-        embedContainer.style.transform = 'scale(0.8)';
-        embedContainer.style.opacity = '0';
-        embedContainer.style.display = 'block';
+        // Calculate and store velocity data
+        const now = Date.now();
+        const deltaTime = now - dragStartTime;
+        if (deltaTime > 0) {
+            const velocity = (lastY - yPosition) / deltaTime;
+            velocities.push(velocity);
+            // Keep only the last 5 velocity measurements
+            if (velocities.length > 5) {
+                velocities.shift();
+            }
+        }
+        lastY = yPosition;
         
-        // IMPORTANT FIX: Restore proper z-index and pointer events
-        embedContainer.style.pointerEvents = 'auto';
-        embedContainer.style.zIndex = '1001'; // Higher than interaction-blocker (999)
+        currentY = yPosition;
+        const deltaY = startY - currentY;
+        const windowHeight = window.innerHeight;
+        const movementPercentage = (deltaY / windowHeight) * 100;
+    
+        // Check if there's an open embed
+        const openEmbed = document.querySelector('.fullscreen-embed');
         
-        // Force reflow to apply the immediate style changes
-        void embedContainer.offsetWidth;
+        if (openEmbed && movementPercentage > 25) {
+            // Add transition class for smooth animation
+            openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            openEmbed.style.transform = `scale(${1 - (movementPercentage - 25) / 100})`;
+            openEmbed.style.opacity = 1 - ((movementPercentage - 25) / 75);
+            
+            // Make app drawer transparent when in an app
+            appDrawer.style.opacity = '0';
+            
+            // IMPORTANT FIX: Set pointer-events to none when an embed is open
+            interactionBlocker.style.pointerEvents = 'none';
+        }
         
-        // Add animation
-        embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        // Show dock and hide drawer-pill
+        if (movementPercentage > 10 && movementPercentage < 25) {
+            dock.classList.add('show');
+            dock.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.1)'; 
+            drawerPill.style.opacity = '0';
+        } else {
+            dock.classList.remove('show');
+            dock.style.boxShadow = 'none'; 
+            drawerPill.style.opacity = '1';
+        }
+    
+        const newPosition = Math.max(-100, Math.min(0, initialDrawerPosition + movementPercentage));
         
-        // Trigger the animation
+        // Only update opacity if no embed is open
+        if (!openEmbed) {
+            const opacity = (newPosition + 100) / 100;
+            appDrawer.style.opacity = opacity;
+        }
+        
+        appDrawer.style.bottom = `${newPosition}%`;
+        
+        // Show interaction blocker if drawer is partially visible (not at 0% or -100%)
+        if (newPosition > -100 && newPosition < 0) {
+            interactionBlocker.style.display = 'block';
+            // IMPORTANT FIX: Only capture pointer events if no embed is open
+            interactionBlocker.style.pointerEvents = openEmbed ? 'none' : 'auto';
+        } else {
+            interactionBlocker.style.display = 'none';
+        }
+    }
+
+    function endDrag() {
+        if (!isDragging) return;
+    
+        const deltaY = startY - currentY;
+        const deltaTime = Date.now() - dragStartTime;
+        
+        // Calculate average velocity from the stored values
+        let avgVelocity = 0;
+        if (velocities.length > 0) {
+            avgVelocity = velocities.reduce((sum, v) => sum + v, 0) / velocities.length;
+        }
+        
+        const windowHeight = window.innerHeight;
+        const movementPercentage = (deltaY / windowHeight) * 100;
+    
+        appDrawer.style.transition = 'bottom 0.3s ease, opacity 0.3s ease';
+    
+        // IMPORTANT FIX: Be specific about which embed is open
+        const openEmbed = document.querySelector('.fullscreen-embed[style*="display: block"]');
+        
+        // Handle flick gesture to close app
+        const isFlickUp = avgVelocity > flickVelocityThreshold;
+        
+        if (openEmbed && (movementPercentage > 50 || isFlickUp)) {
+            // Close embed with animation
+            openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+            openEmbed.style.transform = 'scale(0.8)';
+            openEmbed.style.opacity = '0';
+            
+            setTimeout(() => {
+                minimizeFullscreenEmbed();
+                
+                // Hide the swipe overlay
+                swipeOverlay.style.display = 'none';
+                swipeOverlay.style.pointerEvents = 'none';
+            }, 300);
+            
+            // Reset drawer state
+            dock.classList.remove('show');
+            dock.style.boxShadow = 'none';
+            appDrawer.style.bottom = '-100%';
+            appDrawer.style.opacity = '0';
+            appDrawer.classList.remove('open');
+            initialDrawerPosition = -100;
+            interactionBlocker.style.display = 'none';
+        } else if (openEmbed) {
+            // Reset embed if swipe wasn't enough
+            openEmbed.style.transform = 'scale(1)';
+            openEmbed.style.opacity = '1';
+            
+            // Keep app drawer transparent when in an app
+            appDrawer.style.opacity = '0';
+            
+            // Handle dock visibility for smaller swipes
+            if (movementPercentage > 10 && movementPercentage <= 25) {
+                dock.classList.add('show');
+                dock.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.1)'; // Enable box shadow when visible
+                appDrawer.style.bottom = '-100%';
+                appDrawer.classList.remove('open');
+                initialDrawerPosition = -100;
+                interactionBlocker.style.display = 'none';
+            } else {
+                dock.classList.remove('show');
+                dock.style.boxShadow = 'none'; // Disable box shadow when not visible
+                appDrawer.style.bottom = '-100%';
+                appDrawer.classList.remove('open');
+                initialDrawerPosition = -100;
+                interactionBlocker.style.display = 'none';
+            }
+        } else {
+            // Normal drawer behavior when no embed is open
+            // Consider both movement percentage and velocity for flick gestures
+            const isSignificantSwipe = movementPercentage > 25 || isFlickUp;
+            const isSmallSwipe = movementPercentage > 10 && movementPercentage <= 25;
+            
+            // Small swipe - show dock
+            if (isSmallSwipe && !isFlickUp) {
+                dock.classList.add('show');
+                dock.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.1)'; // Enable box shadow when visible
+                appDrawer.style.bottom = '-100%';
+                appDrawer.style.opacity = '0';
+                appDrawer.classList.remove('open');
+                initialDrawerPosition = -100;
+                interactionBlocker.style.display = 'none';
+            } 
+            // Large swipe or flick up - show full drawer
+            else if (isSignificantSwipe) {
+                dock.classList.remove('show');
+                dock.style.boxShadow = 'none'; // Disable box shadow when not visible
+                appDrawer.style.bottom = '0%';
+                appDrawer.style.opacity = '1';
+                appDrawer.classList.add('open');
+                initialDrawerPosition = 0;
+                interactionBlocker.style.display = 'none';
+            } 
+            // Close everything
+            else {
+                dock.classList.remove('show');
+                dock.style.boxShadow = 'none'; // Disable box shadow when not visible
+                appDrawer.style.bottom = '-100%';
+                appDrawer.style.opacity = '0';
+                appDrawer.classList.remove('open');
+                initialDrawerPosition = -100;
+                interactionBlocker.style.display = 'none';
+            }
+            
+            // Hide the swipe overlay when not in an app
+            swipeOverlay.style.display = 'none';
+            swipeOverlay.style.pointerEvents = 'none';
+        }
+    
+        isDragging = false;
+    
         setTimeout(() => {
-            embedContainer.style.transform = 'scale(1)';
-            embedContainer.style.opacity = '1';
-        }, 10);
+            isDrawerInMotion = false;
+        }, 300); // 300ms matches the transition duration in the CSS
+    }
+
+    // Add initial swipe detection in app
+    function setupAppSwipeDetection() {
+        let touchStartY = 0;
+        let touchStartTime = 0;
+        let isInSwipeMode = false;
         
-        // Hide all elements as when creating a new embed
-        document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
-            if (!el.matches('.fullscreen-embed')) {
-                el.style.display = 'none';
+        swipeOverlay.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+            touchStartTime = Date.now();
+        }, { passive: true });
+        
+        swipeOverlay.addEventListener('touchmove', (e) => {
+            const currentY = e.touches[0].clientY;
+            const deltaY = touchStartY - currentY;
+            
+            if (deltaY > 20 && !isInSwipeMode) { // Detected upward swipe
+                isInSwipeMode = true;
+                startDrag(touchStartY);
+                // Capture all further events
+                swipeOverlay.style.pointerEvents = 'auto';
+            }
+            
+            if (isInSwipeMode) {
+                moveDrawer(currentY);
+                e.preventDefault(); // Prevent default scrolling when in swipe mode
+            }
+        }, { passive: false });
+        
+        swipeOverlay.addEventListener('touchend', () => {
+            if (isInSwipeMode) {
+                endDrag();
+                isInSwipeMode = false;
+            }
+            // Return to passive mode
+            swipeOverlay.style.pointerEvents = 'none';
+        });
+        
+        // Similar handling for mouse events
+        swipeOverlay.addEventListener('mousedown', (e) => {
+            touchStartY = e.clientY;
+            touchStartTime = Date.now();
+        });
+        
+        swipeOverlay.addEventListener('mousemove', (e) => {
+            if (e.buttons !== 1) return; // Only proceed if left mouse button is pressed
+            
+            const deltaY = touchStartY - e.clientY;
+            
+            if (deltaY > 20 && !isInSwipeMode) {
+                isInSwipeMode = true;
+                startDrag(touchStartY);
+                swipeOverlay.style.pointerEvents = 'auto';
+            }
+            
+            if (isInSwipeMode) {
+                moveDrawer(e.clientY);
             }
         });
         
-        // Show the swipe overlay when restoring an app
-        const swipeOverlay = document.getElementById('swipe-overlay');
-        if (swipeOverlay) {
-            swipeOverlay.style.display = 'block';
-        }
+        swipeOverlay.addEventListener('mouseup', () => {
+            if (isInSwipeMode) {
+                endDrag();
+                isInSwipeMode = false;
+            }
+            swipeOverlay.style.pointerEvents = 'none';
+        });
+    }
+    
+    setupAppSwipeDetection();
+
+    // Touch Events for regular drawer interaction
+    document.addEventListener('touchstart', (e) => {
+        const touch = e.touches[0];
+        const element = document.elementFromPoint(touch.clientX, touch.clientY);
         
-        // IMPORTANT FIX: Make sure interaction blocker doesn't block embed
-        const interactionBlocker = document.getElementById('interaction-blocker');
-        if (interactionBlocker) {
-            interactionBlocker.style.pointerEvents = 'none';
+        // Check if touch is on handle area or if drawer is already open
+        if (drawerHandle.contains(element) || (appDrawer.classList.contains('open') && appDrawer.contains(element))) {
+            startDrag(touch.clientY);
+            e.preventDefault();
+        }
+    }, { passive: false });
+
+    document.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+            e.preventDefault();
+            moveDrawer(e.touches[0].clientY);
+        }
+    }, { passive: false });
+
+    document.addEventListener('touchend', () => {
+        endDrag();
+    });
+
+    // Mouse Events for regular drawer interaction
+    document.addEventListener('mousedown', (e) => {
+        if (e.button !== 0) return;
+        const element = document.elementFromPoint(e.clientX, e.clientY);
+        
+        // Check if click is on handle area or if drawer is already open
+        if (drawerHandle.contains(element) || (appDrawer.classList.contains('open') && appDrawer.contains(element))) {
+            startDrag(e.clientY);
+        }
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+            moveDrawer(e.clientY);
+        }
+    });
+
+    document.addEventListener('mouseup', () => {
+        endDrag();
+    });
+
+    // Close drawer when clicking outside
+    document.addEventListener('click', (e) => {
+        if (appDrawer.classList.contains('open') &&
+            !appDrawer.contains(e.target) &&
+            !appDrawerToggle.contains(e.target)) {
+            appDrawer.style.transition = 'bottom 0.3s ease';
+            appDrawer.style.bottom = '-100%';
+            appDrawer.classList.remove('open');
+            initialDrawerPosition = -100;
             interactionBlocker.style.display = 'none';
         }
-        
-        return;
-    }
-    
-    // Create new embed if not already minimized
-    const iframe = document.createElement('iframe');
-    iframe.src = url;
-    iframe.setAttribute('frameborder', '0');
-    iframe.setAttribute('allowfullscreen', '');
-    
-    // Create a container for the iframe
-    const embedContainer = document.createElement('div');
-    embedContainer.className = 'fullscreen-embed';
-    // Start with scaled down and transparent for animation
-    embedContainer.style.transform = 'scale(0.8)'; 
-    embedContainer.style.opacity = '0';
-    embedContainer.style.display = 'block';
-    embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-    
-    // IMPORTANT FIX: Set proper z-index and pointer events
-    embedContainer.style.pointerEvents = 'auto';
-    embedContainer.style.zIndex = '1001'; // Higher than interaction-blocker (999)
-    embedContainer.appendChild(iframe);
-    
-    // Store the URL as a data attribute
-    embedContainer.dataset.embedUrl = url;
-    
-    // Flag to track embedding status
-    let embedFailed = false;
-    
-    // Try to detect if embedding is blocked
-    iframe.addEventListener('load', () => {
-        try {
-            // Attempt to access iframe content
-            const iframeContent = iframe.contentWindow.document;
-            
-            // Specific check for embedding blockage
-            if (iframeContent.body.textContent.includes('X-Frame-Options') || 
-                iframeContent.body.textContent.includes('frame denied')) {
-                embedFailed = true;
-                window.open(url, '_blank');
-                // Don't remove the container or close the embed
-            }
-        } catch (error) {
-            // If accessing content fails, it might be blocked
-            embedFailed = true;
-            window.open(url, '_blank');
-            // Don't remove the container or close the embed
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!isDrawerInMotion && 
+            !dock.contains(e.target) && 
+            !drawerHandle.contains(e.target) && 
+            !appDrawer.classList.contains('open')) { // Only hide dock if drawer is closed
+            dock.classList.remove('show');
+            dock.style.boxShadow = 'none'; // Disable box shadow when hiding dock
+            drawerPill.style.opacity = '1'; // Restore drawer-pill opacity when dock is hidden
         }
     });
     
-    // Handle iframe loading error
-    iframe.addEventListener('error', () => {
-        embedFailed = true;
-        window.open(url, '_blank');
-        // Don't remove the container or close the embed
-    });
-    
-    // Hide all elements
-    document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
-        el.style.display = 'none';
-    });
-    
-    // Append the container
-    document.body.appendChild(embedContainer);
-    
-    // Trigger the animation after a short delay
-    setTimeout(() => {
-        embedContainer.style.transform = 'scale(1)';
-        embedContainer.style.opacity = '1';
-    }, 10);
-    
-    // Show the swipe overlay when opening an app
-    const swipeOverlay = document.getElementById('swipe-overlay');
-    if (swipeOverlay) {
-        swipeOverlay.style.display = 'block';
+    // Make app drawer transparent when an app is open
+    function updateDrawerOpacityForApps() {
+        const openEmbed = document.querySelector('.fullscreen-embed[style*="display: block"]');
+        if (openEmbed) {
+            appDrawer.style.opacity = '0';
+            
+            // Show the swipe overlay when an app is open
+            swipeOverlay.style.display = 'block';
+            
+            // IMPORTANT FIX: Set pointer-events to none when an embed is open
+            interactionBlocker.style.pointerEvents = 'none';
+        } else {
+            // Only update opacity if drawer is open
+            if (appDrawer.classList.contains('open')) {
+                appDrawer.style.opacity = '1';
+            }
+            
+            // Hide the swipe overlay when no app is open
+            swipeOverlay.style.display = 'none';
+            swipeOverlay.style.pointerEvents = 'none';
+            
+            // IMPORTANT FIX: Reset pointer-events when no embed is open
+            if (appDrawer.classList.contains('open')) {
+                interactionBlocker.style.pointerEvents = 'auto';
+            }
+        }
     }
     
-    // IMPORTANT FIX: Make sure interaction blocker doesn't block embed
-    const interactionBlocker = document.getElementById('interaction-blocker');
-    if (interactionBlocker) {
-        interactionBlocker.style.pointerEvents = 'none';
+    // Monitor for opened apps
+    const bodyObserver = new MutationObserver(() => {
+        updateDrawerOpacityForApps();
+    });
+    
+    bodyObserver.observe(document.body, {
+        childList: true,
+        subtree: true
+    });
+    
+    // Initial check
+    updateDrawerOpacityForApps();
+    
+    // Ensure box shadow is disabled initially
+    dock.style.boxShadow = 'none';
+    
+    // Add interaction blocker click handler to close drawer on click outside
+    interactionBlocker.addEventListener('click', () => {
+        appDrawer.style.transition = 'bottom 0.3s ease, opacity 0.3s ease';
+        appDrawer.style.bottom = '-100%';
+        appDrawer.style.opacity = '0';
+        appDrawer.classList.remove('open');
+        initialDrawerPosition = -100;
         interactionBlocker.style.display = 'none';
-    }
+    });
 }
 
 const appDrawerObserver = new MutationObserver((mutations) => {
@@ -4009,7 +4315,6 @@ window.addEventListener('click', (event) => {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
-    initAppDraw();
     updateGurappsVisibility();
 });
 
@@ -4082,5 +4387,6 @@ function preventLeaving() {
     initializeCustomization();
     setupWeatherToggle()
     updateDisplay();
+    initAppDraw();
     updateWeatherVisibility();
     preventLeaving();
