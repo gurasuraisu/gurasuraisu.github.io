@@ -3592,7 +3592,7 @@ function setupDrawerInteractions() {
     swipeOverlay.style.display = 'none';
     swipeOverlay.style.pointerEvents = 'none'; // Start with no interaction
     document.body.appendChild(swipeOverlay);
-
+	
     function startDrag(yPosition) {
         startY = yPosition;
         lastY = yPosition;
@@ -3602,6 +3602,15 @@ function setupDrawerInteractions() {
         dragStartTime = Date.now();
         velocities = [];
         appDrawer.style.transition = 'none';
+        
+        // Disable pointer events on everything except appDrawer and drawerHandle
+        document.querySelectorAll('body > *:not(#app-drawer):not(.drawer-handle)').forEach(el => {
+            el.style.pointerEvents = 'none';
+        });
+        
+        // Ensure appDrawer and drawerHandle remain interactive
+        document.getElementById('app-drawer').style.pointerEvents = 'auto';
+        document.querySelector('.drawer-handle').style.pointerEvents = 'auto';
     }
 
     function moveDrawer(yPosition) {
@@ -3678,6 +3687,11 @@ function setupDrawerInteractions() {
 
     function endDrag() {
         if (!isDragging) return;
+        
+        // Re-enable pointer events on all elements
+        document.querySelectorAll('body > *').forEach(el => {
+            el.style.pointerEvents = 'auto';
+        });
     
         const deltaY = startY - currentY;
         const deltaTime = Date.now() - dragStartTime;
