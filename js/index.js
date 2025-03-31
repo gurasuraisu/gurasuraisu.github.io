@@ -3722,7 +3722,7 @@ function setupDrawerInteractions() {
         // Handle flick gesture to close app
         const isFlickUp = avgVelocity > flickVelocityThreshold;
         
-        if (openEmbed && (movementPercentage > 10 || isFlickUp)) {
+        if (openEmbed && (movementPercentage > 25 || isFlickUp)) {
             // Close embed with animation
             openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
             openEmbed.style.transform = 'scale(0.8)';
