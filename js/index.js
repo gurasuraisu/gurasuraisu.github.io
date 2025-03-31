@@ -3256,8 +3256,8 @@ function createFullscreenEmbed(url) {
         
         // Reset the animation properties first
         embedContainer.style.transition = 'none';
-        embedContainer.style.transform = 'scale(1)';
-        embedContainer.style.opacity = '1';
+        embedContainer.style.transform = 'scale(0.8)';
+        embedContainer.style.opacity = '0';
         embedContainer.style.display = 'block';
         
         // IMPORTANT FIX: Restore proper z-index and pointer events
@@ -3267,8 +3267,14 @@ function createFullscreenEmbed(url) {
         // Force reflow to apply the immediate style changes
         void embedContainer.offsetWidth;
         
-        // Restore normal transitions for future animations
+        // Add animation
         embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
+        
+        // Trigger the animation
+        setTimeout(() => {
+            embedContainer.style.transform = 'scale(1)';
+            embedContainer.style.opacity = '1';
+        }, 10);
         
         // Hide all elements as when creating a new embed
         document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
@@ -3302,10 +3308,12 @@ function createFullscreenEmbed(url) {
     // Create a container for the iframe
     const embedContainer = document.createElement('div');
     embedContainer.className = 'fullscreen-embed';
+    // Start with scaled down and transparent for animation
+    embedContainer.style.transform = 'scale(0.8)'; 
+    embedContainer.style.opacity = '0';
+    embedContainer.style.display = 'block';
     embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease';
-    embedContainer.style.display = 'block'; // Ensure it's visible
-    embedContainer.style.transform = 'scale(1)';
-    embedContainer.style.opacity = '1';
+    
     // IMPORTANT FIX: Set proper z-index and pointer events
     embedContainer.style.pointerEvents = 'auto';
     embedContainer.style.zIndex = '1001'; // Higher than interaction-blocker (999)
@@ -3352,6 +3360,12 @@ function createFullscreenEmbed(url) {
     
     // Append the container
     document.body.appendChild(embedContainer);
+    
+    // Trigger the animation after a short delay
+    setTimeout(() => {
+        embedContainer.style.transform = 'scale(1)';
+        embedContainer.style.opacity = '1';
+    }, 10);
     
     // Show the swipe overlay when opening an app
     const swipeOverlay = document.getElementById('swipe-overlay');
