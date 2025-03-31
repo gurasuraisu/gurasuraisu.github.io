@@ -2197,18 +2197,18 @@ document.addEventListener('DOMContentLoaded', function() {
     lightModeControl.addEventListener('click', function() {
         lightModeSwitch.checked = !lightModeSwitch.checked;
         this.classList.toggle('active');
-    
+
         const newTheme = lightModeSwitch.checked ? 'light' : 'dark';
-    
+
         // Update localStorage
         localStorage.setItem('theme', newTheme);
-    
+
         // Update current document
         document.body.classList.toggle('light-theme', newTheme === 'light');
-    
+
         // Notify other components via postMessage
         window.postMessage(
-            { 
+           { 
                 type: 'themeUpdate', 
                 theme: newTheme 
             }, 
@@ -2390,17 +2390,21 @@ contrastSwitch.addEventListener('change', function() {
 // Load saved preference (default to true/on if not set)
 const animationsEnabled = localStorage.getItem('animationsEnabled') !== 'false';
 animationSwitch.checked = animationsEnabled;
-
 // Apply initial state
 if (!animationsEnabled) {
     document.body.classList.add('reduce-animations');
 }
-
 // Event listener for animation toggle
 animationSwitch.addEventListener('change', function() {
     const enableAnimations = this.checked;
     localStorage.setItem('animationsEnabled', enableAnimations);
     document.body.classList.toggle('reduce-animations', !enableAnimations);
+    
+    // Send message to app side to sync animation preference
+    window.postMessage({
+        type: 'animationsUpdate',
+        enabled: enableAnimations
+    }, window.location.origin);
 });
 
 // Function to handle Gurapps visibility
