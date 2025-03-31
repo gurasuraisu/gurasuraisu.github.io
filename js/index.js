@@ -3280,14 +3280,7 @@ function createFullscreenEmbed(url) {
             embedContainer.style.opacity = '1';
             embedContainer.style.borderRadius = '0px'; // Remove border radius when fully opened
         }, 10);
-        
-        // Hide all elements as when creating a new embed
-        document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
-            if (!el.matches('.fullscreen-embed')) {
-                el.style.display = 'none';
-            }
-        });
-        
+                
         // Show the swipe overlay when restoring an app
         const swipeOverlay = document.getElementById('swipe-overlay');
         if (swipeOverlay) {
@@ -3360,12 +3353,7 @@ function createFullscreenEmbed(url) {
         window.open(url, '_blank');
         // Don't remove the container or close the embed
     });
-    
-    // Hide all elements
-    document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
-        el.style.display = 'none';
-    });
-    
+        
     // Append the container to the DOM
     document.body.appendChild(embedContainer);
     
@@ -3416,17 +3404,6 @@ function minimizeFullscreenEmbed() {
             embedContainer.style.zIndex = '0';
         }
     }
-    
-    // Restore previously hidden elements
-    document.querySelectorAll('body > *').forEach(el => {
-        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
-            if (el.id === 'customizeModal') {
-                el.style.display = 'none'; // Explicitly set customizeModal to none
-            } else {
-                el.style.display = '';
-            }
-        }
-    });
     
     // Hide all fullscreen embeds that are not being displayed
     document.querySelectorAll('.fullscreen-embed:not([style*="display: block"])').forEach(embed => {
