@@ -4009,6 +4009,7 @@ window.addEventListener('click', (event) => {
 });
 
 document.addEventListener("DOMContentLoaded", function() {
+    initAppDraw();
     updateGurappsVisibility();
 });
 
@@ -4081,6 +4082,5 @@ function preventLeaving() {
     initializeCustomization();
     setupWeatherToggle()
     updateDisplay();
-    initAppDraw();
     updateWeatherVisibility();
     preventLeaving();
