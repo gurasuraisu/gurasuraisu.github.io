@@ -3415,36 +3415,6 @@ function createFullscreenEmbed(url) {
     }
 }
 
-// Restore previously hidden elements with a smooth fade animation
-function restoreElements() {
-    document.querySelectorAll('body > *').forEach(el => {
-        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
-            if (el.id === 'customizeModal') {
-                el.style.display = 'none'; // Explicitly set customizeModal to none
-            } else {
-                // Get original display value or default to empty string (browser default)
-                const originalDisplay = el.dataset.originalDisplay || '';
-                
-                // Set initial state
-                el.style.opacity = '0';
-                el.style.display = originalDisplay === 'none' ? 'none' : originalDisplay;
-                
-                // Add transition if not already present
-                if (!el.style.transition) {
-                    el.style.transition = 'opacity 0.3s ease';
-                }
-                
-                // Trigger fade in for visible elements
-                if (el.style.display !== 'none') {
-                    // Force reflow to ensure opacity transition works
-                    void el.offsetWidth;
-                    el.style.opacity = '1';
-                }
-            }
-        }
-    });
-}
-
 function minimizeFullscreenEmbed() {
     // IMPORTANT FIX: Be more specific about which embed to minimize
     // Only get embeds that are currently visible with display: block
@@ -3466,8 +3436,29 @@ function minimizeFullscreenEmbed() {
         }
     }
     
-    // Restore previously hidden elements
-    restoreElements()
+    // Restore previously hidden elements with a smooth fade animation
+    document.querySelectorAll('body > *').forEach(el => {
+        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
+            if (el.id === 'customizeModal') {
+                el.style.display = 'none'; // Explicitly set customizeModal to none
+            } else {
+                // Set initial state for visible elements
+                el.style.opacity = '0';
+                el.style.display = '';
+                
+                // Add transition if not already present
+                if (!el.style.transition) {
+                    el.style.transition = 'opacity 0.3s ease';
+                }
+                
+                // Trigger fade in animation
+                // Use requestAnimationFrame to ensure the opacity transition works
+                requestAnimationFrame(() => {
+                    el.style.opacity = '1';
+                });
+            }
+        }
+    });
     
     // Hide all fullscreen embeds that are not being displayed
     document.querySelectorAll('.fullscreen-embed:not([style*="display: block"])').forEach(embed => {
