@@ -469,7 +469,6 @@ body.light-theme[style*="background-image"] .info {
 
         #weatherModal .modal-content {
             background-color: transparent;
-            padding: 10px 0;
             user-select: none;
         }
 
@@ -541,10 +540,9 @@ body.light-theme[style*="background-image"] .info {
             font-size: 1.5rem;
             padding: 20px;
             border-radius: 30px;
-            margin: 20px auto;
+            margin: 20px 0 0;
             text-align: center;
             color: #f9f9f9;
-            max-width: 800px;
             transition: background 0.5s ease-in-out;
             user-select: none;
             font-variant-numeric: tabular-nums;
