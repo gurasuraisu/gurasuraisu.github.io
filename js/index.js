@@ -3249,197 +3249,225 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function createFullscreenEmbed(url) {
-    // Check if we have this URL minimized already
-    if (minimizedEmbeds[url]) {
-        // Restore the minimized embed
-        const embedContainer = minimizedEmbeds[url];
-        
-        // First, remove any existing transitions
-        embedContainer.style.transition = 'none';
-        
-        // Set initial state with rounded corners
-        embedContainer.style.transform = 'scale(0.8)';
-        embedContainer.style.opacity = '0';
-        embedContainer.style.borderRadius = '25px';
-        embedContainer.style.overflow = 'hidden'; // Ensure border radius works
-        embedContainer.style.display = 'block';
-        
-        // IMPORTANT FIX: Restore proper z-index and pointer events
-        embedContainer.style.pointerEvents = 'auto';
-        embedContainer.style.zIndex = '1001'; // Higher than interaction-blocker (999)
-        
-        // Force reflow to apply the immediate style changes
-        void embedContainer.offsetWidth;
-        
-        // Add transition for all properties
-        embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
-        
-        // Trigger the animation
-        setTimeout(() => {
-            embedContainer.style.transform = 'scale(1)';
-            embedContainer.style.opacity = '1';
-            embedContainer.style.borderRadius = '0px'; // Remove border radius when fully opened
-        }, 10);
-        
-        // Hide container with a smooth fade animation
-        document.querySelectorAll('.container').forEach(el => {
-            // Store original display value if not already stored
-            if (!el.dataset.originalDisplay) {
-                el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
-            }
-            
-            // Preserve existing transitions and add opacity transition if needed
-            const currentTransition = window.getComputedStyle(el).transition;
-            const hasOpacityTransition = currentTransition.includes('opacity');
-            
-            if (!hasOpacityTransition) {
-                // If there's already a transition, add to it; otherwise, set a new one
-                if (currentTransition && currentTransition !== 'none') {
-                    el.style.transition = `${currentTransition}, opacity 0.3s ease`;
-                } else {
-                    el.style.transition = 'opacity 0.3s ease';
-                }
-            }
-            
-            // Start fade out
-            el.style.opacity = '0';
-            
-            // Hide element after fade out animation completes
-            setTimeout(() => {
-                el.style.display = 'none';
-            }, 300);
-        });
-        
-        // Show the swipe overlay when restoring an app
-        const swipeOverlay = document.getElementById('swipe-overlay');
-        if (swipeOverlay) {
-            swipeOverlay.style.display = 'block';
-        }
-        
-        // IMPORTANT FIX: Make sure interaction blocker doesn't block embed
-        const interactionBlocker = document.getElementById('interaction-blocker');
-        if (interactionBlocker) {
-            interactionBlocker.style.pointerEvents = 'none';
-            interactionBlocker.style.display = 'none';
-        }
-        
-        return;
+  // Get the clicked element if available (we'll need to track this)
+  let sourceElement = window.lastClickedAppElement || null;
+
+  // Check if we have this URL minimized already
+  if (minimizedEmbeds[url]) {
+    // Restore the minimized embed
+    const embedContainer = minimizedEmbeds[url];
+
+    // First, remove any existing transitions
+    embedContainer.style.transition = 'none';
+
+    // Set initial state with rounded corners and position
+    if (sourceElement) {
+      // Get source element position
+      const rect = sourceElement.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+
+      // Set transform origin to the center of the clicked element
+      embedContainer.style.transformOrigin = `${centerX}px ${centerY}px`;
+      embedContainer.style.transform = 'scale(0.1)';
+    } else {
+      embedContainer.style.transform = 'scale(0.8)';
     }
-    
-    // Create new embed if not already minimized
-    const iframe = document.createElement('iframe');
-    iframe.src = url;
-    iframe.setAttribute('frameborder', '0');
-    iframe.setAttribute('allowfullscreen', '');
-    
-    // Create a container for the iframe
-    const embedContainer = document.createElement('div');
-    embedContainer.className = 'fullscreen-embed';
-    
-    // Set initial styles BEFORE adding to DOM
-    // No transitions yet - just set initial values
-    embedContainer.style.transform = 'scale(0.8)'; 
+
     embedContainer.style.opacity = '0';
     embedContainer.style.borderRadius = '25px';
-    embedContainer.style.overflow = 'hidden'; // Ensure border radius works with iframe
+    embedContainer.style.overflow = 'hidden';
     embedContainer.style.display = 'block';
-    
-    // IMPORTANT FIX: Set proper z-index and pointer events
+
+    // IMPORTANT FIX: Restore proper z-index and pointer events
     embedContainer.style.pointerEvents = 'auto';
-    embedContainer.style.zIndex = '1001'; // Higher than interaction-blocker (999)
-    embedContainer.appendChild(iframe);
-    
-    // Store the URL as a data attribute
-    embedContainer.dataset.embedUrl = url;
-    
-    // Flag to track embedding status
-    let embedFailed = false;
-    
-    // Try to detect if embedding is blocked
-    iframe.addEventListener('load', () => {
-        try {
-            // Attempt to access iframe content
-            const iframeContent = iframe.contentWindow.document;
-            
-            // Specific check for embedding blockage
-            if (iframeContent.body.textContent.includes('X-Frame-Options') || 
-                iframeContent.body.textContent.includes('frame denied')) {
-                embedFailed = true;
-                window.open(url, '_blank');
-                // Don't remove the container or close the embed
-            }
-        } catch (error) {
-            // If accessing content fails, it might be blocked
+    embedContainer.style.zIndex = '1001';
+
+    // Force reflow to apply the immediate style changes
+    void embedContainer.offsetWidth;
+
+    // Add transition for all properties
+    embedContainer.style.transition =
+      'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
+
+    // Trigger the animation
+    setTimeout(() => {
+      embedContainer.style.transform = 'scale(1)';
+      embedContainer.style.opacity = '1';
+      embedContainer.style.borderRadius = '0px';
+    }, 10);
+
+    // Hide container with a smooth fade animation
+    document.querySelectorAll('.container').forEach((el) => {
+      // Store original display value if not already stored
+      if (!el.dataset.originalDisplay) {
+          el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
+      }
+      
+      // Preserve existing transitions and add opacity transition if needed
+      const currentTransition = window.getComputedStyle(el).transition;
+      const hasOpacityTransition = currentTransition.includes('opacity');
+      
+      if (!hasOpacityTransition) {
+        // If there's already a transition, add to it; otherwise, set a new one
+        if (currentTransition && currentTransition !== 'none') {
+          el.style.transition = `${currentTransition}, opacity 0.3s ease`;
+        } else {
+          el.style.transition = 'opacity 0.3s ease';
+        }
+      }
+      
+      // Start fade out
+      el.style.opacity = '0';
+      
+      // Hide element after fade out animation completes
+      setTimeout(() => {
+        el.style.display = 'none';
+      }, 300);
+    });
+
+    // Show the swipe overlay when restoring an app
+    const swipeOverlay = document.getElementById('swipe-overlay');
+    if (swipeOverlay) {
+      swipeOverlay.style.display = 'block';
+    }
+
+    // IMPORTANT FIX: Make sure interaction blocker doesn't block embed
+    const interactionBlocker = document.getElementById('interaction-blocker');
+    if (interactionBlocker) {
+      interactionBlocker.style.pointerEvents = 'none';
+      interactionBlocker.style.display = 'none';
+    }
+
+    return;
+  }
+
+  // Create new embed if not already minimized
+  const iframe = document.createElement('iframe');
+  iframe.src = url;
+  iframe.setAttribute('frameborder', '0');
+  iframe.setAttribute('allowfullscreen', '');
+
+  // Create a container for the iframe
+  const embedContainer = document.createElement('div');
+  embedContainer.className = 'fullscreen-embed';
+
+  // Set initial styles BEFORE adding to DOM
+  if (sourceElement) {
+    // Get source element position
+    const rect = sourceElement.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    // Set transform origin to the center of the clicked element
+    embedContainer.style.transformOrigin = `${centerX}px ${centerY}px`;
+    embedContainer.style.transform = 'scale(0.1)';
+  } else {
+    embedContainer.style.transform = 'scale(0.8)';
+  }
+
+  embedContainer.style.opacity = '0';
+  embedContainer.style.borderRadius = '25px';
+  embedContainer.style.overflow = 'hidden';
+  embedContainer.style.display = 'block';
+
+  // IMPORTANT FIX: Set proper z-index and pointer events
+  embedContainer.style.pointerEvents = 'auto';
+  embedContainer.style.zIndex = '1001';
+  embedContainer.appendChild(iframe);
+
+  // Store the URL as a data attribute
+  embedContainer.dataset.embedUrl = url;
+
+  // Flag to track embedding status
+  let embedFailed = false;
+
+  // Try to detect if embedding is blocked
+  iframe.addEventListener('load', () => {
+    try {
+        // Attempt to access iframe content
+        const iframeContent = iframe.contentWindow.document;
+        
+        // Specific check for embedding blockage
+        if (iframeContent.body.textContent.includes('X-Frame-Options') || 
+            iframeContent.body.textContent.includes('frame denied')) {
             embedFailed = true;
             window.open(url, '_blank');
             // Don't remove the container or close the embed
         }
-    });
-    
-    // Handle iframe loading error
-    iframe.addEventListener('error', () => {
+    } catch (error) {
+        // If accessing content fails, it might be blocked
         embedFailed = true;
         window.open(url, '_blank');
         // Don't remove the container or close the embed
-    });
+    }
+  });
+
+  // Handle iframe loading error
+  iframe.addEventListener('error', () => {
+      embedFailed = true;
+      window.open(url, '_blank');
+      // Don't remove the container or close the embed
+  });
+
+  // Hide all containers with a smooth fade animation
+  document.querySelectorAll('.container').forEach((el) => {
+    // Store original display value if not already stored
+    if (!el.dataset.originalDisplay) {
+        el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
+    }
     
-    // Hide all containers with a smooth fade animation
-    document.querySelectorAll('.container').forEach(el => {
-        // Store original display value if not already stored
-        if (!el.dataset.originalDisplay) {
-            el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
+    // Preserve existing transitions and add opacity transition if needed
+    const currentTransition = window.getComputedStyle(el).transition;
+    const hasOpacityTransition = currentTransition.includes('opacity');
+    
+    if (!hasOpacityTransition) {
+        // If there's already a transition, add to it; otherwise, set a new one
+        if (currentTransition && currentTransition !== 'none') {
+            el.style.transition = `${currentTransition}, opacity 0.3s ease`;
+        } else {
+            el.style.transition = 'opacity 0.3s ease';
         }
-        
-        // Preserve existing transitions and add opacity transition if needed
-        const currentTransition = window.getComputedStyle(el).transition;
-        const hasOpacityTransition = currentTransition.includes('opacity');
-        
-        if (!hasOpacityTransition) {
-            // If there's already a transition, add to it; otherwise, set a new one
-            if (currentTransition && currentTransition !== 'none') {
-                el.style.transition = `${currentTransition}, opacity 0.3s ease`;
-            } else {
-                el.style.transition = 'opacity 0.3s ease';
-            }
-        }
-        
-        // Start fade out
-        el.style.opacity = '0';
-        
-        // Hide element after fade out animation completes
-        setTimeout(() => {
-            el.style.display = 'none';
-        }, 300);
-    });
+    }
     
-    // Append the container to the DOM
-    document.body.appendChild(embedContainer);
+    // Start fade out
+    el.style.opacity = '0';
     
-    // Force reflow to ensure the initial styles are applied
-    void embedContainer.offsetWidth;
-    
-    // Now add the transition AFTER the element is in the DOM with initial styles applied
-    embedContainer.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
-    
-    // Trigger the animation in the next event loop
+    // Hide element after fade out animation completes
     setTimeout(() => {
-        embedContainer.style.transform = 'scale(1)';
-        embedContainer.style.opacity = '1';
-        embedContainer.style.borderRadius = '0px'; // Remove border radius when fully opened
-    }, 10);
-    
-    // Show the swipe overlay when opening an app
-    const swipeOverlay = document.getElementById('swipe-overlay');
-    if (swipeOverlay) {
-        swipeOverlay.style.display = 'block';
-    }
-    
-    // IMPORTANT FIX: Make sure interaction blocker doesn't block embed
-    const interactionBlocker = document.getElementById('interaction-blocker');
-    if (interactionBlocker) {
-        interactionBlocker.style.pointerEvents = 'none';
-        interactionBlocker.style.display = 'none';
-    }
+        el.style.display = 'none';
+    }, 300);
+  });
+
+  // Append the container to the DOM
+  document.body.appendChild(embedContainer);
+
+  // Force reflow to ensure the initial styles are applied
+  void embedContainer.offsetWidth;
+
+  // Now add the transition AFTER the element is in the DOM with initial styles applied
+  embedContainer.style.transition =
+    'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
+
+  // Trigger the animation in the next event loop
+  setTimeout(() => {
+    embedContainer.style.transform = 'scale(1)';
+    embedContainer.style.opacity = '1';
+    embedContainer.style.borderRadius = '0px';
+  }, 10);
+
+  // Show the swipe overlay when opening an app
+  const swipeOverlay = document.getElementById('swipe-overlay');
+  if (swipeOverlay) {
+    swipeOverlay.style.display = 'block';
+  }
+
+  // IMPORTANT FIX: Make sure interaction blocker doesn't block embed
+  const interactionBlocker = document.getElementById('interaction-blocker');
+  if (interactionBlocker) {
+    interactionBlocker.style.pointerEvents = 'none';
+    interactionBlocker.style.display = 'none';
+  }
 }
 
 function minimizeFullscreenEmbed() {
