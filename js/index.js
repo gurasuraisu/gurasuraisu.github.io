@@ -3648,7 +3648,7 @@ function setupDrawerInteractions() {
         const movementPercentage = (deltaY / windowHeight) * 100;
     
         // Check if there's an open embed
-        const openEmbed = document.querySelector('.fullscreen-embed');
+        const openEmbed = document.querySelector('.fullscreen-embed[style*="display: block"]');
         
         if (openEmbed && movementPercentage > 25) {
             // Add transition class for smooth animation
