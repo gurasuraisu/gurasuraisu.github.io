@@ -3721,7 +3721,7 @@ function setupDrawerInteractions() {
         // Handle flick gesture to close app
         const isFlickUp = avgVelocity > flickVelocityThreshold;
         
-        if (openEmbed && (movementPercentage > 25 || isFlickUp)) {
+        if (openEmbed && (movementPercentage > 10 || isFlickUp)) {
             // Close embed with animation
             openEmbed.style.transition = 'transform 0.3s ease, opacity 0.3s ease, border-radius 0.3s ease';
             openEmbed.style.transform = 'scale(0.8)';
@@ -3931,10 +3931,12 @@ function setupDrawerInteractions() {
     document.addEventListener('mouseup', () => {
         endDrag();
     });
-
+	
     // Close drawer when clicking outside
     document.addEventListener('click', (e) => {
-        if (appDrawer.classList.contains('open') && !appDrawer.contains(e.target)) {
+        if (appDrawer.classList.contains('open') &&
+            !appDrawer.contains(e.target) &&
+            !appDrawerToggle.contains(e.target)) {
             appDrawer.style.transition = 'bottom 0.3s ease';
             appDrawer.style.bottom = '-100%';
             appDrawer.classList.remove('open');
