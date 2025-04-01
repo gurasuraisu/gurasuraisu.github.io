@@ -3281,10 +3281,34 @@ function createFullscreenEmbed(url) {
             embedContainer.style.borderRadius = '0px'; // Remove border radius when fully opened
         }, 10);
         
-        // Hide all elements as when creating a new embed
+        // Hide all elements as when creating a new embed with a smooth fade animation
         document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
             if (!el.matches('.fullscreen-embed')) {
-                el.style.display = 'none';
+                // Store original display value if not already stored
+                if (!el.dataset.originalDisplay) {
+                    el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
+                }
+                
+                // Preserve existing transitions and add opacity transition if needed
+                const currentTransition = window.getComputedStyle(el).transition;
+                const hasOpacityTransition = currentTransition.includes('opacity');
+                
+                if (!hasOpacityTransition) {
+                    // If there's already a transition, add to it; otherwise, set a new one
+                    if (currentTransition && currentTransition !== 'none') {
+                        el.style.transition = `${currentTransition}, opacity 0.3s ease`;
+                    } else {
+                        el.style.transition = 'opacity 0.3s ease';
+                    }
+                }
+                
+                // Start fade out
+                el.style.opacity = '0';
+                
+                // Hide element after fade out animation completes
+                setTimeout(() => {
+                    el.style.display = 'none';
+                }, 300);
             }
         });
         
@@ -3446,13 +3470,20 @@ function minimizeFullscreenEmbed() {
                 el.style.opacity = '0';
                 el.style.display = '';
                 
-                // Add transition if not already present
-                if (!el.style.transition) {
-                    el.style.transition = 'opacity 0.3s ease';
+                // Preserve existing transitions and add opacity transition if needed
+                const currentTransition = window.getComputedStyle(el).transition;
+                const hasOpacityTransition = currentTransition.includes('opacity');
+                
+                if (!hasOpacityTransition) {
+                    // If there's already a transition, add to it; otherwise, set a new one
+                    if (currentTransition && currentTransition !== 'none') {
+                        el.style.transition = `${currentTransition}, opacity 0.3s ease`;
+                    } else {
+                        el.style.transition = 'opacity 0.3s ease';
+                    }
                 }
                 
                 // Trigger fade in animation
-                // Use requestAnimationFrame to ensure the opacity transition works
                 requestAnimationFrame(() => {
                     el.style.opacity = '1';
                 });
