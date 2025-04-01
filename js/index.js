@@ -3281,35 +3281,33 @@ function createFullscreenEmbed(url) {
             embedContainer.style.borderRadius = '0px'; // Remove border radius when fully opened
         }, 10);
         
-        // Hide all elements as when creating a new embed with a smooth fade animation
-        document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
-            if (!el.matches('.fullscreen-embed')) {
-                // Store original display value if not already stored
-                if (!el.dataset.originalDisplay) {
-                    el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
-                }
-                
-                // Preserve existing transitions and add opacity transition if needed
-                const currentTransition = window.getComputedStyle(el).transition;
-                const hasOpacityTransition = currentTransition.includes('opacity');
-                
-                if (!hasOpacityTransition) {
-                    // If there's already a transition, add to it; otherwise, set a new one
-                    if (currentTransition && currentTransition !== 'none') {
-                        el.style.transition = `${currentTransition}, opacity 0.3s ease`;
-                    } else {
-                        el.style.transition = 'opacity 0.3s ease';
-                    }
-                }
-                
-                // Start fade out
-                el.style.opacity = '0';
-                
-                // Hide element after fade out animation completes
-                setTimeout(() => {
-                    el.style.display = 'none';
-                }, 300);
+        // Hide container with a smooth fade animation
+        document.querySelectorAll('.container').forEach(el => {
+            // Store original display value if not already stored
+            if (!el.dataset.originalDisplay) {
+                el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
             }
+            
+            // Preserve existing transitions and add opacity transition if needed
+            const currentTransition = window.getComputedStyle(el).transition;
+            const hasOpacityTransition = currentTransition.includes('opacity');
+            
+            if (!hasOpacityTransition) {
+                // If there's already a transition, add to it; otherwise, set a new one
+                if (currentTransition && currentTransition !== 'none') {
+                    el.style.transition = `${currentTransition}, opacity 0.3s ease`;
+                } else {
+                    el.style.transition = 'opacity 0.3s ease';
+                }
+            }
+            
+            // Start fade out
+            el.style.opacity = '0';
+            
+            // Hide element after fade out animation completes
+            setTimeout(() => {
+                el.style.display = 'none';
+            }, 300);
         });
         
         // Show the swipe overlay when restoring an app
@@ -3385,28 +3383,33 @@ function createFullscreenEmbed(url) {
         // Don't remove the container or close the embed
     });
     
-    // Hide all elements as when creating a new embed with a smooth fade animation
-    document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
-        if (!el.matches('.fullscreen-embed')) {
-            // Store original display value if not already stored
-            if (!el.dataset.originalDisplay) {
-                el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
-            }
-            
-            // Add transition property if not already present
-            if (!el.style.transition) {
+    // Hide all containers with a smooth fade animation
+    document.querySelectorAll('.container').forEach(el => {
+        // Store original display value if not already stored
+        if (!el.dataset.originalDisplay) {
+            el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
+        }
+        
+        // Preserve existing transitions and add opacity transition if needed
+        const currentTransition = window.getComputedStyle(el).transition;
+        const hasOpacityTransition = currentTransition.includes('opacity');
+        
+        if (!hasOpacityTransition) {
+            // If there's already a transition, add to it; otherwise, set a new one
+            if (currentTransition && currentTransition !== 'none') {
+                el.style.transition = `${currentTransition}, opacity 0.3s ease`;
+            } else {
                 el.style.transition = 'opacity 0.3s ease';
             }
-            
-            // Start fade out
-            el.style.opacity = '1';
-            el.style.opacity = '0';
-            
-            // Hide element after fade out animation completes
-            setTimeout(() => {
-                el.style.display = 'none';
-            }, 300);
         }
+        
+        // Start fade out
+        el.style.opacity = '0';
+        
+        // Hide element after fade out animation completes
+        setTimeout(() => {
+            el.style.display = 'none';
+        }, 300);
     });
     
     // Append the container to the DOM
@@ -3460,35 +3463,29 @@ function minimizeFullscreenEmbed() {
         }
     }
     
-    // Restore previously hidden elements with a smooth fade animation
-    document.querySelectorAll('body > *').forEach(el => {
-        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
-            if (el.id === 'customizeModal') {
-                el.style.display = 'none'; // Explicitly set customizeModal to none
+    // Restore previously hidden containers with a smooth fade animation
+    document.querySelectorAll('.container').forEach(el => {
+        // Set initial state for visible elements
+        el.style.opacity = '0';
+        el.style.display = '';
+        
+        // Preserve existing transitions and add opacity transition if needed
+        const currentTransition = window.getComputedStyle(el).transition;
+        const hasOpacityTransition = currentTransition.includes('opacity');
+        
+        if (!hasOpacityTransition) {
+            // If there's already a transition, add to it; otherwise, set a new one
+            if (currentTransition && currentTransition !== 'none') {
+                el.style.transition = `${currentTransition}, opacity 0.3s ease`;
             } else {
-                // Set initial state for visible elements
-                el.style.opacity = '0';
-                el.style.display = '';
-                
-                // Preserve existing transitions and add opacity transition if needed
-                const currentTransition = window.getComputedStyle(el).transition;
-                const hasOpacityTransition = currentTransition.includes('opacity');
-                
-                if (!hasOpacityTransition) {
-                    // If there's already a transition, add to it; otherwise, set a new one
-                    if (currentTransition && currentTransition !== 'none') {
-                        el.style.transition = `${currentTransition}, opacity 0.3s ease`;
-                    } else {
-                        el.style.transition = 'opacity 0.3s ease';
-                    }
-                }
-                
-                // Trigger fade in animation
-                requestAnimationFrame(() => {
-                    el.style.opacity = '1';
-                });
+                el.style.transition = 'opacity 0.3s ease';
             }
         }
+        
+        // Trigger fade in animation
+        requestAnimationFrame(() => {
+            el.style.opacity = '1';
+        });
     });
     
     // Hide all fullscreen embeds that are not being displayed
