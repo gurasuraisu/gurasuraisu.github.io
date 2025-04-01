@@ -3361,9 +3361,28 @@ function createFullscreenEmbed(url) {
         // Don't remove the container or close the embed
     });
     
-    // Hide all elements
+    // Hide all elements as when creating a new embed with a smooth fade animation
     document.querySelectorAll('body > *:not(.drawer-handle):not(.persistent-clock):not(#app-drawer):not(.brightness-overlay):not(.temperature-overlay)').forEach(el => {
-        el.style.display = 'none';
+        if (!el.matches('.fullscreen-embed')) {
+            // Store original display value if not already stored
+            if (!el.dataset.originalDisplay) {
+                el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
+            }
+            
+            // Add transition property if not already present
+            if (!el.style.transition) {
+                el.style.transition = 'opacity 0.3s ease';
+            }
+            
+            // Start fade out
+            el.style.opacity = '1';
+            el.style.opacity = '0';
+            
+            // Hide element after fade out animation completes
+            setTimeout(() => {
+                el.style.display = 'none';
+            }, 300);
+        }
     });
     
     // Append the container to the DOM
@@ -3396,6 +3415,36 @@ function createFullscreenEmbed(url) {
     }
 }
 
+// Restore previously hidden elements with a smooth fade animation
+function restoreElements() {
+    document.querySelectorAll('body > *').forEach(el => {
+        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
+            if (el.id === 'customizeModal') {
+                el.style.display = 'none'; // Explicitly set customizeModal to none
+            } else {
+                // Get original display value or default to empty string (browser default)
+                const originalDisplay = el.dataset.originalDisplay || '';
+                
+                // Set initial state
+                el.style.opacity = '0';
+                el.style.display = originalDisplay === 'none' ? 'none' : originalDisplay;
+                
+                // Add transition if not already present
+                if (!el.style.transition) {
+                    el.style.transition = 'opacity 0.3s ease';
+                }
+                
+                // Trigger fade in for visible elements
+                if (el.style.display !== 'none') {
+                    // Force reflow to ensure opacity transition works
+                    void el.offsetWidth;
+                    el.style.opacity = '1';
+                }
+            }
+        }
+    });
+}
+
 function minimizeFullscreenEmbed() {
     // IMPORTANT FIX: Be more specific about which embed to minimize
     // Only get embeds that are currently visible with display: block
@@ -3418,15 +3467,7 @@ function minimizeFullscreenEmbed() {
     }
     
     // Restore previously hidden elements
-    document.querySelectorAll('body > *').forEach(el => {
-        if (!el.matches('.drawer-handle, .persistent-clock, #app-drawer, .brightness-overlay, .temperature-overlay, .fullscreen-embed')) {
-            if (el.id === 'customizeModal') {
-                el.style.display = 'none'; // Explicitly set customizeModal to none
-            } else {
-                el.style.display = '';
-            }
-        }
-    });
+    restoreElements()
     
     // Hide all fullscreen embeds that are not being displayed
     document.querySelectorAll('.fullscreen-embed:not([style*="display: block"])').forEach(embed => {
