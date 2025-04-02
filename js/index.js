@@ -3309,6 +3309,25 @@ function createFullscreenEmbed(url) {
                 el.style.display = 'none';
             }, 300);
         });
+
+	const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection');
+        controlElements.forEach(el => {
+            // Store original display value if not already stored
+            if (!el.dataset.originalDisplay) {
+                el.dataset.originalDisplay = window.getComputedStyle(el).display === 'none' ? 'none' : el.style.display || 'block';
+            }
+            
+            // Add transition for smooth fade
+            el.style.transition = 'opacity 0.3s ease';
+            
+            // Start fade out
+            el.style.opacity = '0';
+            
+            // Hide element after fade out animation completes
+            setTimeout(() => {
+                el.style.display = 'none';
+            }, 300);
+        });
         
         // Show the swipe overlay when restoring an app
         const swipeOverlay = document.getElementById('swipe-overlay');
@@ -3481,6 +3500,21 @@ function minimizeFullscreenEmbed() {
                 el.style.transition = 'opacity 0.3s ease';
             }
         }
+        
+        // Trigger fade in animation
+        requestAnimationFrame(() => {
+            el.style.opacity = '1';
+        });
+    });
+
+    const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection');
+    controlElements.forEach(el => {
+        // Set initial state for visible elements
+        el.style.opacity = '0';
+        el.style.display = el.dataset.originalDisplay || 'block';
+        
+        // Add transition for smooth fade
+        el.style.transition = 'opacity 0.3s ease';
         
         // Trigger fade in animation
         requestAnimationFrame(() => {
