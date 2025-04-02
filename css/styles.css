@@ -1762,7 +1762,7 @@ body.light-theme[style*="background-image"] .info {
             display: none;
         }
 
-.gurapps-optional, .minimal-mode, .font-selection, .lang-selection, .wallpaper-upload, .weather-settings, .clock-settings, .theme-toggle, .contrast-settings, .animation-settings {
+.gurapps-optional, .minimal-mode, .font-selection, .lang-selection, .wallpaper-upload, .weather-settings, .clock-settings, .theme-toggle, .contrast-settings, .animation-settings, .reset-settings {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1772,7 +1772,7 @@ body.light-theme[style*="background-image"] .info {
     transition: background-color 0.2s, transform 0.1s;
 }
 
-.version-info, .reset-settings {
+.version-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
