@@ -22,6 +22,7 @@ const ASSETS_TO_CACHE = [
   '/assets/appicon/video.png',
   '/assets/sound/timer.mp3',
   'https://www.gstatic.com/delight/funbox/timer_utilitarian_v2.mp3',
+  'https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap',
   'https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap',
