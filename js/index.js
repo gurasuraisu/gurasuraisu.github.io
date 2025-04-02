@@ -272,63 +272,15 @@ function updateTitle() {
     }
 }
 
-async function setupDaytimeDetection() {
-    try {
-        // Get the user's position
-        const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-        });
-        
-        const { latitude, longitude } = position.coords;
-        return calculateDaytime(latitude, longitude);
-    } catch (error) {
-        console.warn("Couldn't get location, falling back to time-based method:", error);
-        return fallbackDaytimeDetection();
-    }
+// Function to check if it's daytime (between 6:00 and 18:00)
+function isDaytime() {
+    const hour = new Date().getHours();
+    return hour >= 6 && hour <= 18;
 }
 
-// Calculate if it's daytime based on location
-function calculateDaytime(latitude, longitude) {
-    // Get current date
-    const today = new Date();
-    
-    // Calculate sunrise and sunset
-    const times = SunCalc.getTimes(today, latitude, longitude);
-    const sunrise = times.sunrise;
-    const sunset = times.sunset;
-    
-    // Create an object with all the necessary information
-    return {
-        isDaytime: () => {
-            const now = new Date();
-            return now >= sunrise && now <= sunset;
-        },
-        isDaytimeForTime: (timeString) => {
-            const checkTime = new Date(timeString);
-            // Use the same day's sunrise/sunset for the calculation
-            const checkDate = new Date(today);
-            checkDate.setHours(checkTime.getHours(), checkTime.getMinutes(), 0, 0);
-            return checkDate >= sunrise && checkDate <= sunset;
-        },
-        sunrise: sunrise,
-        sunset: sunset
-    };
-}
-
-// Fallback to time-based method if location isn't available
-function fallbackDaytimeDetection() {
-    return {
-        isDaytime: () => {
-            const hour = new Date().getHours();
-            return hour >= 6 && hour <= 18;
-        },
-        isDaytimeForTime: (timeString) => {
-            const hour = new Date(timeString).getHours();
-            return hour >= 6 && hour <= 18;
-        },
-        sunrise: null,
-        sunset: null
-    };
+function isDaytimeForHour(timeString) {
+    const hour = new Date(timeString).getHours();
+    return hour >= 6 && hour <= 18;
 }
 
 // Start an interval to update the title every second
@@ -670,35 +622,15 @@ async function displayDetailedWeather() {
             return null;
         })
         .filter(Boolean);
+
+    const hour = new Date().getHours();
+    const isDaytime = hour >= 6 && hour <= 18;
     
-    // Calculate sun times using SunCalc library
-    const sunTimes = SunCalc.getTimes(
-        currentTime, 
-        current.latitude, 
-        current.longitude
-    );
-    
-    // Get exact sunrise, sunset and twilight times
-    const sunrise = sunTimes.sunrise;
-    const sunset = sunTimes.sunset;
-    const dawn = sunTimes.dawn;     // Civil dawn - when morning twilight begins
-    const dusk = sunTimes.dusk;     // Civil dusk - when evening twilight ends
-    const nauticalDawn = sunTimes.nauticalDawn;  // Nautical dawn
-    const nauticalDusk = sunTimes.nauticalDusk;  // Nautical dusk
-    
-    // Determine time of day based on actual sun position
-    const isDaytime = currentTime >= sunrise && currentTime <= sunset;
-    const isMorning = currentTime >= dawn && currentTime < sunrise + 3600000; // Sunrise + 1 hour
-    const isEvening = currentTime >= sunset - 3600000 && currentTime < dusk; // Sunset - 1 hour
-    const isNight = currentTime < dawn || currentTime >= dusk;
-    const isMidday = currentTime >= sunrise + 3600000 && currentTime < sunset - 3600000;
-    
-    // Get current moon position and phase
-    const moonPosition = SunCalc.getMoonPosition(currentTime, current.latitude, current.longitude);
-    const moonIllumination = SunCalc.getMoonIllumination(currentTime);
-    const moonPhase = moonIllumination.phase; // 0 = new moon, 0.5 = full moon, 1 = new moon
-    const moonAltitude = moonPosition.altitude * 180 / Math.PI; // Convert to degrees
-    const moonIsUp = moonAltitude > 0;
+    // Time-specific periods for more realism
+    const isMorning = hour >= 6 && hour < 10;
+    const isEvening = hour >= 16 && hour < 20;
+    const isNight = hour < 6 || hour >= 20;
+    const isMidday = hour >= 10 && hour < 16;
 
     // Set gradient colors based on weather code and time of day
     let gradientColors = '';
@@ -1196,18 +1128,10 @@ function interpolateColor(color1, color2, progress) {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
+// Helper function to determine if a specific hour is daytime
 function isDaytimeForHour(timeString) {
-    const hourTime = new Date(timeString);
-    
-    // Calculate sun times for that specific date
-    const hourSunTimes = SunCalc.getTimes(
-        hourTime,
-        current.latitude,
-        current.longitude
-    );
-    
-    // Check if the hour is between sunrise and sunset
-    return hourTime >= hourSunTimes.sunrise && hourTime <= hourSunTimes.sunset;
+    const hour = new Date(timeString).getHours();
+    return hour >= 6 && hour <= 18;
 }
 
 const clockElement = document.getElementById('clock');
