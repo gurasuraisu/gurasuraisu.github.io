@@ -1196,10 +1196,18 @@ function interpolateColor(color1, color2, progress) {
     return `rgb(${r}, ${g}, ${b})`;
 }
 
-// Helper function to determine if a specific hour is daytime
 function isDaytimeForHour(timeString) {
-    const hour = new Date(timeString).getHours();
-    return hour >= 6 && hour <= 18;
+    const hourTime = new Date(timeString);
+    
+    // Calculate sun times for that specific date
+    const hourSunTimes = SunCalc.getTimes(
+        hourTime,
+        current.latitude,
+        current.longitude
+    );
+    
+    // Check if the hour is between sunrise and sunset
+    return hourTime >= hourSunTimes.sunrise && hourTime <= hourSunTimes.sunset;
 }
 
 const clockElement = document.getElementById('clock');
