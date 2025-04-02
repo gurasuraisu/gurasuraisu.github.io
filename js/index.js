@@ -3151,43 +3151,38 @@ function initializeCustomization() {
     setupFontSelection();
 }
 
-    // App definitions
-    const apps = {
-        "Chronos": {
-            url: "https://gurasuraisu.github.io/chronos",
-            icon: "alarm.png"
-        },
-        
-        "Ailuator": {
-            url: "https://gurasuraisu.github.io/ailuator",
-            icon: "calculator.png"
-        },
-
-        "Wordy": {
-            url: "https://gurasuraisu.github.io/wordy",
-            icon: "docs.png"
-        },
-
-        "Music": {
-            url: "https://gurasuraisu.github.io/music",
-            icon: "music.png"
-        },
-
-        "Stickies": {
-            url: "https://gurasuraisu.github.io/stickies",
-            icon: "notes.png"
-        },
-
-        "Fantaskical": {
-            url: "https://gurasuraisu.github.io/fantaskical",
-            icon: "tasks.png"
-        },
-
-        "Clapper": {
-            url: "https://gurasuraisu.github.io/clapper",
-            icon: "video.png"
-        },
-    };
+// App definitions
+const apps = {
+    "Chronos": {
+        url: "/chronos/index.html",
+        icon: "alarm.png"
+    },
+    
+    "Ailuator": {
+        url: "/ailuator/index.html",
+        icon: "calculator.png"
+    },
+    "Wordy": {
+        url: "/wordy/index.html",
+        icon: "docs.png"
+    },
+    "Music": {
+        url: "/music/index.html",
+        icon: "music.png"
+    },
+    "Stickies": {
+        url: "/stickies/index.html",
+        icon: "notes.png"
+    },
+    "Fantaskical": {
+        url: "/fantaskical/index.html",
+        icon: "tasks.png"
+    },
+    "Clapper": {
+        url: "/clapper/index.html",
+        icon: "video.png"
+    },
+};
 
 let minimizedEmbeds = {}; // Object to store minimized embeds by URL
 
