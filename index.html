@@ -118,7 +118,7 @@
                     <span class="material-symbols-rounded">grid_view</span>
                     LANG_GURAPPS
                 </label>
-                <input type="checkbox" id="gurapps-switch">
+                <input type="checkbox" id="control-last">
             </div>
             <div class="clock-settings control-middle">
                 <label for="seconds-switch" class="cust-label">
@@ -126,20 +126,6 @@
                     LANG_SECONDS
                 </label>
                 <input type="checkbox" id="seconds-switch" checked>
-            </div>
-            <div class="animation-settings control-middle">
-                <label for="seconds-switch" class="cust-label">
-                    <span class="material-symbols-rounded">animation</span>
-                    LANG_MOTION
-                </label>
-                <input type="checkbox" id="animation-switch" checked>
-            </div>
-            <div class="contrast-settings control-middle">
-                <label for="seconds-switch" class="cust-label">
-                    <span class="material-symbols-rounded">filter_b_and_w</span>
-                    LANG_CONTRAST
-                </label>
-                <input type="checkbox" id="contrast-switch">
             </div>
             <div class="wallpaper-upload control-middle">
                 <label class="cust-label">
@@ -149,7 +135,7 @@
                 <input type="file" id="wallpaperInput" accept=".png, .jpeg, .jpg, .webp, .gif, .mp4" multiple>
                 <button id="uploadButton">LANG_ADD</button>
             </div>
-            <div class="font-selection control-middle">
+            <div class="font-selection control-last">
                 <label for="font-select" class="cust-label">
                     <span class="material-symbols-rounded">custom_typography</span>
                     LANG_STYLE
@@ -168,7 +154,21 @@
                     <option value="Nunito" data-lang="Round">LANG_ROUND</option>
                 </select>
             </div>
-            <div class="lang-selection control-last">
+            <div class="animation-settings control-first">
+                <label for="seconds-switch" class="cust-label">
+                    <span class="material-symbols-rounded">animation</span>
+                    LANG_MOTION
+                </label>
+                <input type="checkbox" id="animation-switch" checked>
+            </div>
+            <div class="contrast-settings control-middle">
+                <label for="seconds-switch" class="cust-label">
+                    <span class="material-symbols-rounded">filter_b_and_w</span>
+                    LANG_CONTRAST
+                </label>
+                <input type="checkbox" id="contrast-switch">
+            </div>
+            <div class="lang-selection control-middle">
                 <label for="language-switcher" class="cust-label">
                     <span class="material-symbols-rounded">language</span>
                     <span id="language-label">LANG_LANGPICK</span>
@@ -183,19 +183,19 @@
                     <option value="ZH">中文</option>
                 </select>
             </div>
+            <div class="reset-settings control-last">
+                <label class="cust-label" for="reset-settings">
+                    <span class="material-symbols-rounded">mop</span>
+                    <span id="reset-label">LANG_RESET</span>
+                </label>
+                <button id="resetButton">RESET_BTN</button>
+            </div>
             <div class="version-info">
                 <label class="cust-label" for="version-details">
                     <img src="/assets/13.png" alt="Sodium 13 Icon" style="width: 24px; height: 24px;">
                     Sodium 13.1
                 </label>
                 <button id="versionButton">LANG_DETAIL_VERS</button>
-            </div>
-            <div class="reset-settings">
-                <label class="cust-label" for="reset-settings">
-                    <span class="material-symbols-rounded">mop</span>
-                    <span id="reset-label">LANG_RESET</span>
-                </label>
-                <button id="resetButton">RESET_BTN</button>
             </div>
         </div>
     </div>
