@@ -36,15 +36,15 @@ const ASSETS_TO_CACHE = [
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,700,1,0',
   'https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js',
-  'https://gurasuraisu.github.io/chronos',
-  'https://gurasuraisu.github.io/ailuator',
-  'https://gurasuraisu.github.io/wordy',
-  'https://gurasuraisu.github.io/music',
-  'https://gurasuraisu.github.io/stickies',
-  'https://gurasuraisu.github.io/moments',
-  'https://gurasuraisu.github.io/sketchpad',
-  'https://gurasuraisu.github.io/fantaskical',
-  'https://gurasuraisu.github.io/clapper'
+  '/chronos/index.html',
+  '/ailuator/index.html',
+  '/wordy/index.html',
+  '/music/index.html',
+  '/stickies/index.html',
+  '/moments/index.html',
+  '/sketchpad/index.html',
+  '/fantaskical/index.html',
+  '/clapper/index.html'
 ];
 
 self.addEventListener('install', event => {
