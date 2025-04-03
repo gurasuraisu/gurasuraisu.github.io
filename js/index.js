@@ -12,6 +12,9 @@ function applyLanguage(language) {
     // Updating text content without removing icons
     document.querySelector('.weather-settings .cust-label').childNodes[2].textContent = language.WEATHER;
     document.querySelector('.gurapps-optional .cust-label').childNodes[2].textContent = language.GURAPPS;
+    document.querySelector('.search-toggle .cust-label').childNodes[2].textContent = language.SEARCH_ENABLE;
+    document.querySelector('.search-engine-options .cust-label').childNodes[2].textContent = language.SEARCH_ENGINE;
+    document.querySelector('.search-ai-options .cust-label').childNodes[2].textContent = language.SEARCH_AI;
     document.querySelector('.clock-settings .cust-label').childNodes[2].textContent = language.SECONDS;
     document.querySelector('.animation-settings .cust-label').childNodes[2].textContent = language.MOTION;
     document.querySelector('.contrast-settings .cust-label').childNodes[2].textContent = language.CONTRAST;
