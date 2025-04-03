@@ -2,9 +2,6 @@ let currentLanguage = LANG_EN; // Default to English
 
 function applyLanguage(language) {
     console.log('Applying language:', language);
-    document.getElementById('user-input').placeholder = language.PLACEHOLDER_MESSAGE;
-    document.getElementById('send-button').innerText = language.SEND;
-    document.getElementById('voice-button').innerText = language.VOICE;
     document.getElementById('search-input').placeholder = language.SEARCH_PLACEHOLDER;
     document.querySelector('.modal-content h2').innerText = language.CONTROLS;
     document.querySelector('#silent_switch_qc .qc-label').innerText = language.SILENT;
@@ -3183,63 +3180,6 @@ const apps = {
 };
 
 let minimizedEmbeds = {}; // Object to store minimized embeds by URL
-
-// Hanute
-const drawerPill = document.querySelector('.drawer-handle');
-const hanutePopup = document.getElementById('hanute-popup');
-let pressTimer;
-let isHolding = false; // Flag to track if the pill is being held
-
-drawerPill.addEventListener('mousedown', startPressTimer);
-drawerPill.addEventListener('mouseup', cancelPressTimer);
-drawerPill.addEventListener('mouseleave', cancelPressTimer);
-
-function startPressTimer() {
-    isHolding = true; // Set holding flag
-    pressTimer = setTimeout(() => {
-        if (isHolding) { // Only activate if still holding
-            hanutePopup.classList.add('active');
-
-            // Add click listener to document to close popup when clicking outside
-            document.addEventListener('click', closePopupOutside);
-        }
-    }, 3000); // 3 seconds
-}
-
-function cancelPressTimer() {
-    isHolding = false; // Reset holding flag
-    clearTimeout(pressTimer);
-}
-
-function closePopupOutside(event) {
-    // Check if click is outside popup and not on drawer pill
-    if (!hanutePopup.contains(event.target) &&
-        !drawerPill.contains(event.target)) {
-        hanutePopup.classList.remove('active');
-
-        // Remove the outside click listener
-        document.removeEventListener('click', closePopupOutside);
-    }
-}
-
-// Hanute initialization
-document.addEventListener('DOMContentLoaded', () => {
-    const hanute = new Hanute();
-
-    // Text input button
-    document.getElementById('send-button').addEventListener('click', () => {
-        const userInput = document.getElementById('user-input').value;
-        const responseElement = document.getElementById('response');
-
-        const response = hanute.processInput(userInput);
-        responseElement.textContent = response;
-    });
-
-    // Voice input button
-    document.getElementById('voice-button').addEventListener('click', () => {
-        hanute.startListening();
-    });
-});
 
 function createFullscreenEmbed(url) {
     // Check if we have this URL minimized already
