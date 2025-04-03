@@ -3450,61 +3450,19 @@ function createFullscreenEmbed(url) {
         try {
             // Attempt to access iframe content
             const iframeContent = iframe.contentWindow.document;
-            
             // Specific check for embedding blockage
             if (iframeContent.body.textContent.includes('X-Frame-Options') || 
                 iframeContent.body.textContent.includes('frame denied')) {
                 embedFailed = true;
                 window.open(url, '_blank');
-                
-                // Close the container/embed when blocked
-                embedContainer.remove();
-                
-                // Show all containers again with fade in
-                document.querySelectorAll('.container').forEach(el => {
-                    // Restore display to original value
-                    if (el.dataset.originalDisplay) {
-                        el.style.display = el.dataset.originalDisplay === 'none' ? 'none' : el.dataset.originalDisplay;
-                    } else {
-                        el.style.display = 'block';
-                    }
-                    
-                    // Add transition for fade in
-                    el.style.transition = 'opacity 0.3s ease';
-                    
-                    // Trigger fade in
-                    setTimeout(() => {
-                        el.style.opacity = '1';
-                    }, 10);
-                });
+                // Don't remove the container or close the embed
             }
         } catch (error) {
             // If accessing content fails, it might be blocked
             embedFailed = true;
             window.open(url, '_blank');
-            
-            // Close the container/embed when blocked
-            embedContainer.remove();
-            
-            // Show all containers again with fade in
-            document.querySelectorAll('.container').forEach(el => {
-                // Restore display to original value
-                if (el.dataset.originalDisplay) {
-                    el.style.display = el.dataset.originalDisplay === 'none' ? 'none' : el.dataset.originalDisplay;
-                } else {
-                    el.style.display = 'block';
-                }
-                
-                // Add transition for fade in
-                el.style.transition = 'opacity 0.3s ease';
-                
-                // Trigger fade in
-                setTimeout(() => {
-                    el.style.opacity = '1';
-                }, 10);
-            });
+            // Don't remove the container or close the embed
         }
-    });
     
     // Handle iframe loading error
     iframe.addEventListener('error', () => {
