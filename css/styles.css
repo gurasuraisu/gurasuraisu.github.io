@@ -1220,7 +1220,7 @@ body.light-theme[style*="background-image"] .info {
 
         .search-input:active {
             transform: scale(0.96);
-            transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
+            transition: transform 0.1s cubic-bezier(0.2, 0, 0.38, 0.9), opacity 0.3s;
         }
         
         .search-input::placeholder {
