@@ -2091,6 +2091,17 @@ searchInput.addEventListener('input', (event) => {
     showAutocomplete(query);
 });
 
+searchInput.addEventListener('blur', () => {
+    // Hide autocomplete suggestions
+    autocompleteSuggestions.innerHTML = '';
+    
+    // Reset the search text to blank (if you want to clear it on blur)
+    searchInput.value = '';
+    
+    // Reset the search icon to default
+    searchIcon.textContent = 'search';
+});
+
 searchInput.addEventListener('click', () => {
     searchInput.select();
 });
