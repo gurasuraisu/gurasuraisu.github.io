@@ -1265,7 +1265,6 @@ body.light-theme[style*="background-image"] .info {
         
         .autocomplete-suggestion {
             padding: 10px;
-            cursor: pointer;
             white-space: nowrap; /* Prevent breaking into multiple lines */
         }
 
