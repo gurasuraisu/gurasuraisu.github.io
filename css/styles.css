@@ -1233,7 +1233,7 @@ body.light-theme[style*="background-image"] .info {
         }
         
         .search-container:focus-within {
-            width: 5vw; /* Single width declaration for expanded state */
+            width: 15vw; /* Single width declaration for expanded state */
         }
         
         .search-icon {
