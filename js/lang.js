@@ -91,7 +91,7 @@ const LANG_EN = {
     RESET_SUCCESS: "All data has been successfully cleared.",
     SEARCH_ENABLE: "Search",
     SEARCH_ENGINE: "Search Engine",
-    LANG_SEARCH_AI: "Search AI"
+    SEARCH_AI: "Search AI"
 };
 
 const LANG_JP = {
