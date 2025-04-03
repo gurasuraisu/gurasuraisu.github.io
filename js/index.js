@@ -1949,6 +1949,103 @@ const searchInput = document.getElementById('search-input');
 const searchIcon = document.getElementById('search-icon');
 const autocompleteSuggestions = document.getElementById('autocomplete-suggestions');
 
+// Add these variables at the top with your other constants
+const searchEngines = {
+    "Google": "https://www.google.com/search?q=",
+    "Bing": "https://www.bing.com/search?q=",
+    "DuckDuckGo": "https://duckduckgo.com/?q=",
+    "Brave": "https://search.brave.com/search?q=",
+    "Ecosia": "https://www.ecosia.org/search?q="
+};
+
+const aiEngines = {
+    "Bing AI": "https://www.bing.com/search?showconv=1&sendquery=1&q=",
+    "Perplexity": "https://www.perplexity.ai/search?q=",
+    "You.com": "https://you.com/search?q="
+};
+
+// Default engines
+let currentSearchEngine = "Google";
+let currentAIEngine = "Bing AI";
+let searchEnabled = true;
+
+// Initialize the search engine and AI selectors
+function initializeSelectorsSearch() {
+    const searchEngineSelect = document.getElementById('search-engine-select');
+    const searchAISelect = document.getElementById('search-ai-select');
+    const searchSwitch = document.getElementById('search-switch');
+    
+    // Clear existing options
+    searchEngineSelect.innerHTML = '';
+    searchAISelect.innerHTML = '';
+    
+    // Add search engine options
+    Object.keys(searchEngines).forEach(engine => {
+        const option = document.createElement('option');
+        option.value = engine;
+        option.textContent = engine;
+        option.selected = engine === currentSearchEngine;
+        searchEngineSelect.appendChild(option);
+    });
+    
+    // Add AI engine options
+    Object.keys(aiEngines).forEach(engine => {
+        const option = document.createElement('option');
+        option.value = engine;
+        option.textContent = engine;
+        option.selected = engine === currentAIEngine;
+        searchAISelect.appendChild(option);
+    });
+    
+    // Set up event listeners
+    searchEngineSelect.addEventListener('change', (e) => {
+        currentSearchEngine = e.target.value;
+        localStorage.setItem('preferredSearchEngine', currentSearchEngine);
+    });
+    
+    searchAISelect.addEventListener('change', (e) => {
+        currentAIEngine = e.target.value;
+        localStorage.setItem('preferredAIEngine', currentAIEngine);
+    });
+    
+    searchSwitch.checked = searchEnabled;
+    searchSwitch.addEventListener('change', (e) => {
+        searchEnabled = e.target.checked;
+        localStorage.setItem('searchEnabled', searchEnabled.toString());
+        
+        // Get the search container and toggle its visibility
+        const searchContainer = document.querySelector('.search-container');
+        if (searchContainer) {
+            searchContainer.style.display = searchEnabled ? 'flex' : 'none';
+        }
+    });
+}
+
+// Load saved preferences
+function loadPreferencesSearch() {
+    const savedSearchEngine = localStorage.getItem('preferredSearchEngine');
+    const savedAIEngine = localStorage.getItem('preferredAIEngine');
+    const savedSearchEnabled = localStorage.getItem('searchEnabled');
+    
+    if (savedSearchEngine && searchEngines[savedSearchEngine]) {
+        currentSearchEngine = savedSearchEngine;
+    }
+    
+    if (savedAIEngine && aiEngines[savedAIEngine]) {
+        currentAIEngine = savedAIEngine;
+    }
+    
+    if (savedSearchEnabled !== null) {
+        searchEnabled = savedSearchEnabled === 'true';
+        
+        // Apply visibility setting on load
+        const searchContainer = document.querySelector('.search-container');
+        if (searchContainer) {
+            searchContainer.style.display = searchEnabled ? 'flex' : 'none';
+        }
+    }
+}
+
 const appLinks = {
     "Chronos": "https://gurasuraisu.github.io/chronos",
     "Ailuator": "https://gurasuraisu.github.io/ailuator",
@@ -2105,7 +2202,6 @@ searchInput.addEventListener('blur', () => {
 searchInput.addEventListener('click', () => {
     searchInput.select();
 });
-
 searchInput.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         const query = searchInput.value.trim();
@@ -2119,42 +2215,44 @@ searchInput.addEventListener('keydown', (event) => {
             return;
         }
         
-        const firstWord = query.split(' ')[0].toLowerCase();
-        if (firstWord === "how" || firstWord === "help" || firstWord === "ai" || firstWord === "why" ||
-           firstWord === "what" || firstWord === "when" || firstWord === "where" || firstWord === "who" ||
-           firstWord === "which" || firstWord === "can" || firstWord === "could" || firstWord === "should" ||
-           firstWord === "would" || firstWord === "will" || firstWord === "does" || firstWord === "do" ||
-           firstWord === "is" || firstWord === "are" || firstWord === "may" || firstWord === "might" ||
-           firstWord === "shall" || firstWord === "must" || firstWord === "has" || firstWord === "have" ||
-           firstWord === "had" || firstWord === "were" || firstWord === "was" || firstWord === "did" ||
-           firstWord === "please" || firstWord === "tell" || firstWord === "explain" || firstWord === "show" ||
-           firstWord === "describe" || firstWord === "suggest" || firstWord === "recommend" || firstWord === "need" ||
-           firstWord === "anybody" || firstWord === "anyone" || firstWord === "anything" || firstWord === "wonder" ||
-           firstWord === "whose" || firstWord === "whom" || firstWord === "whence" || firstWord === "whither" ||
-           firstWord === "whether" || firstWord === "hasn't" || firstWord === "haven't" || firstWord === "hadn't" ||
-           firstWord === "wouldn't" || firstWord === "won't" || firstWord === "wasn't" || firstWord === "weren't" ||
-           firstWord === "shouldn't" || firstWord === "isn't" || firstWord === "aren't" || firstWord === "ain't" ||
-           firstWord === "doesn't" || firstWord === "don't" || firstWord === "didn't" || firstWord === "couldn't" ||
-           firstWord === "cannot" || firstWord === "can't" || firstWord === "mightn't" || firstWord === "mustn't" ||
-           firstWord === "define" || firstWord === "compare" || firstWord === "contrast" || firstWord === "analyze" ||
-           firstWord === "evaluate" || firstWord === "assess" || firstWord === "examine" || firstWord === "discuss" ||
-           firstWord === "outline" || firstWord === "summarize" || firstWord === "suppose" || firstWord === "consider" ||
-           firstWord === "give" || firstWord === "state" || firstWord === "determine" || firstWord === "calculate" ||
-           firstWord === "compute" || firstWord === "solve" || firstWord === "find" || firstWord === "identify" ||
-           firstWord === "list" || firstWord === "name" || firstWord === "specify" || firstWord === "advise" ||
-           firstWord === "assist" || firstWord === "aid" || firstWord === "support" || firstWord === "guide" ||
-           firstWord === "clarify" || firstWord === "elaborate" || firstWord === "illustrate" || firstWord === "demonstrate" ||
-           firstWord === "somebody" || firstWord === "someone" || firstWord === "something" || firstWord === "somewhere" ||
-           firstWord === "let" || firstWord === "kindly" || firstWord === "pray" || firstWord === "assist" ||
-           firstWord === "hey" || firstWord === "hi" || firstWord === "hello" || firstWord === "greetings" ||
-           firstWord === "excuse" || firstWord === "pardon" || firstWord === "sorry" || firstWord === "appreciate" ||
-           firstWord === "thanks" || firstWord === "thank" || firstWord === "help" || firstWord === "lookup" ||
-           firstWord === "search" || firstWord === "find" || firstWord === "check" || firstWord === "confirm" ||
-           firstWord === "verify" || firstWord === "validate" || firstWord === "review" || firstWord === "investigate" ||
-           firstWord === "wondering" || firstWord === "curious" || firstWord === "interested" || firstWord === "seeking") {
-        createFullscreenEmbed(`https://www.bing.com/search?showconv=1&sendquery=1&q=${encodeURIComponent(query)}`);
-        } else if (query) {
-            createFullscreenEmbed(`https://www.google.com/search?q=${encodeURIComponent(query)}`);
+        if (searchEnabled) {
+            const firstWord = query.split(' ')[0].toLowerCase();
+            if (firstWord === "how" || firstWord === "help" || firstWord === "ai" || firstWord === "why" ||
+            firstWord === "what" || firstWord === "when" || firstWord === "where" || firstWord === "who" ||
+            firstWord === "which" || firstWord === "can" || firstWord === "could" || firstWord === "should" ||
+            firstWord === "would" || firstWord === "will" || firstWord === "does" || firstWord === "do" ||
+            firstWord === "is" || firstWord === "are" || firstWord === "may" || firstWord === "might" ||
+            firstWord === "shall" || firstWord === "must" || firstWord === "has" || firstWord === "have" ||
+            firstWord === "had" || firstWord === "were" || firstWord === "was" || firstWord === "did" ||
+            firstWord === "please" || firstWord === "tell" || firstWord === "explain" || firstWord === "show" ||
+            firstWord === "describe" || firstWord === "suggest" || firstWord === "recommend" || firstWord === "need" ||
+            firstWord === "anybody" || firstWord === "anyone" || firstWord === "anything" || firstWord === "wonder" ||
+            firstWord === "whose" || firstWord === "whom" || firstWord === "whence" || firstWord === "whither" ||
+            firstWord === "whether" || firstWord === "hasn't" || firstWord === "haven't" || firstWord === "hadn't" ||
+            firstWord === "wouldn't" || firstWord === "won't" || firstWord === "wasn't" || firstWord === "weren't" ||
+            firstWord === "shouldn't" || firstWord === "isn't" || firstWord === "aren't" || firstWord === "ain't" ||
+            firstWord === "doesn't" || firstWord === "don't" || firstWord === "didn't" || firstWord === "couldn't" ||
+            firstWord === "cannot" || firstWord === "can't" || firstWord === "mightn't" || firstWord === "mustn't" ||
+            firstWord === "define" || firstWord === "compare" || firstWord === "contrast" || firstWord === "analyze" ||
+            firstWord === "evaluate" || firstWord === "assess" || firstWord === "examine" || firstWord === "discuss" ||
+            firstWord === "outline" || firstWord === "summarize" || firstWord === "suppose" || firstWord === "consider" ||
+            firstWord === "give" || firstWord === "state" || firstWord === "determine" || firstWord === "calculate" ||
+            firstWord === "compute" || firstWord === "solve" || firstWord === "find" || firstWord === "identify" ||
+            firstWord === "list" || firstWord === "name" || firstWord === "specify" || firstWord === "advise" ||
+            firstWord === "assist" || firstWord === "aid" || firstWord === "support" || firstWord === "guide" ||
+            firstWord === "clarify" || firstWord === "elaborate" || firstWord === "illustrate" || firstWord === "demonstrate" ||
+            firstWord === "somebody" || firstWord === "someone" || firstWord === "something" || firstWord === "somewhere" ||
+            firstWord === "let" || firstWord === "kindly" || firstWord === "pray" || firstWord === "assist" ||
+            firstWord === "hey" || firstWord === "hi" || firstWord === "hello" || firstWord === "greetings" ||
+            firstWord === "excuse" || firstWord === "pardon" || firstWord === "sorry" || firstWord === "appreciate" ||
+            firstWord === "thanks" || firstWord === "thank" || firstWord === "help" || firstWord === "lookup" ||
+            firstWord === "search" || firstWord === "find" || firstWord === "check" || firstWord === "confirm" ||
+            firstWord === "verify" || firstWord === "validate" || firstWord === "review" || firstWord === "investigate" ||
+            firstWord === "wondering" || firstWord === "curious" || firstWord === "interested" || firstWord === "seeking") {
+                createFullscreenEmbed(`${aiEngines[currentAIEngine]}${encodeURIComponent(query)}`);
+            } else if (query) {
+                createFullscreenEmbed(`${searchEngines[currentSearchEngine]}${encodeURIComponent(query)}`);
+            }
         }
         
         searchInput.value = ''; // Clear search input
@@ -2162,6 +2260,12 @@ searchInput.addEventListener('keydown', (event) => {
         searchIcon.textContent = 'search'; // Reset icon to default
         searchInput.blur(); // Remove focus
     }
+});
+
+// Initialize everything when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    loadPreferencesSearch();
+    initializeSelectorsSearch();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
