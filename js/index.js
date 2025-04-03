@@ -3522,18 +3522,21 @@ function minimizeFullscreenEmbed() {
 }
 
 function populateDock() {
-    dock.innerHTML = ''; // Clear existing dock content
+    // Only add the search container if it's not already there
+    if (!dock.querySelector('.search-container')) {
+        const searchContainer = document.createElement('div');
+        searchContainer.className = 'search-container';
+        searchContainer.innerHTML = `
+            <span id="search-icon" class="material-symbols-rounded search-icon">search</span>
+            <input type="text" class="search-input" id="search-input" placeholder="LANG_SEARCH_PLACEHOLDER">
+            <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+        `;
+        dock.appendChild(searchContainer);
+    }
 
-    // Recreate the search container
-    const searchContainer = document.createElement('div');
-    searchContainer.className = 'search-container';
-    searchContainer.innerHTML = `
-        <span id="search-icon" class="material-symbols-rounded search-icon">search</span>
-        <input type="text" class="search-input" id="search-input" placeholder="LANG_SEARCH_PLACEHOLDER">
-        <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
-    `;
-    
-    dock.appendChild(searchContainer); // Add search bar back
+    // Clear only the app icons (not the search bar)
+    const appIcons = dock.querySelectorAll('.dock-icon');
+    appIcons.forEach(icon => icon.remove());
 
     // Sort and display top 4 apps
     const sortedApps = Object.entries(apps)
@@ -3558,7 +3561,7 @@ function populateDock() {
             appUsage[name] = (appUsage[name] || 0) + 1;
             saveUsageData();
             createFullscreenEmbed(details.url);
-            populateDock();
+            populateDock();  // Refresh the dock after clicking
         });
         
         dock.appendChild(dockIcon);
