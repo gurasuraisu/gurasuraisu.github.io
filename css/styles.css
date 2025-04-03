@@ -1706,6 +1706,7 @@ body.light-theme[style*="background-image"] .info {
     background-color: var(--search-background);
     backdrop-filter: blur(20px);
     transition: background-color 0.2s, transform 0.1s;
+    height: 38px;
 }
 
 .version-info {
