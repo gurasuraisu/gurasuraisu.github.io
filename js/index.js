@@ -3522,8 +3522,20 @@ function minimizeFullscreenEmbed() {
 }
 
 function populateDock() {
-    dock.innerHTML = '';
+    dock.innerHTML = ''; // Clear existing dock content
+
+    // Recreate the search container
+    const searchContainer = document.createElement('div');
+    searchContainer.className = 'search-container';
+    searchContainer.innerHTML = `
+        <span id="search-icon" class="material-symbols-rounded search-icon">search</span>
+        <input type="text" class="search-input" id="search-input" placeholder="LANG_SEARCH_PLACEHOLDER">
+        <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+    `;
     
+    dock.appendChild(searchContainer); // Add search bar back
+
+    // Sort and display top 4 apps
     const sortedApps = Object.entries(apps)
         .map(([appName, appDetails]) => ({
             name: appName,
@@ -3533,7 +3545,7 @@ function populateDock() {
         .sort((a, b) => b.usage - a.usage)
         .slice(0, 4);
     
-    sortedApps.forEach(({name, details}) => {
+    sortedApps.forEach(({ name, details }) => {
         const dockIcon = document.createElement('div');
         dockIcon.className = 'dock-icon';
         
