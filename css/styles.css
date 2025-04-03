@@ -1720,7 +1720,7 @@ body.light-theme[style*="background-image"] .info {
     transition: background-color 0.2s, transform 0.1s;
 }
 
-#theme-switch, #seconds-switch, #weather-switch, #minimal-switch, #gurapps-switch, #contrast-switch, #animation-switch {
+#theme-switch, #seconds-switch, #weather-switch, #minimal-switch, #gurapps-switch, #contrast-switch, #animation-switch, #search-switch {
     appearance: none;
     width: 50px;
     height: 32px;
