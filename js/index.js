@@ -3435,23 +3435,25 @@ function createFullscreenEmbed(url) {
     
     // Try to detect if embedding is blocked
     iframe.addEventListener('load', () => {
-        try {
-            // Attempt to access iframe content
-            const iframeContent = iframe.contentWindow.document;
-            
-            // Specific check for embedding blockage
-            if (iframeContent.body.textContent.includes('X-Frame-Options') || 
-                iframeContent.body.textContent.includes('frame denied')) {
-                embedFailed = true;
-                window.open(url, '_blank');
-                // Don't remove the container or close the embed
-            }
-        } catch (error) {
-            // If accessing content fails, it might be blocked
-            embedFailed = true;
-            window.open(url, '_blank');
-            // Don't remove the container or close the embed
-        }
+       try {
+           // Attempt to access iframe content
+           const iframeContent = iframe.contentWindow.document;
+           
+           // Specific check for embedding blockage
+           if (iframeContent.body.textContent.includes('X-Frame-Options') || 
+               iframeContent.body.textContent.includes('frame denied')) {
+               embedFailed = true;
+               window.open(url, '_blank');
+               // Close the container/embed when blocked
+               container.remove(); // Remove the container from DOM
+           }
+       } catch (error) {
+           // If accessing content fails, it might be blocked
+           embedFailed = true;
+           window.open(url, '_blank');
+           // Close the container/embed when blocked
+           container.remove(); // Remove the container from DOM
+       }
     });
     
     // Handle iframe loading error
