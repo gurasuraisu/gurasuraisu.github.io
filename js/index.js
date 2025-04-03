@@ -2102,6 +2102,8 @@ searchInput.addEventListener('keydown', (event) => {
         
         if (handleAppRedirect(query)) {
             searchInput.value = ''; // Clear search input
+            autocompleteSuggestions.innerHTML = ''; // Clear autocomplete suggestions
+            searchIcon.textContent = 'search'; // Reset icon to default
             searchInput.blur(); // Remove focus
             return;
         }
@@ -2145,11 +2147,11 @@ searchInput.addEventListener('keydown', (event) => {
         }
         
         searchInput.value = ''; // Clear search input
-        searchInput.blur(); // Remove focus
         autocompleteSuggestions.innerHTML = ''; // Clear autocomplete suggestions
+        searchIcon.textContent = 'search'; // Reset icon to default
+        searchInput.blur(); // Remove focus
     }
 });
-
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize control states
