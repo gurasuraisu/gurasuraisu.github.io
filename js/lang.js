@@ -90,7 +90,7 @@ const LANG_EN = {
     RESET_CONFIRM: "Are you sure you want to clear all data? This action cannot be undone.",
     RESET_SUCCESS: "All data has been successfully cleared.",
     SEARCH_ENABLE: "Search",
-    LANG_SEARCH_ENGINE: "Search Engine",
+    SEARCH_ENGINE: "Search Engine",
     LANG_SEARCH_AI: "Search AI"
 };
 
@@ -184,8 +184,8 @@ const LANG_JP = {
     RESET_CONFIRM: "すべてのデータを消去してもよろしいですか？この操作は元に戻せません。",
     RESET_SUCCESS: "すべてのデータが正常に消去されました。",
     SEARCH_ENABLE: "検索",
-    LANG_SEARCH_ENGINE: "検索エンジン",
-    LANG_SEARCH_AI: "AI検索"
+    SEARCH_ENGINE: "検索エンジン",
+    SEARCH_AI: "AI検索"
 };
 
 const LANG_DE = {
@@ -278,8 +278,8 @@ const LANG_DE = {
     RESET_CONFIRM: "Möchten Sie wirklich alle Daten löschen? Diese Aktion kann nicht rückgängig gemacht werden.",
     RESET_SUCCESS: "Alle Daten wurden erfolgreich gelöscht.",
     SEARCH_ENABLE: "Suche",
-    LANG_SEARCH_ENGINE: "Suchmaschine",
-    LANG_SEARCH_AI: "KI-Suche"
+    SEARCH_ENGINE: "Suchmaschine",
+    SEARCH_AI: "KI-Suche"
 };
 
 const LANG_FR = {
@@ -372,8 +372,8 @@ const LANG_FR = {
     RESET_CONFIRM: "Êtes-vous sûr de vouloir effacer toutes les données ? Cette action est irréversible.",
     RESET_SUCCESS: "Toutes les données ont été effacées avec succès.",
     SEARCH_ENABLE: "Recherche",
-    LANG_SEARCH_ENGINE: "Moteur de recherche",
-    LANG_SEARCH_AI: "Recherche IA"
+    SEARCH_ENGINE: "Moteur de recherche",
+    SEARCH_AI: "Recherche IA"
 };
 
 const LANG_ES = {
@@ -466,8 +466,8 @@ const LANG_ES = {
     RESET_CONFIRM: "¿Está seguro de que desea borrar todos los datos? Esta acción no se puede deshacer.",
     RESET_SUCCESS: "Todos los datos se han borrado correctamente.",
     SEARCH_ENABLE: "Buscar",
-    LANG_SEARCH_ENGINE: "Motor de búsqueda",
-    LANG_SEARCH_AI: "Búsqueda IA"
+    SEARCH_ENGINE: "Motor de búsqueda",
+    SEARCH_AI: "Búsqueda IA"
 };
 
 const LANG_KO = {
@@ -560,8 +560,8 @@ const LANG_KO = {
     RESET_CONFIRM: "모든 데이터를 지우시겠습니까? 이 작업은 되돌릴 수 없습니다.",
     RESET_SUCCESS: "모든 데이터가 성공적으로 지워졌습니다.",
     SEARCH_ENABLE: "검색",
-    LANG_SEARCH_ENGINE: "검색 엔진",
-    LANG_SEARCH_AI: "AI 검색"
+    SEARCH_ENGINE: "검색 엔진",
+    SEARCH_AI: "AI 검색"
 };
 
 const LANG_ZH = {
@@ -654,6 +654,6 @@ const LANG_ZH = {
     RESET_CONFIRM: "确定要清除所有数据吗？此操作无法撤消。",
     RESET_SUCCESS: "所有数据已成功清除。",
     SEARCH_ENABLE: "搜索",
-    LANG_SEARCH_ENGINE: "搜索引擎",
-    LANG_SEARCH_AI: "AI搜索"
+    SEARCH_ENGINE: "搜索引擎",
+    SEARCH_AI: "AI搜索"
 };
