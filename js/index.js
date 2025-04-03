@@ -3050,8 +3050,6 @@ function switchWallpaper(direction) {
       localStorage.setItem('customWallpaper', wallpaper.data);
       applyWallpaper();
     }
-    
-    showPopup(currentLanguage.WALLPAPER_CHANGE);
   }
 }
 
