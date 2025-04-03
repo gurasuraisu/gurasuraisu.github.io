@@ -2013,14 +2013,26 @@ function initializeSelectorsSearch() {
     
     searchSwitch.checked = searchEnabled;
     searchSwitch.addEventListener('change', (e) => {
-        searchEnabled = e.target.checked;
-        localStorage.setItem('searchEnabled', searchEnabled.toString());
-        
-        // Get the search container and toggle its visibility
-        const searchContainer = document.querySelector('.search-container');
-        if (searchContainer) {
-            searchContainer.style.display = searchEnabled ? 'flex' : 'none';
-        }
+       searchEnabled = e.target.checked;
+       localStorage.setItem('searchEnabled', searchEnabled.toString());
+       
+       // Get the search container and toggle its visibility
+       const searchContainer = document.querySelector('.search-container');
+       if (searchContainer) {
+           searchContainer.style.display = searchEnabled ? 'flex' : 'none';
+       }
+       
+       // Also hide search engine and AI options
+       const searchEngineOptions = document.querySelector('.search-engine-options');
+       const searchAIOptions = document.querySelector('.search-ai-options');
+       
+       if (searchEngineOptions) {
+           searchEngineOptions.style.display = searchEnabled ? 'flex' : 'none';
+       }
+       
+       if (searchAIOptions) {
+           searchAIOptions.style.display = searchEnabled ? 'flex' : 'none';
+       }
     });
 }
 
