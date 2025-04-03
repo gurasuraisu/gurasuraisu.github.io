@@ -3531,7 +3531,7 @@ function populateDock() {
             usage: appUsage[appName] || 0
         }))
         .sort((a, b) => b.usage - a.usage)
-        .slice(0, 6);
+        .slice(0, 4);
     
     sortedApps.forEach(({name, details}) => {
         const dockIcon = document.createElement('div');
@@ -3653,13 +3653,7 @@ function setupDrawerInteractions() {
     const openThreshold = -50;
     const drawerPill = document.querySelector('.drawer-pill');
     const drawerHandle = document.querySelector('.drawer-handle');
-    
-    // Create dock element
-    const dock = document.createElement('div');
-    dock.id = 'dock';
-    dock.className = 'dock';
-    document.body.appendChild(dock);
-    
+        
     // Create interaction blocker overlay
     const interactionBlocker = document.createElement('div');
     interactionBlocker.id = 'interaction-blocker';
