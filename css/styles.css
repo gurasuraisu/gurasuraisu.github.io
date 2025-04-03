@@ -232,8 +232,8 @@ body.light-theme[style*="background-image"] .info {
     height: 5px;
     background-color: var(--text-color);
     border-radius: 3px;
-    opacity: 0.8;
-    max-width: 400px;
+    opacity: 1;
+    max-width: 280px;
 }
 
 .persistent-clock {
