@@ -3457,14 +3457,14 @@ function createFullscreenEmbed(url) {
                embedFailed = true;
                window.open(url, '_blank');
                // Close the container/embed when blocked
-               container.remove(); // Remove the container from DOM
+               embedContainer.remove(); // Remove the container from DOM
            }
        } catch (error) {
            // If accessing content fails, it might be blocked
            embedFailed = true;
            window.open(url, '_blank');
            // Close the container/embed when blocked
-           container.remove(); // Remove the container from DOM
+           embedContainer.remove(); // Remove the container from DOM
        }
     });
     
