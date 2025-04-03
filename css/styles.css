@@ -1189,7 +1189,8 @@ body.light-theme[style*="background-image"] .info {
         
         .search-container {
             display: none !important; /* Remove when in production */
-            position: relative;
+            position: fixed;
+            bottom: 30px;
             width: 135px; /* Set a single fixed width initially */
             display: inline-flex;
             justify-content: center;
@@ -1249,7 +1250,7 @@ body.light-theme[style*="background-image"] .info {
         
         .autocomplete-suggestions {
             position: absolute;
-            top: 75px;
+            bottom: 75px;
             display: flex;
             flex-direction: row;
             gap: 10px; /* Space between suggestions */
