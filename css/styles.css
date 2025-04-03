@@ -1733,7 +1733,7 @@ body.light-theme[style*="background-image"] .info {
 
 #theme-switch::before, #seconds-switch::before, 
 #weather-switch::before, #minimal-switch::before, 
-#gurapps-switch::before, #contrast-switch::before, #animation-switch::before {
+#gurapps-switch::before, #contrast-switch::before, #animation-switch::before, #search-switch::before {
     content: '';
     position: absolute;
     width: 24px;
@@ -1747,13 +1747,13 @@ body.light-theme[style*="background-image"] .info {
 
 #theme-switch:checked, #seconds-switch:checked, 
 #weather-switch:checked, #minimal-switch:checked, 
-#gurapps-switch:checked, #contrast-switch:checked, #animation-switch:checked {
+#gurapps-switch:checked, #contrast-switch:checked, #animation-switch:checked, #search-switch:checked {
     background-color: var(--secondary-text-color);
 }
 
 #theme-switch:checked::before, #seconds-switch:checked::before, 
 #weather-switch:checked::before, #minimal-switch:checked::before, 
-#gurapps-switch:checked::before, #contrast-switch:checked::before, #animation-switch:checked::before {
+#gurapps-switch:checked::before, #contrast-switch:checked::before, #animation-switch:checked::before, #search-switch:checked::before {
     transform: translateX(18px);
     background-color: var(--background-color);
 }
