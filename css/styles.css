@@ -1207,7 +1207,7 @@ body.light-theme[style*="background-image"] .info {
             padding: 14px 20px 14px 50px;
             border: none;
             border-radius: 23px;
-            background-color: var(--search-background);
+            background-color: var(--transparent-color);
             backdrop-filter: blur(20px);
             color: var(--text-color);
             font-size: 1.2rem;
