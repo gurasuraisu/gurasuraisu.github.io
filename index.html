@@ -33,6 +33,12 @@
         <div class="drawer-pill"></div>
     </div>
 
+    <div class="search-container">
+        <span id="search-icon" class="material-symbols-rounded search-icon">search</span>
+        <input type="text" class="search-input" id="search-input" placeholder="LANG_SEARCH_PLACEHOLDER">
+        <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
+    </div>
+
     <div id="persistent-clock" class="persistent-clock"></div>
 
     <div class="container">
@@ -41,11 +47,6 @@
         </div>
         <div class="clock" id="clock"></div>
         <div class="clockwidgets">
-            <div class="search-container">
-                <span id="search-icon" class="material-symbols-rounded search-icon">search</span>
-                <input type="text" class="search-input" id="search-input" placeholder="LANG_SEARCH_PLACEHOLDER">
-                <div id="autocomplete-suggestions" class="autocomplete-suggestions"></div>
-            </div>
             <div class="weather-widget" id="weather">
                 <span class="temperature" id="temperature"></span>
                 <span class="weather-icon" id="weather-icon">
