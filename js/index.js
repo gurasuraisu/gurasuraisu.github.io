@@ -4632,7 +4632,7 @@ function preventLeaving() {
 }
 
 function checkScreenSize() {
-  if (window.innerWidth > 680) {
+  if (window.innerWidth < 680) {
     showPopup(currentLanguage.LARGE_SCR_REQ);
   }
 }
