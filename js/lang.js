@@ -91,7 +91,8 @@ const LANG_EN = {
     RESET_SUCCESS: "All data has been successfully cleared.",
     SEARCH_ENABLE: "Search",
     SEARCH_ENGINE: "Search Engine",
-    SEARCH_AI: "Search AI"
+    SEARCH_AI: "Search AI",
+    LARGE_SCR_REQ: "Larger screen is required"
 };
 
 const LANG_JP = {
@@ -185,7 +186,8 @@ const LANG_JP = {
     RESET_SUCCESS: "すべてのデータが正常に消去されました。",
     SEARCH_ENABLE: "検索",
     SEARCH_ENGINE: "検索エンジン",
-    SEARCH_AI: "AI検索"
+    SEARCH_AI: "AI検索",
+    LARGE_SCR_REQ: "より大きな画面が必要です"
 };
 
 const LANG_DE = {
@@ -279,7 +281,8 @@ const LANG_DE = {
     RESET_SUCCESS: "Alle Daten wurden erfolgreich gelöscht.",
     SEARCH_ENABLE: "Suche",
     SEARCH_ENGINE: "Suchmaschine",
-    SEARCH_AI: "KI-Suche"
+    SEARCH_AI: "KI-Suche",
+    LARGE_SCR_REQ: "Größerer Bildschirm erforderlich"
 };
 
 const LANG_FR = {
@@ -373,7 +376,8 @@ const LANG_FR = {
     RESET_SUCCESS: "Toutes les données ont été effacées avec succès.",
     SEARCH_ENABLE: "Recherche",
     SEARCH_ENGINE: "Moteur de recherche",
-    SEARCH_AI: "Recherche IA"
+    SEARCH_AI: "Recherche IA",
+    LARGE_SCR_REQ: "Un écran plus grand est nécessaire"
 };
 
 const LANG_ES = {
@@ -467,7 +471,8 @@ const LANG_ES = {
     RESET_SUCCESS: "Todos los datos se han borrado correctamente.",
     SEARCH_ENABLE: "Buscar",
     SEARCH_ENGINE: "Motor de búsqueda",
-    SEARCH_AI: "Búsqueda IA"
+    SEARCH_AI: "Búsqueda IA",
+    LARGE_SCR_REQ: "Se requiere una pantalla más grande"
 };
 
 const LANG_KO = {
@@ -561,7 +566,9 @@ const LANG_KO = {
     RESET_SUCCESS: "모든 데이터가 성공적으로 지워졌습니다.",
     SEARCH_ENABLE: "검색",
     SEARCH_ENGINE: "검색 엔진",
-    SEARCH_AI: "AI 검색"
+    SEARCH_AI: "AI 검색",
+    LARGE_SCR_REQ: "더 큰 화면이 필요합니다"
+
 };
 
 const LANG_ZH = {
@@ -655,5 +662,6 @@ const LANG_ZH = {
     RESET_SUCCESS: "所有数据已成功清除。",
     SEARCH_ENABLE: "搜索",
     SEARCH_ENGINE: "搜索引擎",
-    SEARCH_AI: "AI搜索"
+    SEARCH_AI: "AI搜索",
+    LARGE_SCR_REQ: "需要更大的屏幕"
 };
