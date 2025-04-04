@@ -4551,6 +4551,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 window.addEventListener('load', checkFullscreen);
 
+// Listen for fullscreen change events across different browsers
+document.addEventListener('fullscreenchange', checkFullscreen);
+document.addEventListener('webkitfullscreenchange', checkFullscreen);
+document.addEventListener('mozfullscreenchange', checkFullscreen);
+document.addEventListener('MSFullscreenChange', checkFullscreen);
+
 window.addEventListener('load', () => {
     ensureVideoLoaded();
     consoleLoaded();
