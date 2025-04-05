@@ -1717,6 +1717,7 @@ body.light-theme[style*="background-image"] .info {
     backdrop-filter: blur(20px);
     border-radius: 20px;
     transition: background-color 0.2s, transform 0.1s;
+    height: 38px;
 }
 
 #theme-switch, #seconds-switch, #weather-switch, #minimal-switch, #gurapps-switch, #contrast-switch, #animation-switch, #search-switch {
