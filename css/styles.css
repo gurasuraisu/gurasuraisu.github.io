@@ -1707,7 +1707,7 @@ body.light-theme[style*="background-image"] .info {
     height: 38px;
 }
 
-.version-info {
+.version-info, .campaign-info {
     display: flex;
     justify-content: space-between;
     align-items: center;
