@@ -2077,6 +2077,7 @@ const appLinks = {
     "Stickies": "https://gurasuraisu.github.io/stickies",
     "Fantaskical": "https://gurasuraisu.github.io/fantaskical",
     "Clapper": "https://gurasuraisu.github.io/clapper",
+    "App Store": "https://gurasuraisu.github.io/appstore",
 };
 
 function fuzzySearch(query, appList) {
@@ -3316,6 +3317,10 @@ const apps = {
     "Clapper": {
         url: "/clapper/index.html",
         icon: "video.png"
+    },
+    "App Store": {
+        url: "/appstore/index.html",
+        icon: "appstore.png"
     },
 };
 
