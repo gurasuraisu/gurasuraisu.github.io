@@ -20,6 +20,7 @@ const ASSETS_TO_CACHE = [
   '/assets/appicon/sketch.png',
   '/assets/appicon/tasks.png',
   '/assets/appicon/video.png',
+  '/assets/appicon/appstore.png',
   '/assets/sound/timer.mp3',
   'https://www.gstatic.com/delight/funbox/timer_utilitarian_v2.mp3',
   'https://cdn.jsdelivr.net/npm/suncalc@1.9.0/suncalc.min.js',
@@ -46,7 +47,8 @@ const ASSETS_TO_CACHE = [
   '/moments/index.html',
   '/sketchpad/index.html',
   '/fantaskical/index.html',
-  '/clapper/index.html'
+  '/clapper/index.html',
+  '/appstore/index.html'
 ];
 
 self.addEventListener('install', event => {
