@@ -95,6 +95,7 @@ let showWeather = localStorage.getItem('showWeather') !== 'false'; // defaults t
 let recentWallpapers = [];
 let currentWallpaperPosition = 0;
 let isSlideshow = false;
+let minimizedEmbeds = {}; // Object to store minimized embeds by URL
 
 secondsSwitch.checked = showSeconds;
 
@@ -2777,8 +2778,6 @@ const apps = {
         icon: "weather.png"
     },
 };
-
-let minimizedEmbeds = {}; // Object to store minimized embeds by URL
 
 function createFullscreenEmbed(url) {
     // Check if we have this URL minimized already
