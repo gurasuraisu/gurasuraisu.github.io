@@ -49,6 +49,7 @@ const ASSETS_TO_CACHE = [
   '/sketchpad/index.html',
   '/fantaskical/index.html',
   '/clapper/index.html',
+  '/weather/index.html',
   '/appstore/index.html'
 ];
 
