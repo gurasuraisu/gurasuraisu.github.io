@@ -162,7 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function updatePersistentClock() {
         const isModalOpen = 
             timezoneModal.classList.contains('show') || 
-            weatherModal.classList.contains('show') || 
             customizeModal.classList.contains('show') ||
             (appDrawer && appDrawer.classList.contains('open')) ||
             document.querySelector('.fullscreen-embed[style*="display: block"]'); // Only count visible embeds
@@ -605,9 +604,7 @@ function isDaytimeForHour(timeString) {
 const clockElement = document.getElementById('clock');
 const weatherWidget = document.getElementById('weather');
 const timezoneModal = document.getElementById('timezoneModal');
-const weatherModal = document.getElementById('weatherModal');
 const closeModal = document.getElementById('closeModal');
-const closeWeatherModal = document.getElementById('closeWeatherModal');
 const blurOverlay = document.getElementById('blurOverlay');
 
 clockElement.addEventListener('click', () => {
@@ -629,16 +626,6 @@ closeModal.addEventListener('click', () => {
     blurOverlay.classList.remove('show');
     setTimeout(() => {
         timezoneModal.style.display = 'none';
-        blurOverlay.style.display = 'none';
-        
-    }, 300);
-});
-
-closeWeatherModal.addEventListener('click', () => {
-    weatherModal.classList.remove('show');
-    blurOverlay.classList.remove('show');
-    setTimeout(() => {
-        weatherModal.style.display = 'none';
         blurOverlay.style.display = 'none';
         
     }, 300);
@@ -2687,7 +2674,6 @@ function handleSwipe() {
   // Make sure we're not interacting with UI elements
   if (document.querySelector('.fullscreen-embed') ||
       timezoneModal.classList.contains('show') ||
-      weatherModal.classList.contains('show') ||
       customizeModal.classList.contains('show') ||
       appDrawer.classList.contains('open')) {
     return;
@@ -3714,7 +3700,7 @@ secondsSwitch.addEventListener('change', function() {
 blurOverlay.addEventListener('click', (event) => {
     if (event.target === blurOverlay) {
         // Close all modals
-        [timezoneModal, weatherModal].forEach(modal => {
+        [timezoneModal].forEach(modal => {
             if (modal.classList.contains('show')) {
                 modal.classList.remove('show');
                 blurOverlay.classList.remove('show');
@@ -3745,7 +3731,7 @@ document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
         closeFullscreenEmbed();
         // Close all modals
-        [timezoneModal, weatherModal, customizeModal].forEach(modal => {
+        [timezoneModal, customizeModal].forEach(modal => {
             if (modal.classList.contains('show')) {
                 modal.classList.remove('show');
                 blurOverlay.classList.remove('show');
