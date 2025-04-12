@@ -2772,7 +2772,7 @@ const apps = {
         url: "/clapper/index.html",
         icon: "video.png"
     },
-    "App Store": {
+    "Weather": {
         url: "/weather/index.html",
         icon: "weather.png"
     },
