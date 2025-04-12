@@ -620,7 +620,7 @@ clockElement.addEventListener('click', () => {
 });
 
 weatherWidget.addEventListener('click', () => {
-    createFullscreenEmbed('/weather');
+    createFullscreenEmbed('/weather/index.html');
 });
 
 closeModal.addEventListener('click', () => {
