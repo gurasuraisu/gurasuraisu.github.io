@@ -309,9 +309,17 @@ body.light-theme[style*="background-image"] .info {
         .date {
             font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 400;
+            font-variant-numeric: tabular-nums;
             color: var(--text-color);
+            cursor: pointer;
             user-select: none;
-            transition: color 0.3s;
+            transform: scale(1);
+            transition: all 0.15s cubic-bezier(0.2, 0, 0.38, 0.9);
+        }
+
+        .date:active {
+            transform: scale(0.96);
+            transition: all 0.1s cubic-bezier(0.2, 0, 0.38, 0.9);
         }
 
         .modal {
