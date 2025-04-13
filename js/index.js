@@ -603,6 +603,7 @@ function isDaytimeForHour(timeString) {
 
 const clockElement = document.getElementById('clock');
 const weatherWidget = document.getElementById('weather');
+const dateElement = document.getElementById('date');
 const timezoneModal = document.getElementById('timezoneModal');
 const closeModal = document.getElementById('closeModal');
 const blurOverlay = document.getElementById('blurOverlay');
@@ -619,6 +620,10 @@ clockElement.addEventListener('click', () => {
 
 weatherWidget.addEventListener('click', () => {
     createFullscreenEmbed('/weather/index.html');
+});
+
+dateElement.addEventListener('click', () => {
+    createFullscreenEmbed('/fantaskical/index.html');
 });
 
 closeModal.addEventListener('click', () => {
