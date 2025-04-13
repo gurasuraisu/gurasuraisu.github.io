@@ -2697,32 +2697,52 @@ function handleSwipe() {
 
 function setupFontSelection() {
     const fontSelect = document.getElementById('font-select');
+    const weightSlider = document.getElementById('weight-slider');
     const clockElement = document.getElementById('clock');
     const infoElement = document.querySelector('.info');
     
-    // Load saved font preference
+    // Load saved preferences
     const savedFont = localStorage.getItem('clockFont') || 'Inter';
+    const savedWeight = localStorage.getItem('clockWeight') || '700'; // Default 700
+    
     fontSelect.value = savedFont;
     
-    // Apply font to both elements
-    function applyFont(fontFamily) {
+    // Set slider default to 70 (representing 700 weight)
+    // Convert saved weight to slider value (divide by 10)
+    weightSlider.value = parseInt(savedWeight) / 10;
+    
+    // Apply font to both elements but weight only to clock
+    function applyStyles() {
+        const fontFamily = fontSelect.value;
+        const fontWeight = weightSlider.value * 10; // Convert slider value to proper font weight
+        
         clockElement.style.fontFamily = fontFamily;
+        clockElement.style.fontWeight = fontWeight;
+        
         infoElement.style.fontFamily = fontFamily;
+        // Weight not applied to info element
     }
     
-    // Apply initial font
-    applyFont(savedFont);
+    // Apply initial styles
+    applyStyles();
     
     // Handle font changes
     fontSelect.addEventListener('change', (e) => {
         const selectedFont = e.target.value;
         // Ensure font is loaded before applying
         document.fonts.load(`16px ${selectedFont}`).then(() => {
-            applyFont(selectedFont);
+            applyStyles();
             localStorage.setItem('clockFont', selectedFont);
         }).catch(() => {
             showPopup(currentLanguage.CLOCK_STYLE_FAILED);
         });
+    });
+    
+    // Handle weight changes with the slider
+    weightSlider.addEventListener('input', (e) => {
+        const weightValue = e.target.value * 10; // Convert slider value to font weight
+        localStorage.setItem('clockWeight', weightValue);
+        applyStyles();
     });
 }
 
