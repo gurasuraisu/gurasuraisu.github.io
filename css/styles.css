@@ -1849,6 +1849,53 @@ body.light-theme[style*="background-image"] .info {
     transition: background-color 0.2s, transform 0.1s;
 }
 
+.display-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--search-background);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.weight-slider-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    padding-left: 13px;
+}
+
+.weight-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 32px;
+    border-radius: 16px;
+    background: rgba(0,0,0,0.1);
+    padding: 0 8px;
+    outline: none;
+}
+
+.weight-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--secondary-text-color);
+    cursor: pointer;
+}
+
+.weight-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--secondary-text-color);
+    cursor: pointer;
+}
+
 #font-select option[value="Roboto"] { font-family: 'Roboto', sans-serif; }
 #font-select option[value="DynaPuff"] { font-family: 'DynaPuff', cursive; }
 #font-select option[value="DM Serif Display"] { font-family: 'DM Serif Display', serif; }
