@@ -1849,7 +1849,7 @@ body.light-theme[style*="background-image"] .info {
     transition: background-color 0.2s, transform 0.1s;
 }
 
-.display-item {
+.weight-slider-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1860,7 +1860,7 @@ body.light-theme[style*="background-image"] .info {
     transition: background-color 0.2s, transform 0.1s;
 }
 
-.weight-slider-container {
+.weight-select-container {
     display: flex;
     align-items: center;
     gap: 10px;
