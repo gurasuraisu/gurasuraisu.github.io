@@ -3092,7 +3092,7 @@ function minimizeFullscreenEmbed() {
         
         // First set to invisible but in the DOM
         el.style.opacity = '0';
-        el.style.display = originalStyles.display || 'block';
+        el.style.display = originalStyles.display || 'flex';
         
         // Restore any other original properties we've stored
         if (originalStyles.visibility) el.style.visibility = originalStyles.visibility;
