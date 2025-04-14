@@ -2008,6 +2008,17 @@ body.light-theme[style*="background-image"] .info {
     font-variant-numeric: tabular-nums;
 }
 
+.btn-qc {
+    background-color: var(--overlay-color);
+    border: none;
+    color: var(--text-color);
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 45px;
+    height: 45px;
+}
+
 .action-buttons {
     display: flex;
     gap: 15px;
