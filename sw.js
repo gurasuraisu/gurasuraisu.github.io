@@ -35,7 +35,7 @@ const ASSETS_TO_CACHE = [
   'https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap',
   'https://fonts.googleapis.com/css2?family=Rampart+One&display=swap',
   'https://fonts.googleapis.com/css2?family=Doto:wght@400;700&display=swap',
-  'https://fonts.googleapis.com/css2?family=Nunito:wght@100..900&display=swap',
+  'https://fonts.googleapis.com/css2?family=Nunito:wght@200..900&display=swap',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,0',
   'https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,700,1,0',
   'https://cdnjs.cloudflare.com/ajax/libs/jsmediatags/3.9.5/jsmediatags.min.js',
