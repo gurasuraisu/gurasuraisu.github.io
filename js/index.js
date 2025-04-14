@@ -2856,7 +2856,7 @@ function createFullscreenEmbed(url) {
 	controlElements.forEach(el => {
 	    // Instead of storing and manipulating individual styles, just restore visibility
 	    el.style.opacity = '0';
-	    el.style.display = el.classList.contains('blackout-hidden') ? 'none' : '';
+	    el.style.display = el.classList.contains('blackout-hidden') ? 'none' : 'flex';
 	    
 	    // Remove the blackout-hidden class if it exists
 	    if (el.classList.contains('blackout-hidden')) {
