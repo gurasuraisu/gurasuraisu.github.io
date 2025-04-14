@@ -2852,27 +2852,25 @@ function createFullscreenEmbed(url) {
             }, 300);
         });
 	    
-	const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
-	controlElements.forEach(el => {
-	    // Check if it has the blackout-hidden class
-	    if (el.classList.contains('blackout-hidden')) {
-	        // For hidden elements, set display to none immediately
-	        el.style.display = 'none';
-	        el.classList.remove('blackout-hidden');
-	    } else {
-	        // For showing elements, first set display to flex
-	        el.style.display = 'flex';
-	        el.style.opacity = '0';
-	        
-	        // Add transition
-	        el.style.transition = 'opacity 0.3s ease';
-	        
-	        // Then fade in with a slight delay
-	        setTimeout(() => {
-	            el.style.opacity = '1';
-	        }, 10);
-	    }
-	});
+        const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
+        controlElements.forEach(el => {
+            // Instead of storing and manipulating individual styles, just restore visibility
+            el.style.opacity = '0';
+            el.style.display = el.classList.contains('blackout-hidden') ? 'none' : 'flex';
+
+            // Remove the blackout-hidden class if it exists
+            if (el.classList.contains('blackout-hidden')) {
+                el.classList.remove('blackout-hidden');
+            }
+  
+            // Add transition for smooth fade
+            el.style.transition = 'opacity 0.3s ease';
+
+            // Restore opacity with a slight delay to ensure the display property applies first
+            requestAnimationFrame(() => {
+                el.style.opacity = '1';
+            });
+        });
         
         // Show the swipe overlay when restoring an app
         const swipeOverlay = document.getElementById('swipe-overlay');
@@ -2973,32 +2971,27 @@ function createFullscreenEmbed(url) {
             el.style.display = 'none';
         }, 300);
     });
-
-    const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options');
+	
+    const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
     controlElements.forEach(el => {
-        // Store ALL relevant original styles
-        if (!el.dataset.originalStyles) {
-            el.dataset.originalStyles = JSON.stringify({
-                display: window.getComputedStyle(el).display,
-                opacity: window.getComputedStyle(el).opacity,
-                visibility: window.getComputedStyle(el).visibility,
-                position: window.getComputedStyle(el).position,
-                transform: window.getComputedStyle(el).transform
-            });
+        // Instead of storing and manipulating individual styles, just restore visibility
+        el.style.opacity = '0';
+        el.style.display = el.classList.contains('blackout-hidden') ? 'none' : 'flex';
+
+        // Remove the blackout-hidden class if it exists
+        if (el.classList.contains('blackout-hidden')) {
+            el.classList.remove('blackout-hidden');
         }
-        
+
         // Add transition for smooth fade
         el.style.transition = 'opacity 0.3s ease';
-        
-        // Start fade out
-        el.style.opacity = '0';
-        
-        // Hide element after fade out animation completes
-        setTimeout(() => {
-            el.style.display = 'none';
-        }, 300);
+
+        // Restore opacity with a slight delay to ensure the display property applies first
+        requestAnimationFrame(() => {
+            el.style.opacity = '1';
+        });
     });
-	
+
     // Append the container to the DOM
     document.body.appendChild(embedContainer);
     
@@ -3075,34 +3068,26 @@ function minimizeFullscreenEmbed() {
         });
     });
 	
-    const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options');
+    const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
     controlElements.forEach(el => {
-        // Get original styles from stored data
-        let originalStyles = {};
-        try {
-            if (el.dataset.originalStyles) {
-                originalStyles = JSON.parse(el.dataset.originalStyles);
-            }
-        } catch (e) {
-            console.error('Error parsing original styles', e);
-        }
-        
-        // First set to invisible but in the DOM
+        // First set display to flex for all elements
+        el.style.display = 'flex';
+    
+        // Initially set opacity to 0
         el.style.opacity = '0';
-        el.style.display = originalStyles.display || 'block';
-        
-        // Restore any other original properties we've stored
-        if (originalStyles.visibility) el.style.visibility = originalStyles.visibility;
-        if (originalStyles.position) el.style.position = originalStyles.position;
-        if (originalStyles.transform) el.style.transform = originalStyles.transform;
-        
+    
+        // Remove the blackout-hidden class if it exists
+        if (el.classList.contains('blackout-hidden')) {
+        el.classList.remove('blackout-hidden');
+        }
+    
         // Add transition for smooth fade
         el.style.transition = 'opacity 0.3s ease';
-        
-        // Trigger fade in animation
-        requestAnimationFrame(() => {
-            el.style.opacity = originalStyles.opacity || '1';
-        });
+    
+        // Fade in with a slight delay to ensure the display property applies first
+        setTimeout(() => {
+            el.style.opacity = '1';
+        }, 10);
     });
     
     // Hide all fullscreen embeds that are not being displayed
