@@ -1,32 +1,13 @@
-/* Roboto: full weight range */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
-
-/* DynaPuff: variable font, full range */
-@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@400..700&display=swap');
-
-/* DM Serif Display: only has regular (400) and italic – no bold! */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DynaPuff:wght@100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&display=swap');
-
-/* Iansui: only supports regular (400) */
-@import url('https://fonts.googleapis.com/css2?family=Iansui&display=swap');
-
-/* JetBrains Mono: full range available */
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
-
-/* DotGothic16: only supports regular (400) */
-@import url('https://fonts.googleapis.com/css2?family=DotGothic16&display=swap');
-
-/* Patrick Hand: only regular (400) */
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
-
-/* Rampart One: only regular (400) */
-@import url('https://fonts.googleapis.com/css2?family=Rampart+One&display=swap');
-
-/* Doto: regular and bold */
-@import url('https://fonts.googleapis.com/css2?family=Doto:wght@400;700&display=swap'); 
-
-/* Nunito: full weight range */
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Iansui:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DotGothic16:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rampart+One:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Doto:wght@100..900&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@100..900&display=swap');
 
 :root {
     /* Dark Theme (Default) Variables */
