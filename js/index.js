@@ -2852,7 +2852,7 @@ function createFullscreenEmbed(url) {
             }, 300);
         });
 
-        const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options');
+        const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
 	controlElements.forEach(el => {
 	    // Instead of storing and manipulating individual styles, just restore visibility
 	    el.style.opacity = '0';
