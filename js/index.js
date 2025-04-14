@@ -3712,6 +3712,51 @@ appDrawerObserver.observe(appDrawer, {
     attributes: true
 });
 
+function blackoutScreen() {
+  // Get the brightness overlay element
+  const brightnessOverlay = document.getElementById('brightness-overlay');
+  
+  // Store the current brightness value
+  const currentBrightness = localStorage.getItem('page_brightness') || '100';
+  
+  // Save the current brightness value for later restoration
+  localStorage.setItem('previous_brightness', currentBrightness);
+  
+  // Set brightness to 0 (completely dark)
+  brightnessOverlay.style.backgroundColor = 'rgba(0, 0, 0, 1)';
+  
+  // Create a new full-screen overlay to capture all events
+  const blockingOverlay = document.createElement('div');
+  blockingOverlay.id = 'blackout-event-overlay';
+  blockingOverlay.style.position = 'fixed';
+  blockingOverlay.style.top = '0';
+  blockingOverlay.style.left = '0';
+  blockingOverlay.style.width = '100%';
+  blockingOverlay.style.height = '100%';
+  blockingOverlay.style.zIndex = '9999999'; // Highest z-index to block everything
+  blockingOverlay.style.cursor = 'pointer';
+  
+  // Add it to the document
+  document.body.appendChild(blockingOverlay);
+  
+  // Function to handle the event and cleanup
+  function restoreScreenAndMinimize() {
+    // Restore previous brightness
+    const previousBrightness = localStorage.getItem('previous_brightness') || '100';
+    brightnessOverlay.style.backgroundColor = `rgba(0, 0, 0, ${(100-previousBrightness)/100})`;
+    
+    // Call the minimize function
+    minimizeFullscreenEmbed();
+    
+    // Remove the blocking overlay
+    document.body.removeChild(blockingOverlay);
+  }
+  
+  // Add event listeners only to the blocking overlay
+  blockingOverlay.addEventListener('click', restoreScreenAndMinimize);
+  blockingOverlay.addEventListener('touchstart', restoreScreenAndMinimize);
+}
+
 timerWidget.addEventListener('click', () => {
     toggleTimer();
 });
