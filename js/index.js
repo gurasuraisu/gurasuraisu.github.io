@@ -4206,10 +4206,9 @@ setInterval(ensureVideoLoaded, 1000);
 
 function preventLeaving() {
   window.addEventListener('beforeunload', function (e) {
-    const confirmationMessage = currentLanguage.DONT_CLOSE; //Get the string from the language object.
     e.preventDefault();
-    e.returnValue = confirmationMessage; // Standard for most browsers
-    return confirmationMessage; // For some older browsers
+    e.returnValue = ''; // Standard for most browsers
+    return ''; // For some older browsers
   });
 }
 
