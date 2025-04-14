@@ -3057,7 +3057,7 @@ function minimizeFullscreenEmbed() {
     document.querySelectorAll('.container').forEach(el => {
         // Set initial state for visible elements
         el.style.opacity = '0';
-        el.style.display = '';
+        el.style.display = 'flex';
         
         // Preserve existing transitions and add opacity transition if needed
         const currentTransition = window.getComputedStyle(el).transition;
@@ -3092,7 +3092,7 @@ function minimizeFullscreenEmbed() {
         
         // First set to invisible but in the DOM
         el.style.opacity = '0';
-        el.style.display = originalStyles.display || 'flex';
+        el.style.display = originalStyles.display || '';
         
         // Restore any other original properties we've stored
         if (originalStyles.visibility) el.style.visibility = originalStyles.visibility;
