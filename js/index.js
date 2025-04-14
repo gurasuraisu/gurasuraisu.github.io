@@ -2852,7 +2852,7 @@ function createFullscreenEmbed(url) {
             }, 300);
         });
 
-        const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options');
+        const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
         controlElements.forEach(el => {
             // Store ALL relevant original styles
             if (!el.dataset.originalStyles) {
@@ -3741,15 +3741,25 @@ function blackoutScreen() {
   
   // Function to handle the event and cleanup
   function restoreScreenAndMinimize() {
-    // Restore previous brightness
-    const previousBrightness = localStorage.getItem('previous_brightness') || '100';
-    brightnessOverlay.style.backgroundColor = `rgba(0, 0, 0, ${(100-previousBrightness)/100})`;
+    // First remove the blocking overlay to prevent interference with minimizeFullscreenEmbed
+    document.body.removeChild(blockingOverlay);
+    
+    // Restore previous brightness with a slight delay to allow minimizeFullscreenEmbed to run first
+    setTimeout(() => {
+      const previousBrightness = localStorage.getItem('previous_brightness') || '100';
+      brightnessOverlay.style.backgroundColor = `rgba(0, 0, 0, ${(100-previousBrightness)/100})`;
+      
+      // Also update the brightness control UI if needed
+      const brightnessControl = document.getElementById('brightness-control');
+      const brightnessValue = document.getElementById('brightness-value');
+      if (brightnessControl && brightnessValue) {
+        brightnessControl.value = previousBrightness;
+        brightnessValue.textContent = `${previousBrightness}%`;
+      }
+    }, 400); // Slightly longer than the fade transitions in minimizeFullscreenEmbed
     
     // Call the minimize function
     minimizeFullscreenEmbed();
-    
-    // Remove the blocking overlay
-    document.body.removeChild(blockingOverlay);
   }
   
   // Add event listeners only to the blocking overlay
