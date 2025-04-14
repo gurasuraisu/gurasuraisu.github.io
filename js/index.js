@@ -2851,25 +2851,27 @@ function createFullscreenEmbed(url) {
                 el.style.display = 'none';
             }, 300);
         });
-
-        const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
+	    
+	const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
 	controlElements.forEach(el => {
-	    // Instead of storing and manipulating individual styles, just restore visibility
-	    el.style.opacity = '0';
-	    el.style.display = el.classList.contains('blackout-hidden') ? 'none' : 'flex';
-	    
-	    // Remove the blackout-hidden class if it exists
+	    // Check if it has the blackout-hidden class
 	    if (el.classList.contains('blackout-hidden')) {
+	        // For hidden elements, set display to none immediately
+	        el.style.display = 'none';
 	        el.classList.remove('blackout-hidden');
+	    } else {
+	        // For showing elements, first set display to flex
+	        el.style.display = 'flex';
+	        el.style.opacity = '0';
+	        
+	        // Add transition
+	        el.style.transition = 'opacity 0.3s ease';
+	        
+	        // Then fade in with a slight delay
+	        setTimeout(() => {
+	            el.style.opacity = '1';
+	        }, 10);
 	    }
-	    
-	    // Add transition for smooth fade
-	    el.style.transition = 'opacity 0.3s ease';
-	    
-	    // Restore opacity with a slight delay to ensure the display property applies first
-	    requestAnimationFrame(() => {
-	        el.style.opacity = '1';
-	    });
 	});
         
         // Show the swipe overlay when restoring an app
