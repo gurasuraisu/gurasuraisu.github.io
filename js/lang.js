@@ -93,7 +93,8 @@ const LANG_EN = {
     SEARCH_ENABLE: "Search",
     SEARCH_ENGINE: "Search Engine",
     SEARCH_AI: "Search AI",
-    LARGE_SCR_REQ: "Larger screen is required"
+    LARGE_SCR_REQ: "Larger screen is required",
+    DONT_CLOSE: "Use Sleep in Controls to turn off"
 };
 
 const LANG_JP = {
@@ -189,7 +190,8 @@ const LANG_JP = {
     SEARCH_ENABLE: "検索",
     SEARCH_ENGINE: "検索エンジン",
     SEARCH_AI: "AI検索",
-    LARGE_SCR_REQ: "より大きな画面が必要です"
+    LARGE_SCR_REQ: "より大きな画面が必要です",
+    DONT_CLOSE: "オフにするにはコントロールでスリープを使用してください"
 };
 
 const LANG_DE = {
@@ -285,7 +287,8 @@ const LANG_DE = {
     SEARCH_ENABLE: "Suche",
     SEARCH_ENGINE: "Suchmaschine",
     SEARCH_AI: "KI-Suche",
-    LARGE_SCR_REQ: "Größerer Bildschirm erforderlich"
+    LARGE_SCR_REQ: "Größerer Bildschirm erforderlich",
+    DONT_CLOSE: "Verwenden Sie den Schlafmodus in den Steuerelementen, um ihn auszuschalten"
 };
 
 const LANG_FR = {
@@ -381,7 +384,8 @@ const LANG_FR = {
     SEARCH_ENABLE: "Recherche",
     SEARCH_ENGINE: "Moteur de recherche",
     SEARCH_AI: "Recherche IA",
-    LARGE_SCR_REQ: "Un écran plus grand est nécessaire"
+    LARGE_SCR_REQ: "Un écran plus grand est nécessaire",
+    DONT_CLOSE: "Utilisez le mode veille dans les commandes pour éteindre"
 };
 
 const LANG_ES = {
@@ -477,7 +481,8 @@ const LANG_ES = {
     SEARCH_ENABLE: "Buscar",
     SEARCH_ENGINE: "Motor de búsqueda",
     SEARCH_AI: "Búsqueda IA",
-    LARGE_SCR_REQ: "Se requiere una pantalla más grande"
+    LARGE_SCR_REQ: "Se requiere una pantalla más grande",
+    DONT_CLOSE: "Utilice el modo de suspensión en los controles para apagar"
 };
 
 const LANG_KO = {
@@ -573,8 +578,8 @@ const LANG_KO = {
     SEARCH_ENABLE: "검색",
     SEARCH_ENGINE: "검색 엔진",
     SEARCH_AI: "AI 검색",
-    LARGE_SCR_REQ: "더 큰 화면이 필요합니다"
-
+    LARGE_SCR_REQ: "더 큰 화면이 필요합니다",
+    DONT_CLOSE: "끄려면 컨트롤에서 잠자기를 사용하세요"
 };
 
 const LANG_ZH = {
@@ -670,5 +675,6 @@ const LANG_ZH = {
     SEARCH_ENABLE: "搜索",
     SEARCH_ENGINE: "搜索引擎",
     SEARCH_AI: "AI搜索",
-    LARGE_SCR_REQ: "需要更大的屏幕"
+    LARGE_SCR_REQ: "需要更大的屏幕",
+    DONT_CLOSE: "使用控件中的睡眠模式关闭"
 };
