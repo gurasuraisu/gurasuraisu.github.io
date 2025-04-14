@@ -2853,29 +2853,24 @@ function createFullscreenEmbed(url) {
         });
 
         const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options');
-        controlElements.forEach(el => {
-            // Store ALL relevant original styles
-            if (!el.dataset.originalStyles) {
-                el.dataset.originalStyles = JSON.stringify({
-                    display: window.getComputedStyle(el).display,
-                    opacity: window.getComputedStyle(el).opacity,
-                    visibility: window.getComputedStyle(el).visibility,
-                    position: window.getComputedStyle(el).position,
-                    transform: window.getComputedStyle(el).transform
-                });
-            }
-            
-            // Add transition for smooth fade
-            el.style.transition = 'opacity 0.3s ease';
-            
-            // Start fade out
-            el.style.opacity = '0';
-            
-            // Hide element after fade out animation completes
-            setTimeout(() => {
-                el.style.display = 'none';
-            }, 300);
-        });
+	controlElements.forEach(el => {
+	    // Instead of storing and manipulating individual styles, just restore visibility
+	    el.style.opacity = '0';
+	    el.style.display = el.classList.contains('blackout-hidden') ? 'none' : '';
+	    
+	    // Remove the blackout-hidden class if it exists
+	    if (el.classList.contains('blackout-hidden')) {
+	        el.classList.remove('blackout-hidden');
+	    }
+	    
+	    // Add transition for smooth fade
+	    el.style.transition = 'opacity 0.3s ease';
+	    
+	    // Restore opacity with a slight delay to ensure the display property applies first
+	    requestAnimationFrame(() => {
+	        el.style.opacity = '1';
+	    });
+	});
         
         // Show the swipe overlay when restoring an app
         const swipeOverlay = document.getElementById('swipe-overlay');
