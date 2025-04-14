@@ -4209,6 +4209,7 @@ function preventLeaving() {
     e.preventDefault();
     e.returnValue = ''; // Standard for most browsers
     return ''; // For some older browsers
+    showPopup(currentLanguage.DONT_CLOSE);
   });
 }
 
