@@ -3373,37 +3373,37 @@ function createAppIcons() {
         appIcon.appendChild(img);
         appIcon.appendChild(label);
 
-        const handleAppOpen = (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            try {
-                appUsage[app.name] = (appUsage[app.name] || 0) + 1;
-                saveUsageData();
-                
-                if (app.details.url.startsWith('#')) {
-                    switch (app.details.url) {
-                        case '#settings':
-                            showPopup(currentLanguage.OPEN_SETTINGS);
-                            break;
-                        case '#weather':
-                            showPopup(currentLanguage.OPEN_WEATHER);
-                            break;
-                        default:
-                            showPopup(currentLanguage.APP_OPENED.replace("{app}", app));
-                    }
-                } else {
-                    createFullscreenEmbed(app.details.url);
-                }
-                
-                appDrawer.classList.remove('open');
-                appDrawer.style.bottom = '-100%';
-                initialDrawerPosition = -100;
-            } catch (error) {
-                showPopup(currentLanguage.APP_OPEN_FAIL.replace("{app}", app));
-                console.error(`App open error: ${error}`);
-            }
-        };
+	const handleAppOpen = (e) => {
+	    e.preventDefault();
+	    e.stopPropagation();
+	    
+	    try {
+	        appUsage[app.name] = (appUsage[app.name] || 0) + 1;
+	        saveUsageData();
+	        
+	        if (app.details.url.startsWith('#')) {
+	            switch (app.details.url) {
+	                case '#settings':
+	                    showPopup(currentLanguage.OPEN_SETTINGS);
+	                    break;
+	                case '#tasks':
+	                    showMinimizedEmbeds(); // Add this case to call your new function
+	                    break;
+	                default:
+	                    showPopup(currentLanguage.APP_OPENED.replace("{app}", app));
+	            }
+	        } else {
+	            createFullscreenEmbed(app.details.url);
+	        }
+	        
+	        appDrawer.classList.remove('open');
+	        appDrawer.style.bottom = '-100%';
+	        initialDrawerPosition = -100;
+	    } catch (error) {
+	        showPopup(currentLanguage.APP_OPEN_FAIL.replace("{app}", app));
+	        console.error(`App open error: ${error}`);
+	    }
+	};
 
         appIcon.addEventListener('click', handleAppOpen);
         appIcon.addEventListener('touchend', handleAppOpen);
