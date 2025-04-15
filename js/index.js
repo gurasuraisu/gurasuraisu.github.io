@@ -2787,9 +2787,9 @@ const apps = {
         url: "/weather/index.html",
         icon: "weather.png"
     },
-    "TaskSwitcher": {
+    "Apps": {
         url: "#tasks",
-        icon: "appoff.png"
+        icon: "appstore.png"
     },
 };
 
