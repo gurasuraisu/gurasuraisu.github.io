@@ -3278,20 +3278,42 @@ function populateDock() {
         `;
         dock.appendChild(searchContainer);
     }
-
+    
     // Clear only the app icons (not the search bar)
     const appIcons = dock.querySelectorAll('.dock-icon');
     appIcons.forEach(icon => icon.remove());
-
-    // Sort and display top 4 apps
+    
+    // First, always add the Apps icon
+    const appsDetails = apps["Apps"];
+    if (appsDetails) {
+        const appsIcon = document.createElement('div');
+        appsIcon.className = 'dock-icon';
+        
+        const img = document.createElement('img');
+        img.src = `/assets/appicon/${appsDetails.icon}`;
+        img.alt = "Apps";
+        
+        appsIcon.appendChild(img);
+        appsIcon.addEventListener('click', () => {
+            appUsage["Apps"] = (appUsage["Apps"] || 0) + 1;
+            saveUsageData();
+            createFullscreenEmbed("#tasks");  // Using #tasks URL directly
+            populateDock();  // Refresh the dock after clicking
+        });
+        
+        dock.appendChild(appsIcon);
+    }
+    
+    // Then add the remaining top-used apps (excluding Apps if it would be duplicated)
     const sortedApps = Object.entries(apps)
+        .filter(([appName]) => appName !== "Apps")  // Filter out Apps since we already added it
         .map(([appName, appDetails]) => ({
             name: appName,
             details: appDetails,
             usage: appUsage[appName] || 0
         }))
         .sort((a, b) => b.usage - a.usage)
-        .slice(0, 4);
+        .slice(0, 4);  // Only take 4 more since Apps takes the first spot
     
     sortedApps.forEach(({ name, details }) => {
         const dockIcon = document.createElement('div');
