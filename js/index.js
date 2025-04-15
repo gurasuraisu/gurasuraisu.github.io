@@ -3141,29 +3141,35 @@ function minimizeFullscreenEmbed() {
 }
 
 function showMinimizedEmbeds() {
+  // Create a backdrop that fills the entire screen
+  let backdrop = document.createElement("div");
+  backdrop.className = "task-backdrop";
+  
+  // Close task switcher when tapping the backdrop
+  backdrop.addEventListener("click", (e) => {
+    if (e.target === backdrop) {
+      document.body.removeChild(backdrop);
+    }
+  });
+  
   // Create the task switcher container
   let taskSwitcher = document.createElement("div");
   taskSwitcher.className = "task-switcher";
   
   // Add header
   let header = document.createElement("div");
+  header.className = "task-switcher-header";
   
   let title = document.createElement("h2");
+  title.className = "task-switcher-title";
   title.textContent = "Recent Apps";
   
-  let closeButton = document.createElement("button");
-  closeButton.innerHTML = "&#10005;";
-  
-  closeButton.addEventListener("click", () => {
-    document.body.removeChild(taskSwitcher);
-  });
-  
   header.appendChild(title);
-  header.appendChild(closeButton);
   taskSwitcher.appendChild(header);
   
   // Add embed thumbnails
   let embedsGrid = document.createElement("div");
+  embedsGrid.className = "task-switcher-grid";
   
   // Check if there are any minimized embeds
   let minimizedCount = 0;
@@ -3174,6 +3180,7 @@ function showMinimizedEmbeds() {
     
     // Create a wrapper for the embed thumbnail
     let thumbWrapper = document.createElement("div");
+    thumbWrapper.className = "app-thumb-wrapper";
     
     // Get the app name from the URL
     let appName = "";
@@ -3186,6 +3193,7 @@ function showMinimizedEmbeds() {
     
     // Create icon for the app
     let iconContainer = document.createElement("div");
+    iconContainer.className = "app-icon-container";
     
     let appIcon = document.createElement("img");
     let iconSrc = "";
@@ -3204,6 +3212,7 @@ function showMinimizedEmbeds() {
     
     // Add app name
     let nameLabel = document.createElement("div");
+    nameLabel.className = "app-name-label";
     nameLabel.textContent = appName || "App";
     
     thumbWrapper.appendChild(nameLabel);
@@ -3211,7 +3220,7 @@ function showMinimizedEmbeds() {
     // Click to reopen the embed
     thumbWrapper.addEventListener("click", () => {
       createFullscreenEmbed(url);
-      document.body.removeChild(taskSwitcher);
+      document.body.removeChild(backdrop);
     });
     
     embedsGrid.appendChild(thumbWrapper);
@@ -3221,12 +3230,40 @@ function showMinimizedEmbeds() {
   // If no minimized apps, show a message
   if (minimizedCount === 0) {
     let noAppsMsg = document.createElement("div");
+    noAppsMsg.className = "no-apps-message";
     noAppsMsg.textContent = "No minimized apps found";
     embedsGrid.appendChild(noAppsMsg);
   }
   
   taskSwitcher.appendChild(embedsGrid);
-  document.body.appendChild(taskSwitcher);
+  backdrop.appendChild(taskSwitcher);
+  document.body.appendChild(backdrop);
+  
+  // Add swipe down to close functionality (iOS-like)
+  let startY;
+  let currentY;
+  backdrop.addEventListener('touchstart', (e) => {
+    startY = e.touches[0].clientY;
+  });
+  
+  backdrop.addEventListener('touchmove', (e) => {
+    currentY = e.touches[0].clientY;
+    let deltaY = currentY - startY;
+    
+    if (deltaY > 0) { // Only allow downward swipe
+      taskSwitcher.style.transform = `translate(-50%, calc(-50% + ${deltaY}px))`;
+      backdrop.style.opacity = 1 - (deltaY / 300);
+    }
+  });
+  
+  backdrop.addEventListener('touchend', (e) => {
+    if (currentY - startY > 100) { // If swiped down enough
+      document.body.removeChild(backdrop);
+    } else {
+      taskSwitcher.style.transform = 'translate(-50%, -50%)';
+      backdrop.style.opacity = 1;
+    }
+  });
 }
 
 function populateDock() {
