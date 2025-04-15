@@ -3144,40 +3144,15 @@ function showMinimizedEmbeds() {
   // Create the task switcher container
   let taskSwitcher = document.createElement("div");
   taskSwitcher.className = "task-switcher";
-  taskSwitcher.style.position = "fixed";
-  taskSwitcher.style.top = "50%";
-  taskSwitcher.style.left = "50%";
-  taskSwitcher.style.transform = "translate(-50%, -50%)";
-  taskSwitcher.style.width = "90%";
-  taskSwitcher.style.maxWidth = "800px";
-  taskSwitcher.style.backgroundColor = "rgba(255, 255, 255, 0.9)";
-  taskSwitcher.style.borderRadius = "15px";
-  taskSwitcher.style.padding = "20px";
-  taskSwitcher.style.boxShadow = "0 10px 30px rgba(0, 0, 0, 0.2)";
-  taskSwitcher.style.zIndex = "1002";
-  taskSwitcher.style.display = "flex";
-  taskSwitcher.style.flexDirection = "column";
-  taskSwitcher.style.maxHeight = "80vh";
-  taskSwitcher.style.overflow = "auto";
   
   // Add header
   let header = document.createElement("div");
-  header.style.display = "flex";
-  header.style.justifyContent = "space-between";
-  header.style.alignItems = "center";
-  header.style.marginBottom = "15px";
   
   let title = document.createElement("h2");
   title.textContent = "Recent Apps";
-  title.style.margin = "0";
   
   let closeButton = document.createElement("button");
   closeButton.innerHTML = "&#10005;";
-  closeButton.style.background = "none";
-  closeButton.style.border = "none";
-  closeButton.style.fontSize = "20px";
-  closeButton.style.cursor = "pointer";
-  closeButton.style.padding = "5px";
   
   closeButton.addEventListener("click", () => {
     document.body.removeChild(taskSwitcher);
@@ -3189,9 +3164,6 @@ function showMinimizedEmbeds() {
   
   // Add embed thumbnails
   let embedsGrid = document.createElement("div");
-  embedsGrid.style.display = "grid";
-  embedsGrid.style.gridTemplateColumns = "repeat(auto-fill, minmax(150px, 1fr))";
-  embedsGrid.style.gap = "15px";
   
   // Check if there are any minimized embeds
   let minimizedCount = 0;
@@ -3202,24 +3174,6 @@ function showMinimizedEmbeds() {
     
     // Create a wrapper for the embed thumbnail
     let thumbWrapper = document.createElement("div");
-    thumbWrapper.style.position = "relative";
-    thumbWrapper.style.borderRadius = "10px";
-    thumbWrapper.style.overflow = "hidden";
-    thumbWrapper.style.boxShadow = "0 2px 10px rgba(0, 0, 0, 0.1)";
-    thumbWrapper.style.cursor = "pointer";
-    thumbWrapper.style.transition = "transform 0.2s ease";
-    thumbWrapper.style.aspectRatio = "1";
-    thumbWrapper.style.display = "flex";
-    thumbWrapper.style.flexDirection = "column";
-    
-    // Hover effect
-    thumbWrapper.addEventListener("mouseover", () => {
-      thumbWrapper.style.transform = "scale(1.05)";
-    });
-    
-    thumbWrapper.addEventListener("mouseout", () => {
-      thumbWrapper.style.transform = "scale(1)";
-    });
     
     // Get the app name from the URL
     let appName = "";
@@ -3232,11 +3186,6 @@ function showMinimizedEmbeds() {
     
     // Create icon for the app
     let iconContainer = document.createElement("div");
-    iconContainer.style.flex = "1";
-    iconContainer.style.display = "flex";
-    iconContainer.style.alignItems = "center";
-    iconContainer.style.justifyContent = "center";
-    iconContainer.style.backgroundColor = "rgba(240, 240, 240, 0.9)";
     
     let appIcon = document.createElement("img");
     let iconSrc = "";
@@ -3249,9 +3198,6 @@ function showMinimizedEmbeds() {
     
     appIcon.src = iconSrc || "/assets/appicon/question.png";
     appIcon.alt = appName;
-    appIcon.style.width = "60%";
-    appIcon.style.height = "60%";
-    appIcon.style.objectFit = "contain";
     
     iconContainer.appendChild(appIcon);
     thumbWrapper.appendChild(iconContainer);
@@ -3259,13 +3205,6 @@ function showMinimizedEmbeds() {
     // Add app name
     let nameLabel = document.createElement("div");
     nameLabel.textContent = appName || "App";
-    nameLabel.style.padding = "8px";
-    nameLabel.style.textAlign = "center";
-    nameLabel.style.backgroundColor = "white";
-    nameLabel.style.borderTop = "1px solid rgba(0, 0, 0, 0.05)";
-    nameLabel.style.whiteSpace = "nowrap";
-    nameLabel.style.overflow = "hidden";
-    nameLabel.style.textOverflow = "ellipsis";
     
     thumbWrapper.appendChild(nameLabel);
     
@@ -3283,9 +3222,6 @@ function showMinimizedEmbeds() {
   if (minimizedCount === 0) {
     let noAppsMsg = document.createElement("div");
     noAppsMsg.textContent = "No minimized apps found";
-    noAppsMsg.style.padding = "20px";
-    noAppsMsg.style.textAlign = "center";
-    noAppsMsg.style.color = "#666";
     embedsGrid.appendChild(noAppsMsg);
   }
   
