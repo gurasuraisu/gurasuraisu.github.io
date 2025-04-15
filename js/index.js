@@ -3515,6 +3515,21 @@ function setupDrawerInteractions() {
             
             // IMPORTANT FIX: Set pointer-events to none when an embed is open
             interactionBlocker.style.pointerEvents = 'none';
+            
+            // Don't show dock when in an app
+            dock.classList.remove('show');
+            dock.style.boxShadow = 'none';
+        } else {
+            // Show dock and hide drawer-pill only when not in an app
+            if (!openEmbed && movementPercentage > 10 && movementPercentage < 25) {
+                dock.classList.add('show');
+                dock.style.boxShadow = '0 -2px 10px rgba(0, 0, 0, 0.1)'; 
+                drawerPill.style.opacity = '0';
+            } else {
+                dock.classList.remove('show');
+                dock.style.boxShadow = 'none'; 
+                drawerPill.style.opacity = '1';
+            }
         }
         
         // Show dock and hide drawer-pill
