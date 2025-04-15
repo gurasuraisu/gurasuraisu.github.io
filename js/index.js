@@ -3507,10 +3507,19 @@ function setupDrawerInteractions() {
     
         const newPosition = Math.max(-100, Math.min(0, initialDrawerPosition + movementPercentage));
         
-        // Only update opacity if no embed is open
+        // Only update opacity if no embed is open AND movement is beyond smallSwipeThreshold
         if (!openEmbed) {
-            const opacity = (newPosition + 100) / 100;
-            appDrawer.style.opacity = opacity;
+            if (movementPercentage > smallSwipeThreshold) {
+                // Calculate opacity starting from 0 when just past smallSwipeThreshold
+                // Map from smallSwipeThreshold→100 to 0→1 opacity
+                const opacityRange = 100 - smallSwipeThreshold;
+                const adjustedMovement = movementPercentage - smallSwipeThreshold;
+                const opacity = Math.max(0, Math.min(1, adjustedMovement / opacityRange));
+                appDrawer.style.opacity = opacity;
+            } else {
+                // Below the threshold, opacity stays at 0
+                appDrawer.style.opacity = '0';
+            }
         }
         
         appDrawer.style.bottom = `${newPosition}%`;
