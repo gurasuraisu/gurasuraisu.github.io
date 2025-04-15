@@ -3343,6 +3343,7 @@ function createAppIcons() {
     appGrid.innerHTML = '';
     
     const appsArray = Object.entries(apps)
+        .filter(([appName]) => appName !== "Apps") // Filter out the Apps app
         .map(([appName, appDetails]) => ({
             name: appName,
             details: appDetails,
