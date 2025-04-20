@@ -2705,7 +2705,7 @@ function setupFontSelection() {
     // Load saved preferences
     const savedFont = localStorage.getItem('clockFont') || 'Inter';
     const savedWeight = localStorage.getItem('clockWeight') || '700'; // Default 700
-    const savedSize = localStorage.getItem('clockSize') || '100'; // Default size factor
+    const savedSize = localStorage.getItem('clockSize') || '0'; // Default 0% (normal size)
     
     fontSelect.value = savedFont;
     
@@ -2713,48 +2713,26 @@ function setupFontSelection() {
     weightSlider.value = parseInt(savedWeight) / 10;
     clsizeSlider.value = savedSize;
     
-    // Apply font to both elements but weight only to clock
+    // Apply all styles
     function applyStyles() {
         const fontFamily = fontSelect.value;
         const fontWeight = weightSlider.value * 10; // Convert slider value to proper font weight
-        const sizeFactor = clsizeSlider.value / 100; // Convert to decimal factor (0.2 to 1.0)
+        const sizeValue = parseInt(clsizeSlider.value);
         
-        clockElement.style.fontFamily = fontFamily;
-        clockElement.style.fontWeight = fontWeight;
+        // Calculate font size values based on slider position
+        // At 0%, use default values: clamp(10rem, 12vw, 12rem)
+        // At 100%, use larger values: clamp(6rem, 20vw, 20rem)
+        const minSize = 10 - ((10 - 6) * (sizeValue / 100)); // 10rem to 6rem
+        const vwSize = 12 + ((20 - 12) * (sizeValue / 100)); // 12vw to 20vw
+        const maxSize = 12 + ((20 - 12) * (sizeValue / 100)); // 12rem to 20rem
         
-        // Create and inject a style tag with !important rules
-        let styleTag = document.getElementById('clock-size-style');
-        if (!styleTag) {
-            styleTag = document.createElement('style');
-            styleTag.id = 'clock-size-style';
-            document.head.appendChild(styleTag);
-        }
+        const fontSize = `clamp(${minSize}rem, ${vwSize}vw, ${maxSize}rem)`;
         
-        // Set different sizes based on minimal mode
-        // Using viewport units with max-width and max-height constraints to keep in viewport
-        if (document.body.classList.contains('minimal-active')) {
-            styleTag.textContent = `
-                .clock {
-                    font-size: clamp(${4 * sizeFactor}rem, ${20 * sizeFactor}vmin, ${30 * sizeFactor}vmin) !important;
-                    max-width: 95vw !important;
-                    max-height: 80vh !important;
-                    overflow: visible !important;
-                    display: inline-block !important;
-                    line-height: 1 !important;
-                }
-            `;
-        } else {
-            styleTag.textContent = `
-                .clock {
-                    font-size: clamp(${10 * sizeFactor}rem, ${12 * sizeFactor}vmin, ${30 * sizeFactor}vmin) !important;
-                    max-width: 95vw !important;
-                    max-height: 80vh !important;
-                    overflow: visible !important;
-                    display: inline-block !important;
-                    line-height: 1 !important;
-                }
-            `;
-        }
+        // Apply styles using setAttribute to ensure !important works
+        clockElement.setAttribute('style', 
+            `font-family: ${fontFamily}; 
+             font-weight: ${fontWeight}; 
+             font-size: ${fontSize} !important`);
         
         infoElement.style.fontFamily = fontFamily;
     }
@@ -2765,6 +2743,7 @@ function setupFontSelection() {
     // Handle font changes
     fontSelect.addEventListener('change', (e) => {
         const selectedFont = e.target.value;
+        // Ensure font is loaded before applying
         document.fonts.load(`16px ${selectedFont}`).then(() => {
             applyStyles();
             localStorage.setItem('clockFont', selectedFont);
@@ -2775,28 +2754,17 @@ function setupFontSelection() {
     
     // Handle weight changes with the slider
     weightSlider.addEventListener('input', (e) => {
-        const weightValue = e.target.value * 10;
+        const weightValue = e.target.value * 10; // Convert slider value to font weight
         localStorage.setItem('clockWeight', weightValue);
         applyStyles();
     });
     
-    // Handle size changes with the clsize slider
+    // Handle font size changes with the clsize slider
     clsizeSlider.addEventListener('input', (e) => {
         const sizeValue = e.target.value;
         localStorage.setItem('clockSize', sizeValue);
         applyStyles();
     });
-    
-    // Listen for minimal mode changes
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.attributeName === 'class') {
-                applyStyles();
-            }
-        });
-    });
-    
-    observer.observe(document.body, { attributes: true });
 }
 
 // Initialize theme and wallpaper on load
