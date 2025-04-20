@@ -2716,7 +2716,7 @@ function setupFontSelection() {
         if (percentage <= 0) {
             return 'clamp(4rem, 20vw, 20rem)'; // Small size at 0%
         } else if (percentage >= 100) {
-            return 'clamp(6rem, 20vw, 20rem)'; // Larger size at 100%
+            return 'clamp(16rem, 20vw, 20rem)'; // Larger size at 100% (fixed from 6rem to 16rem)
         } else if (percentage == 50) {
             return 'clamp(10rem, 12vw, 12rem)'; // Default size at 50%
         } else if (percentage < 50) {
@@ -2729,18 +2729,26 @@ function setupFontSelection() {
             const defaultVw = 12;
             const vwValue = smallVw + (defaultVw - smallVw) * (percentage / 50);
             
-            return `clamp(${minValue}rem, ${vwValue}vw, ${vwValue}rem)`;
+            const smallMax = 20;
+            const defaultMax = 12;
+            const maxValue = smallMax + (defaultMax - smallMax) * (percentage / 50);
+            
+            return `clamp(${minValue}rem, ${vwValue}vw, ${maxValue}rem)`;
         } else {
             // Linear interpolation between 50% and 100%
             const defaultMin = 10;
-            const largeMin = 6;
+            const largeMin = 16; // Fixed from 6 to 16
             const minValue = defaultMin + (largeMin - defaultMin) * ((percentage - 50) / 50);
             
             const defaultVw = 12;
             const largeVw = 20;
             const vwValue = defaultVw + (largeVw - defaultVw) * ((percentage - 50) / 50);
             
-            return `clamp(${minValue}rem, ${vwValue}vw, ${vwValue}rem)`;
+            const defaultMax = 12;
+            const largeMax = 20;
+            const maxValue = defaultMax + (largeMax - defaultMax) * ((percentage - 50) / 50);
+            
+            return `clamp(${minValue}rem, ${vwValue}vw, ${maxValue}rem)`;
         }
     }
     
@@ -2787,6 +2795,7 @@ function setupFontSelection() {
         applyStyles();
     });
 }
+
 // Initialize theme and wallpaper on load
 function initializeCustomization() {
     setupThemeSwitcher();
