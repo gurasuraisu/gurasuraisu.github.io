@@ -2713,42 +2713,53 @@ function setupFontSelection() {
     
     // Function to map slider percentage to specific font size values
     function getFontSizeValue(percentage) {
-        if (percentage <= 0) {
-            return 'clamp(4rem, 20vw, 20rem)'; // Small size at 0%
-        } else if (percentage >= 100) {
-            return 'clamp(16rem, 20vw, 20rem)'; // Larger size at 100% (fixed from 6rem to 16rem)
-        } else if (percentage == 50) {
-            return 'clamp(10rem, 12vw, 12rem)'; // Default size at 50%
+        // Ensure smooth progression with consistent min/max/vw values
+        // 0%   -> small:   clamp(4rem, 20vw, 20rem)
+        // 50%  -> default: clamp(10rem, 12vw, 12rem)
+        // 100% -> large:   clamp(16rem, 20vw, 20rem)
+        
+        percentage = Math.max(0, Math.min(100, percentage)); // Ensure percentage is between 0 and 100
+        
+        if (percentage === 0) {
+            return 'clamp(4rem, 20vw, 20rem)';
+        } else if (percentage === 50) {
+            return 'clamp(10rem, 12vw, 12rem)';
+        } else if (percentage === 100) {
+            return 'clamp(16rem, 20vw, 20rem)';
         } else if (percentage < 50) {
             // Linear interpolation between 0% and 50%
-            const smallMin = 4;
-            const defaultMin = 10;
-            const minValue = smallMin + (defaultMin - smallMin) * (percentage / 50);
+            const ratio = percentage / 50;
             
-            const smallVw = 20;
-            const defaultVw = 12;
-            const vwValue = smallVw + (defaultVw - smallVw) * (percentage / 50);
+            const minSmall = 4;
+            const minDefault = 10;
+            const minValue = minSmall + (minDefault - minSmall) * ratio;
             
-            const smallMax = 20;
-            const defaultMax = 12;
-            const maxValue = smallMax + (defaultMax - smallMax) * (percentage / 50);
+            const vwSmall = 20;
+            const vwDefault = 12;
+            const vwValue = vwSmall + (vwDefault - vwSmall) * ratio;
             
-            return `clamp(${minValue}rem, ${vwValue}vw, ${maxValue}rem)`;
+            const maxSmall = 20;
+            const maxDefault = 12;
+            const maxValue = maxSmall + (maxDefault - maxSmall) * ratio;
+            
+            return `clamp(${minValue.toFixed(1)}rem, ${vwValue.toFixed(1)}vw, ${maxValue.toFixed(1)}rem)`;
         } else {
             // Linear interpolation between 50% and 100%
-            const defaultMin = 10;
-            const largeMin = 16; // Fixed from 6 to 16
-            const minValue = defaultMin + (largeMin - defaultMin) * ((percentage - 50) / 50);
+            const ratio = (percentage - 50) / 50;
             
-            const defaultVw = 12;
-            const largeVw = 20;
-            const vwValue = defaultVw + (largeVw - defaultVw) * ((percentage - 50) / 50);
+            const minDefault = 10;
+            const minLarge = 16;
+            const minValue = minDefault + (minLarge - minDefault) * ratio;
             
-            const defaultMax = 12;
-            const largeMax = 20;
-            const maxValue = defaultMax + (largeMax - defaultMax) * ((percentage - 50) / 50);
+            const vwDefault = 12;
+            const vwLarge = 20;
+            const vwValue = vwDefault + (vwLarge - vwDefault) * ratio;
             
-            return `clamp(${minValue}rem, ${vwValue}vw, ${maxValue}rem)`;
+            const maxDefault = 12;
+            const maxLarge = 20;
+            const maxValue = maxDefault + (maxLarge - maxDefault) * ratio;
+            
+            return `clamp(${minValue.toFixed(1)}rem, ${vwValue.toFixed(1)}vw, ${maxValue.toFixed(1)}rem)`;
         }
     }
     
@@ -2762,7 +2773,24 @@ function setupFontSelection() {
         clockElement.setAttribute('style', 
             `font-family: ${fontFamily} !important; 
              font-weight: ${fontWeight} !important; 
-             font-size: ${fontSize} !important`);
+             font-size: ${fontSize} !important;
+             max-width: 100vw !important;
+             overflow: visible !important;
+             margin: auto !important;
+             position: relative !important;
+             text-align: center !important;`);
+        
+        // Add container styles to ensure visibility
+        const clockContainer = clockElement.parentElement;
+        if (clockContainer) {
+            clockContainer.setAttribute('style', 
+                `display: flex !important;
+                 justify-content: center !important;
+                 align-items: center !important;
+                 min-height: 80vh !important;
+                 width: 100% !important;
+                 overflow: hidden !important;`);
+        }
         
         infoElement.style.fontFamily = fontFamily;
     }
