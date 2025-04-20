@@ -2731,16 +2731,27 @@ function setupFontSelection() {
         }
         
         // Set different sizes based on minimal mode
+        // Using viewport units with max-width and max-height constraints to keep in viewport
         if (document.body.classList.contains('minimal-active')) {
             styleTag.textContent = `
                 .clock {
-                    font-size: clamp(${4 * sizeFactor}rem, ${20 * sizeFactor}vw, ${20 * sizeFactor}rem) !important;
+                    font-size: clamp(${4 * sizeFactor}rem, ${20 * sizeFactor}vmin, ${30 * sizeFactor}vmin) !important;
+                    max-width: 95vw !important;
+                    max-height: 80vh !important;
+                    overflow: visible !important;
+                    display: inline-block !important;
+                    line-height: 1 !important;
                 }
             `;
         } else {
             styleTag.textContent = `
                 .clock {
-                    font-size: clamp(${10 * sizeFactor}rem, ${12 * sizeFactor}vw, ${12 * sizeFactor}rem) !important;
+                    font-size: clamp(${10 * sizeFactor}rem, ${12 * sizeFactor}vmin, ${30 * sizeFactor}vmin) !important;
+                    max-width: 95vw !important;
+                    max-height: 80vh !important;
+                    overflow: visible !important;
+                    display: inline-block !important;
+                    line-height: 1 !important;
                 }
             `;
         }
