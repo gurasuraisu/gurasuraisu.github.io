@@ -2722,19 +2722,30 @@ function setupFontSelection() {
         clockElement.style.fontFamily = fontFamily;
         clockElement.style.fontWeight = fontWeight;
         
-        // Apply font size based on minimal mode or regular mode
+        // Create and inject a style tag with !important rules
+        let styleTag = document.getElementById('clock-size-style');
+        if (!styleTag) {
+            styleTag = document.createElement('style');
+            styleTag.id = 'clock-size-style';
+            document.head.appendChild(styleTag);
+        }
+        
+        // Set different sizes based on minimal mode
         if (document.body.classList.contains('minimal-active')) {
-            // Apply the sizing factor to minimal mode base size
-            const minimalCSS = `clamp(${4 * sizeFactor}rem, ${20 * sizeFactor}vw, ${20 * sizeFactor}rem) !important`;
-            clockElement.style.fontSize = minimalCSS;
+            styleTag.textContent = `
+                .clock {
+                    font-size: clamp(${4 * sizeFactor}rem, ${20 * sizeFactor}vw, ${20 * sizeFactor}rem) !important;
+                }
+            `;
         } else {
-            // Apply the sizing factor to regular mode base size
-            const regularCSS = `clamp(${10 * sizeFactor}rem, ${12 * sizeFactor}vw, ${12 * sizeFactor}rem) !important`;
-            clockElement.style.fontSize = regularCSS;
+            styleTag.textContent = `
+                .clock {
+                    font-size: clamp(${10 * sizeFactor}rem, ${12 * sizeFactor}vw, ${12 * sizeFactor}rem) !important;
+                }
+            `;
         }
         
         infoElement.style.fontFamily = fontFamily;
-        // Weight not applied to info element
     }
     
     // Apply initial styles
@@ -2743,7 +2754,6 @@ function setupFontSelection() {
     // Handle font changes
     fontSelect.addEventListener('change', (e) => {
         const selectedFont = e.target.value;
-        // Ensure font is loaded before applying
         document.fonts.load(`16px ${selectedFont}`).then(() => {
             applyStyles();
             localStorage.setItem('clockFont', selectedFont);
@@ -2754,7 +2764,7 @@ function setupFontSelection() {
     
     // Handle weight changes with the slider
     weightSlider.addEventListener('input', (e) => {
-        const weightValue = e.target.value * 10; // Convert slider value to font weight
+        const weightValue = e.target.value * 10;
         localStorage.setItem('clockWeight', weightValue);
         applyStyles();
     });
@@ -2766,7 +2776,7 @@ function setupFontSelection() {
         applyStyles();
     });
     
-    // Also listen for minimal mode changes to reapply styles
+    // Listen for minimal mode changes
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             if (mutation.attributeName === 'class') {
