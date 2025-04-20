@@ -2705,7 +2705,7 @@ function setupFontSelection() {
     // Load saved preferences
     const savedFont = localStorage.getItem('clockFont') || 'Inter';
     const savedWeight = localStorage.getItem('clockWeight') || '700'; // Default 700
-    const savedSize = localStorage.getItem('clockSize') || '100'; // Default 100%
+    const savedSize = localStorage.getItem('clockSize') || '100'; // Default size factor
     
     fontSelect.value = savedFont;
     
@@ -2713,23 +2713,28 @@ function setupFontSelection() {
     weightSlider.value = parseInt(savedWeight) / 10;
     clsizeSlider.value = savedSize;
     
-    // Apply all styles
+    // Apply font to both elements but weight only to clock
     function applyStyles() {
         const fontFamily = fontSelect.value;
         const fontWeight = weightSlider.value * 10; // Convert slider value to proper font weight
-        const fontSize = clsizeSlider.value + '%'; // Convert size value to percentage
+        const sizeFactor = clsizeSlider.value / 100; // Convert to decimal factor (0.2 to 1.0)
         
         clockElement.style.fontFamily = fontFamily;
         clockElement.style.fontWeight = fontWeight;
-        clockElement.style.fontSize = fontSize + ' !important'; // Add !important
         
-        // Apply the !important using setAttribute to ensure it works
-        clockElement.setAttribute('style', 
-            `font-family: ${fontFamily}; 
-             font-weight: ${fontWeight}; 
-             font-size: ${fontSize} !important`);
+        // Apply font size based on minimal mode or regular mode
+        if (document.body.classList.contains('minimal-active')) {
+            // Apply the sizing factor to minimal mode base size
+            const minimalCSS = `clamp(${4 * sizeFactor}rem, ${20 * sizeFactor}vw, ${20 * sizeFactor}rem) !important`;
+            clockElement.style.fontSize = minimalCSS;
+        } else {
+            // Apply the sizing factor to regular mode base size
+            const regularCSS = `clamp(${10 * sizeFactor}rem, ${12 * sizeFactor}vw, ${12 * sizeFactor}rem) !important`;
+            clockElement.style.fontSize = regularCSS;
+        }
         
         infoElement.style.fontFamily = fontFamily;
+        // Weight not applied to info element
     }
     
     // Apply initial styles
@@ -2754,12 +2759,23 @@ function setupFontSelection() {
         applyStyles();
     });
     
-    // Handle font size changes with the clsize slider
+    // Handle size changes with the clsize slider
     clsizeSlider.addEventListener('input', (e) => {
         const sizeValue = e.target.value;
         localStorage.setItem('clockSize', sizeValue);
         applyStyles();
     });
+    
+    // Also listen for minimal mode changes to reapply styles
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.attributeName === 'class') {
+                applyStyles();
+            }
+        });
+    });
+    
+    observer.observe(document.body, { attributes: true });
 }
 
 // Initialize theme and wallpaper on load
