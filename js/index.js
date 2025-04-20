@@ -2698,101 +2698,29 @@ function handleSwipe() {
 function setupFontSelection() {
     const fontSelect = document.getElementById('font-select');
     const weightSlider = document.getElementById('weight-slider');
-    const clsizeSlider = document.getElementById('clsize-slider');
     const clockElement = document.getElementById('clock');
     const infoElement = document.querySelector('.info');
     
     // Load saved preferences
     const savedFont = localStorage.getItem('clockFont') || 'Inter';
-    const savedWeight = localStorage.getItem('clockWeight') || '700';
-    const savedSize = localStorage.getItem('clockSize') || '50'; // Default to 50% (middle setting)
+    const savedWeight = localStorage.getItem('clockWeight') || '700'; // Default 700
     
     fontSelect.value = savedFont;
+    
+    // Set slider default to 70 (representing 700 weight)
+    // Convert saved weight to slider value (divide by 10)
     weightSlider.value = parseInt(savedWeight) / 10;
-    clsizeSlider.value = savedSize;
     
-    // Function to map slider percentage to specific font size values
-    function getFontSizeValue(percentage) {
-        // Ensure smooth progression with consistent min/max/vw values
-        // 0%   -> small:   clamp(4rem, 20vw, 20rem)
-        // 50%  -> default: clamp(10rem, 12vw, 12rem)
-        // 100% -> large:   clamp(16rem, 20vw, 20rem)
-        
-        percentage = Math.max(0, Math.min(100, percentage)); // Ensure percentage is between 0 and 100
-        
-        if (percentage === 0) {
-            return 'clamp(4rem, 20vw, 20rem)';
-        } else if (percentage === 50) {
-            return 'clamp(10rem, 12vw, 12rem)';
-        } else if (percentage === 100) {
-            return 'clamp(16rem, 20vw, 20rem)';
-        } else if (percentage < 50) {
-            // Linear interpolation between 0% and 50%
-            const ratio = percentage / 50;
-            
-            const minSmall = 4;
-            const minDefault = 10;
-            const minValue = minSmall + (minDefault - minSmall) * ratio;
-            
-            const vwSmall = 20;
-            const vwDefault = 12;
-            const vwValue = vwSmall + (vwDefault - vwSmall) * ratio;
-            
-            const maxSmall = 20;
-            const maxDefault = 12;
-            const maxValue = maxSmall + (maxDefault - maxSmall) * ratio;
-            
-            return `clamp(${minValue.toFixed(1)}rem, ${vwValue.toFixed(1)}vw, ${maxValue.toFixed(1)}rem)`;
-        } else {
-            // Linear interpolation between 50% and 100%
-            const ratio = (percentage - 50) / 50;
-            
-            const minDefault = 10;
-            const minLarge = 16;
-            const minValue = minDefault + (minLarge - minDefault) * ratio;
-            
-            const vwDefault = 12;
-            const vwLarge = 20;
-            const vwValue = vwDefault + (vwLarge - vwDefault) * ratio;
-            
-            const maxDefault = 12;
-            const maxLarge = 20;
-            const maxValue = maxDefault + (maxLarge - maxDefault) * ratio;
-            
-            return `clamp(${minValue.toFixed(1)}rem, ${vwValue.toFixed(1)}vw, ${maxValue.toFixed(1)}rem)`;
-        }
-    }
-    
-    // Apply all styles
+    // Apply font to both elements but weight only to clock
     function applyStyles() {
         const fontFamily = fontSelect.value;
-        const fontWeight = weightSlider.value * 10;
-        const fontSize = getFontSizeValue(parseInt(clsizeSlider.value));
+        const fontWeight = weightSlider.value * 10; // Convert slider value to proper font weight
         
-        // Apply styles with !important using setAttribute
-        clockElement.setAttribute('style', 
-            `font-family: ${fontFamily} !important; 
-             font-weight: ${fontWeight} !important; 
-             font-size: ${fontSize} !important;
-             max-width: 100vw !important;
-             overflow: visible !important;
-             margin: auto !important;
-             position: relative !important;
-             text-align: center !important;`);
-        
-        // Add container styles to ensure visibility
-        const clockContainer = clockElement.parentElement;
-        if (clockContainer) {
-            clockContainer.setAttribute('style', 
-                `display: flex !important;
-                 justify-content: center !important;
-                 align-items: center !important;
-                 min-height: 80vh !important;
-                 width: 100% !important;
-                 overflow: hidden !important;`);
-        }
+        clockElement.style.fontFamily = fontFamily;
+        clockElement.style.fontWeight = fontWeight;
         
         infoElement.style.fontFamily = fontFamily;
+        // Weight not applied to info element
     }
     
     // Apply initial styles
@@ -2801,6 +2729,7 @@ function setupFontSelection() {
     // Handle font changes
     fontSelect.addEventListener('change', (e) => {
         const selectedFont = e.target.value;
+        // Ensure font is loaded before applying
         document.fonts.load(`16px ${selectedFont}`).then(() => {
             applyStyles();
             localStorage.setItem('clockFont', selectedFont);
@@ -2809,17 +2738,10 @@ function setupFontSelection() {
         });
     });
     
-    // Handle weight changes
+    // Handle weight changes with the slider
     weightSlider.addEventListener('input', (e) => {
-        const weightValue = e.target.value * 10;
+        const weightValue = e.target.value * 10; // Convert slider value to font weight
         localStorage.setItem('clockWeight', weightValue);
-        applyStyles();
-    });
-    
-    // Handle font size changes
-    clsizeSlider.addEventListener('input', (e) => {
-        const sizeValue = e.target.value;
-        localStorage.setItem('clockSize', sizeValue);
         applyStyles();
     });
 }
