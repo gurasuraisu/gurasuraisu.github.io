@@ -1867,6 +1867,55 @@ body.light-theme[style*="background-image"] .info {
     transition: background-color 0.2s, transform 0.1s;
 }
 
+.clsize-slider-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: var(--search-background);
+    border-radius: 5px;
+    margin: 5px 0 5px;
+    backdrop-filter: blur(20px);
+    transition: background-color 0.2s, transform 0.1s;
+    height: 38px;
+}
+
+.clsize-select-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+    padding-left: 13px;
+}
+
+.clsize-slider {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 32px;
+    border-radius: 16px;
+    background: rgba(0,0,0,0.1);
+    padding: 0 8px;
+    outline: none;
+}
+
+.clsize-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--secondary-text-color);
+    cursor: pointer;
+}
+
+.clsize-slider::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--secondary-text-color);
+    cursor: pointer;
+}
+
 .weight-slider-container {
     display: flex;
     justify-content: space-between;
