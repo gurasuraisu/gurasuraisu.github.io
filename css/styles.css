@@ -1429,7 +1429,7 @@ body.light-theme[style*="background-image"] .info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 15px 15px 15px 20px;
     background-color: var(--search-background);
     border-radius: 25px;
     backdrop-filter: blur(20px);
@@ -1737,7 +1737,7 @@ body.light-theme[style*="background-image"] .info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 15px 15px 15px 20px;
     background-color: var(--search-background);
     backdrop-filter: blur(20px);
     transition: background-color 0.2s, transform 0.1s;
@@ -1750,7 +1750,7 @@ body.light-theme[style*="background-image"] .info {
     justify-content: space-between;
     align-items: center;
     margin: 20px 0 0;
-    padding: 15px 20px;
+    padding: 15px 15px 15px 20px;
     background-color: var(--search-background);
     backdrop-filter: blur(20px);
     border-radius: 25px;
@@ -1887,7 +1887,7 @@ body.light-theme[style*="background-image"] .info {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 15px 15px 15px 20px;
     background-color: var(--search-background);
     border-radius: 10px;
     margin: 5px 0 5px;
