@@ -1656,6 +1656,7 @@ body.light-theme[style*="background-image"] .info {
     display: flex;
     align-items: center;
     justify-content: center;
+    border: 1px solid var(--glass-border);
 }
 
 .thermostat-slider-container {
@@ -2035,6 +2036,7 @@ body.light-theme[style*="background-image"] .info {
     transition: background-color 0.3s ease;
     width: 45px;
     height: 45px;
+    border: 1px solid var(--glass-border);
 }
 
 .action-buttons {
