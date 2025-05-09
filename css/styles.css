@@ -35,6 +35,7 @@
     --search-background-dark: rgba(51, 51, 51, 0.5);
     --dark-overlay: rgba(51, 51, 51, 0.2);
     --dark-transparent: rgba(255, 255, 255, 0.1); 
+    --glass-border-dark: rgba(100, 100, 100, 0.2);
     
     /* Light Theme Variables */
     --background-color-light: #f0f0f0;
@@ -45,6 +46,7 @@
     --search-background-light: rgba(220, 220, 220, 0.5);
     --light-overlay: rgba(220, 220, 220, 0.2);
     --light-transparent: rgba(255, 255, 255, 0.1); 
+    --glass-border-light: rgba(200, 200, 200, 0.2);
     
     /* High Contrast Dark Theme Variables */
     --background-color-dark-highcontrast: #1c1c1c;
@@ -78,6 +80,7 @@
     --search-background: var(--search-background-dark);
     --overlay-color: var(--dark-overlay);
     --transparent-color: var(--dark-transparent);
+    --glass-border: var(--glass-border-dark);
 }
 
 body.light-theme {
@@ -89,6 +92,7 @@ body.light-theme {
     --search-background: var(--search-background-light);
     --overlay-color: var(--light-overlay);
     --transparent-color: var(--light-transparent);
+    --glass-border: var(--glass-border-light);
 }
 
 /* For dark theme (default) with high contrast */
