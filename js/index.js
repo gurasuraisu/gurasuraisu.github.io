@@ -790,6 +790,7 @@ function showPopup(message) {
     popup.style.display = 'flex';
     popup.style.alignItems = 'center';
     popup.style.gap = '10px';
+    popup.style.border = '1px solid var(--glass-border)';
 
     // Check for specific words to determine icon
     const checkWords = window.checkWords || ['updated', 'complete', 'done', 'success', 'completed', 'ready', 'successfully', 'accepted', 'accept', 'yes'];
