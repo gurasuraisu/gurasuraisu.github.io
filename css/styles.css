@@ -1650,7 +1650,6 @@ body.light-theme[style*="background-image"] .info {
 
 .close-popup-btn {
     background: none;
-    border: none;
     cursor: pointer;
     color: var(--text-color);
     padding: 5px;
@@ -2016,7 +2015,6 @@ body.light-theme[style*="background-image"] .info {
 
 .btn {
     background-color: var(--transparent-color);
-    border: none;
     color: var(--text-color);
     padding: 12px 24px;
     border-radius: 30px;
