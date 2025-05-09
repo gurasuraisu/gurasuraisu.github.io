@@ -451,7 +451,7 @@ body.light-theme[style*="background-image"] .info {
             padding: 8px;
             background-color: var(--transparent-color);
             transition: background-color 0.3s, color 0.3s;
-            border: none;
+            border: 1px solid var(--glass-border);
             border-radius: 50%;
             width: 45px;
             height: 45px;
