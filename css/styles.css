@@ -1775,8 +1775,8 @@ body.light-theme[style*="background-image"] .info {
 #gurapps-switch::before, #contrast-switch::before, #animation-switch::before, #search-switch::before {
     content: '';
     position: absolute;
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     background-color: var(--secondary-text-color);
     border-radius: 50%;
     top: 4px;
