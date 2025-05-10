@@ -2705,13 +2705,11 @@ function setupFontSelection() {
     const colorPicker = document.getElementById('clock-color-picker');
     const userSetColor = localStorage.getItem('clockColor');
     
-    const savedColor = userSetColor !== null ? userSetColor : defaultColor;
-    
     // Load saved preferences
     const savedFont = localStorage.getItem('clockFont') || 'Inter';
     const savedWeight = localStorage.getItem('clockWeight') || '700'; // Default 700
-    const savedColor = localStorage.getItem('clockColor') || defaultColor;
-    
+    const savedColor = userSetColor !== null ? userSetColor : defaultColor;
+	
     fontSelect.value = savedFont;
     
     // Set slider default to 70 (representing 700 weight)
