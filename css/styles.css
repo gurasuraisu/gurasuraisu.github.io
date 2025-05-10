@@ -1318,7 +1318,6 @@ input[type="color"]::-moz-color-swatch {
             color: var(--text-color);
             backdrop-filter: blur(50px);
             z-index: 10;
-            border: 1px solid var(--glass-border);
         }
         
         .autocomplete-suggestion {
