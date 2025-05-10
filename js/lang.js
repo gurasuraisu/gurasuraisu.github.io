@@ -94,7 +94,8 @@ const LANG_EN = {
     SEARCH_ENGINE: "Search Engine",
     SEARCH_AI: "Search AI",
     LARGE_SCR_REQ: "Larger screen is required",
-    DONT_CLOSE: "Use Sleep in Controls to turn off"
+    DONT_CLOSE: "Use Sleep in Controls to turn off",
+    CLOCK_COLOR: "Clock Color"
 };
 
 const LANG_JP = {
@@ -191,7 +192,8 @@ const LANG_JP = {
     SEARCH_ENGINE: "検索エンジン",
     SEARCH_AI: "AI検索",
     LARGE_SCR_REQ: "より大きな画面が必要です",
-    DONT_CLOSE: "オフにするにはコントロールでスリープを使用してください"
+    DONT_CLOSE: "オフにするにはコントロールでスリープを使用してください",
+    CLOCK_COLOR: "時計の色"
 };
 
 const LANG_DE = {
@@ -288,7 +290,8 @@ const LANG_DE = {
     SEARCH_ENGINE: "Suchmaschine",
     SEARCH_AI: "KI-Suche",
     LARGE_SCR_REQ: "Größerer Bildschirm erforderlich",
-    DONT_CLOSE: "Verwenden Sie den Schlafmodus in den Steuerelementen, um ihn auszuschalten"
+    DONT_CLOSE: "Verwenden Sie den Schlafmodus in den Steuerelementen, um ihn auszuschalten",
+    CLOCK_COLOR: "Uhrenfarbe"
 };
 
 const LANG_FR = {
@@ -385,7 +388,8 @@ const LANG_FR = {
     SEARCH_ENGINE: "Moteur de recherche",
     SEARCH_AI: "Recherche IA",
     LARGE_SCR_REQ: "Un écran plus grand est nécessaire",
-    DONT_CLOSE: "Utilisez le mode veille dans les commandes pour éteindre"
+    DONT_CLOSE: "Utilisez le mode veille dans les commandes pour éteindre",
+    CLOCK_COLOR: "Couleur de l'horloge"
 };
 
 const LANG_ES = {
@@ -482,7 +486,8 @@ const LANG_ES = {
     SEARCH_ENGINE: "Motor de búsqueda",
     SEARCH_AI: "Búsqueda IA",
     LARGE_SCR_REQ: "Se requiere una pantalla más grande",
-    DONT_CLOSE: "Utilice el modo de suspensión en los controles para apagar"
+    DONT_CLOSE: "Utilice el modo de suspensión en los controles para apagar",
+    CLOCK_COLOR: "Color del reloj"
 };
 
 const LANG_KO = {
@@ -579,7 +584,8 @@ const LANG_KO = {
     SEARCH_ENGINE: "검색 엔진",
     SEARCH_AI: "AI 검색",
     LARGE_SCR_REQ: "더 큰 화면이 필요합니다",
-    DONT_CLOSE: "끄려면 컨트롤에서 잠자기를 사용하세요"
+    DONT_CLOSE: "끄려면 컨트롤에서 잠자기를 사용하세요",
+    CLOCK_COLOR: "시계 색상"
 };
 
 const LANG_ZH = {
@@ -676,5 +682,6 @@ const LANG_ZH = {
     SEARCH_ENGINE: "搜索引擎",
     SEARCH_AI: "AI搜索",
     LARGE_SCR_REQ: "需要更大的屏幕",
-    DONT_CLOSE: "使用控件中的睡眠模式关闭"
+    DONT_CLOSE: "使用控件中的睡眠模式关闭",
+    CLOCK_COLOR: "时钟颜色"
 };
