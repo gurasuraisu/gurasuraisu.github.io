@@ -2701,24 +2701,16 @@ function setupFontSelection() {
     const weightSlider = document.getElementById('weight-slider');
     const clockElement = document.getElementById('clock');
     const infoElement = document.querySelector('.info');
-    const colorPicker = document.getElementById('clock-color-picker');
-    
-    // Get the computed --text-color value for the default
-    const defaultColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim() || '#ffffff';
     
     // Load saved preferences
     const savedFont = localStorage.getItem('clockFont') || 'Inter';
     const savedWeight = localStorage.getItem('clockWeight') || '700'; // Default 700
-    const savedColor = localStorage.getItem('clockColor') || defaultColor;
     
     fontSelect.value = savedFont;
     
     // Set slider default to 70 (representing 700 weight)
     // Convert saved weight to slider value (divide by 10)
     weightSlider.value = parseInt(savedWeight) / 10;
-    
-    // Set the color picker's initial value
-    colorPicker.value = savedColor;
     
     // Apply font to both elements but weight only to clock
     function applyStyles() {
@@ -2727,7 +2719,6 @@ function setupFontSelection() {
         
         clockElement.style.fontFamily = fontFamily;
         clockElement.style.fontWeight = fontWeight;
-        clockElement.style.color = colorPicker.value;
         
         infoElement.style.fontFamily = fontFamily;
         // Weight not applied to info element
@@ -2752,12 +2743,6 @@ function setupFontSelection() {
     weightSlider.addEventListener('input', (e) => {
         const weightValue = e.target.value * 10; // Convert slider value to font weight
         localStorage.setItem('clockWeight', weightValue);
-        applyStyles();
-    });
-    
-    // Handle color changes with the color picker
-    colorPicker.addEventListener('input', (e) => {
-        localStorage.setItem('clockColor', e.target.value);
         applyStyles();
     });
 }
