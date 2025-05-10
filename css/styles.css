@@ -1800,7 +1800,7 @@ body.light-theme[style*="background-image"] .info {
     width: 22px;
     height: 22px;
     background-color: var(--background-color);
-    left: 23px;
+    left: 21px;
     transform: translateY(-50%);
 }
 
