@@ -4371,44 +4371,32 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     const resetButton = document.getElementById('resetButton');
+
     resetButton.addEventListener('click', function() {
-        // Create a custom confirmation dialog with options
-        const resetType = confirm(currentLanguage.RESET_OPTIONS);
-        
-        if (resetType) {
-            // Full reset - clear everything
+        // Use language variable for confirmation message
+        const confirmReset = confirm(currentLanguage.RESET_CONFIRM);
+
+        if (confirmReset) {
             localStorage.clear();
             sessionStorage.clear();
             clearCookies();
+
+            // Use language variable for success alert
             alert(currentLanguage.RESET_SUCCESS);
-            window.location.reload();
-        } else {
-            // Clock settings reset only
-            clearClockSettings();
-            alert(currentLanguage.CLOCK_RESET_SUCCESS);
+
             window.location.reload();
         }
     });
-    
+
     function clearCookies() {
         const cookies = document.cookie.split(";");
+
         for (let i = 0; i < cookies.length; i++) {
             const cookie = cookies[i];
             const eqPos = cookie.indexOf("=");
             const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
             document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
         }
-    }
-    
-    function clearClockSettings() {
-        // Remove only clock-related settings from localStorage
-        localStorage.removeItem('clockFont');
-        localStorage.removeItem('clockWeight');
-        localStorage.removeItem('clockColor');
-    
-        // If you have any clock-related items in sessionStorage or cookies, remove them here
-        // For example:
-        // sessionStorage.removeItem('clockSomeOtherSetting');
     }
 });
 
