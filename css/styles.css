@@ -1734,7 +1734,7 @@ body.light-theme[style*="background-image"] .info {
             display: none;
         }
 
-.gurapps-optional, .minimal-mode, .font-selection, .lang-selection, .wallpaper-upload, .weather-settings, .clock-settings, .theme-toggle, .contrast-settings, .animation-settings, .reset-settings, .search-toggle, .search-engine-options, .search-ai-options {
+.gurapps-optional, .minimal-mode, .font-selection, .lang-selection, .wallpaper-upload, .weather-settings, .clock-color-settings .clock-settings, .theme-toggle, .contrast-settings, .animation-settings, .reset-settings, .search-toggle, .search-engine-options, .search-ai-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
