@@ -15,6 +15,7 @@ function applyLanguage(language) {
     document.querySelector('.search-toggle .cust-label').childNodes[2].textContent = language.SEARCH_ENABLE;
     document.querySelector('.search-engine-options .cust-label').childNodes[2].textContent = language.SEARCH_ENGINE;
     document.querySelector('.search-ai-options .cust-label').childNodes[2].textContent = language.SEARCH_AI;
+    document.querySelector('.clock-color-settings .cust-label').childNodes[2].textContent = language.CLOCK_COLOR;
     document.querySelector('.clock-settings .cust-label').childNodes[2].textContent = language.SECONDS;
     document.querySelector('.animation-settings .cust-label').childNodes[2].textContent = language.MOTION;
     document.querySelector('.contrast-settings .cust-label').childNodes[2].textContent = language.CONTRAST;
