@@ -1734,7 +1734,7 @@ body.light-theme[style*="background-image"] .info {
             display: none;
         }
 
-.gurapps-optional, .minimal-mode, .font-selection, .lang-selection, .wallpaper-upload, .weather-settings, .clock-color-settings .clock-settings, .theme-toggle, .contrast-settings, .animation-settings, .reset-settings, .search-toggle, .search-engine-options, .search-ai-options {
+.gurapps-optional, .minimal-mode, .font-selection, .lang-selection, .wallpaper-upload, .weather-settings, .clock-color-settings, .clock-settings, .theme-toggle, .contrast-settings, .animation-settings, .reset-settings, .search-toggle, .search-engine-options, .search-ai-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1783,7 +1783,7 @@ body.light-theme[style*="background-image"] .info {
     border-radius: 50%;
     top: 5px;
     left: 5px;
-    transition: transform 0.3s, background-color 0.3s;
+    transition: transform 0.3s, background-color 0.3s, width 0.3s, height 0.3s, left 0.3s, right 0.3s;
     border: 1px solid var(--glass-border);
 }
 
