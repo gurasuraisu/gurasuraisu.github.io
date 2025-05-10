@@ -222,6 +222,33 @@ body.light-theme[style*="background-image"] .info {
     transition: none !important;
 }
 
+input[type="color"] {
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  width: 120px;           /* Wider for pill shape */
+  height: 40px;
+  padding: 0;
+  background: none;
+  border-radius: 999px;   /* Makes it fully rounded (pill) */
+  cursor: pointer;
+  overflow: hidden;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 999px;
+}
+
+input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: 999px;
+}
+
 .drawer-handle {
     position: absolute;
     bottom: 0;
