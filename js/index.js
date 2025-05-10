@@ -2703,21 +2703,21 @@ function setupFontSelection() {
     const clockElement = document.getElementById('clock');
     const infoElement = document.querySelector('.info');
     const colorPicker = document.getElementById('clock-color-picker');
-    const userSetColor = localStorage.getItem('clockColor');
+    const colorSwitch = document.getElementById('clock-color-switch');
+    
+    // Get the computed --text-color value for the default
+    const defaultColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim() || '#ffffff';
     
     // Load saved preferences
     const savedFont = localStorage.getItem('clockFont') || 'Inter';
     const savedWeight = localStorage.getItem('clockWeight') || '700'; // Default 700
-    const savedColor = userSetColor !== null ? userSetColor : defaultColor;
-	
+    const savedColor = localStorage.getItem('clockColor') || defaultColor;
+    const colorEnabled = localStorage.getItem('clockColorEnabled') === 'true';
+    
     fontSelect.value = savedFont;
-    
-    // Set slider default to 70 (representing 700 weight)
-    // Convert saved weight to slider value (divide by 10)
     weightSlider.value = parseInt(savedWeight) / 10;
-    
-    // Set the color picker's initial value
     colorPicker.value = savedColor;
+    colorSwitch.checked = colorEnabled;
     
     // Apply font to both elements but weight only to clock
     function applyStyles() {
@@ -2726,10 +2726,16 @@ function setupFontSelection() {
         
         clockElement.style.fontFamily = fontFamily;
         clockElement.style.fontWeight = fontWeight;
-        clockElement.style.color = colorPicker.value;
+        
+        // Only apply custom color if the switch is enabled
+        if (colorSwitch.checked) {
+            clockElement.style.color = colorPicker.value;
+        } else {
+            // Reset to default theme color
+            clockElement.style.color = ''; // Empty string removes inline style, reverting to CSS
+        }
         
         infoElement.style.fontFamily = fontFamily;
-        // Weight not applied to info element
     }
     
     // Apply initial styles
@@ -2759,6 +2765,18 @@ function setupFontSelection() {
         localStorage.setItem('clockColor', e.target.value);
         applyStyles();
     });
+    
+    // Handle color switch toggle
+    colorSwitch.addEventListener('change', (e) => {
+        localStorage.setItem('clockColorEnabled', e.target.checked);
+        applyStyles();
+        
+        // Optionally disable the color picker when switch is off
+        colorPicker.disabled = !e.target.checked;
+    });
+    
+    // Set initial color picker state based on switch
+    colorPicker.disabled = !colorSwitch.checked;
 }
 
 // Initialize theme and wallpaper on load
@@ -4388,25 +4406,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // If you have any clock-related items in sessionStorage or cookies, remove them here
         // For example:
         // sessionStorage.removeItem('clockSomeOtherSetting');
-    
-        // Reset UI elements to default values
-        const fontSelect = document.getElementById('font-select');
-        const weightSlider = document.getElementById('weight-slider');
-        const clockElement = document.getElementById('clock');
-        const infoElement = document.querySelector('.info');
-        const colorPicker = document.getElementById('clock-color-picker');
-    
-        const defaultColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim() || '#ffffff';
-    
-        fontSelect.value = 'Inter';
-        weightSlider.value = 70;
-        colorPicker.value = defaultColor;
-    
-        clockElement.style.fontFamily = 'Inter';
-        clockElement.style.fontWeight = '700';
-        clockElement.style.color = defaultColor;
-    
-        infoElement.style.fontFamily = 'Inter';
     }
 });
 
