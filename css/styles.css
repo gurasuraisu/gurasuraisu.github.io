@@ -1235,7 +1235,7 @@ body.light-theme[style*="background-image"] .info {
         .search-input {
             width: 100%;
             padding: 14px 20px 14px 50px;
-            border: none;
+            border: 1px solid var(--glass-border);
             border-radius: 23px;
             background-color: var(--search-background);
             color: var(--text-color);
@@ -1291,6 +1291,7 @@ body.light-theme[style*="background-image"] .info {
             color: var(--text-color);
             backdrop-filter: blur(50px);
             z-index: 10;
+            border: 1px solid var(--glass-border);
         }
         
         .autocomplete-suggestion {
