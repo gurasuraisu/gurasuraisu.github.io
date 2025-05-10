@@ -1801,7 +1801,7 @@ input[type="color"]::-moz-color-swatch {
     border: 1px solid var(--glass-border);
 }
 
-#theme-switch, #seconds-switch, #weather-switch, #minimal-switch, #gurapps-switch, #contrast-switch, #animation-switch, #search-switch {
+#theme-switch, #seconds-switch, #weather-switch, #minimal-switch, #gurapps-switch, #contrast-switch, #animation-switch, #search-switch, #clock-color-switch {
     appearance: none;
     width: 50px;
     height: 32px;
@@ -1815,7 +1815,7 @@ input[type="color"]::-moz-color-swatch {
 
 #theme-switch::before, #seconds-switch::before, 
 #weather-switch::before, #minimal-switch::before, 
-#gurapps-switch::before, #contrast-switch::before, #animation-switch::before, #search-switch::before {
+#gurapps-switch::before, #contrast-switch::before, #animation-switch::before, #search-switch::before, #clock-color-switch::before {
     content: '';
     position: absolute;
     width: 18px;
@@ -1831,13 +1831,13 @@ input[type="color"]::-moz-color-swatch {
 
 #theme-switch:checked, #seconds-switch:checked, 
 #weather-switch:checked, #minimal-switch:checked, 
-#gurapps-switch:checked, #contrast-switch:checked, #animation-switch:checked, #search-switch:checked {
+#gurapps-switch:checked, #contrast-switch:checked, #animation-switch:checked, #search-switch:checked, #clock-color-switch:checked {
     background-color: var(--secondary-text-color);
 }
 
 #theme-switch:checked::before, #seconds-switch:checked::before, 
 #weather-switch:checked::before, #minimal-switch:checked::before, 
-#gurapps-switch:checked::before, #contrast-switch:checked::before, #animation-switch:checked::before, #search-switch:checked::before {
+#gurapps-switch:checked::before, #contrast-switch:checked::before, #animation-switch:checked::before, #search-switch:checked::before, #clock-color-switch:checked::before {
     width: 22px;
     height: 22px;
     background-color: var(--background-color);
