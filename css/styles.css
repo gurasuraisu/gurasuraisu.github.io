@@ -1467,6 +1467,13 @@ body.light-theme[style*="background-image"] .info {
     background: var(--secondary-text-color);
     cursor: pointer;
     border: 1px solid var(--glass-border);
+    transition: width 0.3s, height 0.3s, transform 0.3s;
+}
+
+.brightness-slider::-webkit-slider-thumb:active {
+    width: 24px;
+    height: 24px;
+    transform: scale(1.1);
 }
 
 .brightness-slider::-moz-range-thumb {
@@ -1476,6 +1483,13 @@ body.light-theme[style*="background-image"] .info {
     background: var(--secondary-text-color);
     cursor: pointer;
     border: 1px solid var(--glass-border);
+    transition: width 0.3s, height 0.3s, transform 0.3s;
+}
+
+.brightness-slider::-moz-range-thumb:active {
+    width: 24px;
+    height: 24px;
+    transform: scale(1.1);
 }
 
 #brightness-value {
@@ -1930,6 +1944,13 @@ body.light-theme[style*="background-image"] .info {
     background: var(--secondary-text-color);
     cursor: pointer;
     border: 1px solid var(--glass-border);
+    transition: width 0.3s, height 0.3s, transform 0.3s;
+}
+
+.weight-slider::-webkit-slider-thumb:active {
+    width: 24px;
+    height: 24px;
+    transform: scale(1.1);
 }
 
 .weight-slider::-moz-range-thumb {
@@ -1939,6 +1960,13 @@ body.light-theme[style*="background-image"] .info {
     background: var(--secondary-text-color);
     cursor: pointer;
     border: 1px solid var(--glass-border);
+    transition: width 0.3s, height 0.3s, transform 0.3s;
+}
+
+.weight-slider::-moz-range-thumb:active {
+    width: 24px;
+    height: 24px;
+    transform: scale(1.1);
 }
 
 #font-select option[value="Roboto"] { font-family: 'Roboto', sans-serif; }
