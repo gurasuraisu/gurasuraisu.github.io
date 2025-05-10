@@ -225,7 +225,7 @@ body.light-theme[style*="background-image"] .info {
 input[type="color"] {
   -webkit-appearance: none;
   appearance: none;
-  border: none;
+  border: 1px solid var(--glass-border);
   width: 30px;
   height: 30px;
   padding: 0;
@@ -245,7 +245,7 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 input[type="color"]::-moz-color-swatch {
-  border: none;
+  border: 1px solid var(--glass-border);
   border-radius: 999px;
 }
 
