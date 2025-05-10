@@ -2856,7 +2856,7 @@ function createFullscreenEmbed(url) {
             }, 300);
         });
 
-        const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
+        const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-color-settings, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
         controlElements.forEach(el => {
             // Store ALL relevant original styles
             if (!el.dataset.originalStyles) {
@@ -2981,7 +2981,7 @@ function createFullscreenEmbed(url) {
         }, 300);
     });
 
-    const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
+    const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-color-settings, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
     controlElements.forEach(el => {
         // Store ALL relevant original styles
         if (!el.dataset.originalStyles) {
@@ -3091,7 +3091,7 @@ function minimizeFullscreenEmbed() {
         });
     });
 	
-    const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
+    const controlElements = document.querySelectorAll('.weather-settings, .gurapps-optional, .clock-color-settings, .clock-settings, .wallpaper-upload, .font-selection, .search-toggle, .search-engine-options, .search-ai-options, .weight-slider-container');
     controlElements.forEach(el => {
         // Get original styles from stored data
         let originalStyles = {};
