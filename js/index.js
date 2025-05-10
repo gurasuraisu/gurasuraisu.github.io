@@ -2768,14 +2768,16 @@ function setupFontSelection() {
     
     // Handle color switch toggle
     colorSwitch.addEventListener('change', (e) => {
-        localStorage.setItem('clockColorEnabled', e.target.checked);
+        const isEnabled = e.target.checked;
+        localStorage.setItem('clockColorEnabled', isEnabled);
         applyStyles();
-        
-        // Optionally disable the color picker when switch is off
-        colorPicker.disabled = !e.target.checked;
+    
+        // Show/hide the color picker based on switch state
+        colorPicker.style.display = isEnabled ? 'inline-block' : 'none';
     });
     
     // Set initial color picker state based on switch
+    colorPicker.style.display = colorSwitch.checked ? 'inline-block' : 'none';
     colorPicker.disabled = !colorSwitch.checked;
 }
 
