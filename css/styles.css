@@ -1781,8 +1781,9 @@ body.light-theme[style*="background-image"] .info {
     height: 18px;
     background-color: var(--secondary-text-color);
     border-radius: 50%;
-    top: 5px;
+    top: 50%;
     left: 5px;
+    transform: translateY(-50%);
     transition: transform 0.3s, background-color 0.3s, width 0.3s, height 0.3s, left 0.3s, right 0.3s;
     border: 1px solid var(--glass-border);
 }
@@ -1796,12 +1797,11 @@ body.light-theme[style*="background-image"] .info {
 #theme-switch:checked::before, #seconds-switch:checked::before, 
 #weather-switch:checked::before, #minimal-switch:checked::before, 
 #gurapps-switch:checked::before, #contrast-switch:checked::before, #animation-switch:checked::before, #search-switch:checked::before {
-    transform: translateX(18px);
-    background-color: var(--background-color);
-    top: 3px;
-    left: 3px;
     width: 22px;
     height: 22px;
+    background-color: var(--background-color);
+    left: 23px;
+    transform: translateY(-50%);
 }
 
 #uploadButton, #versionButton, #resetButton {
