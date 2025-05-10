@@ -2703,9 +2703,9 @@ function setupFontSelection() {
     const clockElement = document.getElementById('clock');
     const infoElement = document.querySelector('.info');
     const colorPicker = document.getElementById('clock-color-picker');
+    const userSetColor = localStorage.getItem('clockColor');
     
-    // Get the computed --text-color value for the default
-    const defaultColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim() || '#ffffff';
+    const savedColor = userSetColor !== null ? userSetColor : defaultColor;
     
     // Load saved preferences
     const savedFont = localStorage.getItem('clockFont') || 'Inter';
@@ -4386,10 +4386,29 @@ document.addEventListener('DOMContentLoaded', function() {
         localStorage.removeItem('clockFont');
         localStorage.removeItem('clockWeight');
         localStorage.removeItem('clockColor');
-        
+    
         // If you have any clock-related items in sessionStorage or cookies, remove them here
         // For example:
         // sessionStorage.removeItem('clockSomeOtherSetting');
+    
+        // Reset UI elements to default values
+        const fontSelect = document.getElementById('font-select');
+        const weightSlider = document.getElementById('weight-slider');
+        const clockElement = document.getElementById('clock');
+        const infoElement = document.querySelector('.info');
+        const colorPicker = document.getElementById('clock-color-picker');
+    
+        const defaultColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim() || '#ffffff';
+    
+        fontSelect.value = 'Inter';
+        weightSlider.value = 70;
+        colorPicker.value = defaultColor;
+    
+        clockElement.style.fontFamily = 'Inter';
+        clockElement.style.fontWeight = '700';
+        clockElement.style.color = defaultColor;
+    
+        infoElement.style.fontFamily = 'Inter';
     }
 });
 
