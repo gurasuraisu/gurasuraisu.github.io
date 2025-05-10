@@ -2774,6 +2774,7 @@ function setupFontSelection() {
     
         // Show/hide the color picker based on switch state
         colorPicker.style.display = isEnabled ? 'inline-block' : 'none';
+	colorPicker.disabled = !isEnabled;
     });
     
     // Set initial color picker state based on switch
